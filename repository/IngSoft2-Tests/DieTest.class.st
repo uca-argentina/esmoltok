@@ -33,6 +33,14 @@ DieTest >> testRollADie [
 ]
 
 { #category : #tests }
+DieTest >> testRollRandomDie [
+	| aRandomDie |
+	aRandomDie := Die randomDieWithThisNumberOfSides: 6.
+	self assert: aRandomDie sides equals: 6.
+	self assert: (aRandomDie roll between: 1 and: 6)
+]
+
+{ #category : #tests }
 DieTest >> testVerifyNumberOfDieSides [
 	| aDie |
 	aDie := Die withThisNumberOfSides: 6.

@@ -14,6 +14,12 @@ Die class >> containingTheGenerator: aGenerator [
 	^ self new initializeWithTheGenerator: aGenerator
 ]
 
+{ #category : #'as yet unclassified' }
+Die class >> randomDieWithThisNumberOfSides: aNumberOfSides [ 
+	self verifyMoreThanFourSides: aNumberOfSides.
+	^self new initializeWithTheGenerator: (RandomGenerator withThisLimit: aNumberOfSides). 
+]
+
 { #category : #'creation approval' }
 Die class >> verifyMoreThanFourSides: aNumberOfSides [
 	aNumberOfSides < 4
