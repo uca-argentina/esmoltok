@@ -9,7 +9,6 @@ RandomGeneratorTest >> testNextNumber [
 	"comment stating purpose of message"
 
 	| aRandomGenerator |
-	aRandomGenerator := RandomGenerator withThisLimit: 7.
-	self assert: (aRandomGenerator next between: 1 and: 7).
-	self assert: aRandomGenerator limit equals: 7
+	aRandomGenerator := RandomGenerator new.
+	self assert: ((aRandomGenerator next: 7) between: 1 and: 7).
 ]

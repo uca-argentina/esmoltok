@@ -24,7 +24,7 @@ Player >> name [
 
 { #category : #interaction }
 Player >> takesATurnIn: aGame [
-	aGame letsPlay: self
+	aGame playTurn: self
 ]
 
 { #category : #interaction }

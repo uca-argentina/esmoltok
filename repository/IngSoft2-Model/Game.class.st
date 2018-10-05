@@ -4,8 +4,8 @@ Class {
 	#instVars : [
 		'boardLength',
 		'dice',
-		'finished',
-		'playersPosition'
+		'playersPosition',
+		'state'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -27,7 +27,7 @@ Game >> dice [
 
 { #category : #updating }
 Game >> endsTheGame [
-	finished := true
+	state := FinishedState new.
 ]
 
 { #category : #updating }
@@ -38,7 +38,7 @@ Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
 
 { #category : #checking }
 Game >> hasEnded [
-	^ finished
+	^ state
 ]
 
 { #category : #initialization }
@@ -47,15 +47,19 @@ Game >> initializeWithLength: aBoardLength dice: aCollectionOfDice player: aColl
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	1 to: aCollectionOfPlayers size do: [ :index | playersPosition at: (aCollectionOfPlayers at: index) name put: 0 ].
-	finished := false
+	state := RunningState new
 ]
 
 { #category : #updating }
-Game >> letsPlay: aPlayer [
-	self hasEnded
-		ifFalse: [ | aNumberOfCells |
-			aNumberOfCells := aPlayer throwDice: self dice.
-			self updatePositionBy: aNumberOfCells OfThePlayerNamed: (aPlayer name)]
+Game >> isPlayedBy: aPlayer [
+	| aNumberOfCells |
+	aNumberOfCells := aPlayer throwDice: self dice.
+	self updatePositionBy: aNumberOfCells OfThePlayerNamed: aPlayer name
+]
+
+{ #category : #updating }
+Game >> playTurn: aPlayer [ 
+	state nextTurnAt: self playedBy: aPlayer .
 ]
 
 { #category : #accessing }
