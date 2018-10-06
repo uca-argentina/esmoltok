@@ -41,7 +41,9 @@ Game >> initializeWithLength: aBoardLength dice: aCollectionOfDice player: aColl
 	boardLength := aBoardLength.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
-	1 to: aCollectionOfPlayers size do: [ :index | playersPosition at: (aCollectionOfPlayers at: index) name put: 0 ].
+	aCollectionOfPlayers
+		inject: 0
+		into: [ :position :each | playersPosition at: each name put: position ].
 	state := RunningState new
 ]
 
@@ -64,6 +66,6 @@ Game >> positionOfPlayers [
 
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayerNamed: aPlayer [
-	self positionOfPlayers at: aPlayer put: (self positionOfPlayers at: aPlayer) + aNumberOfCells.
+	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
 	self gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer
 ]
