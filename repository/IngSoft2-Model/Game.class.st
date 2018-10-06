@@ -60,6 +60,12 @@ Game >> playTurn: aPlayer [
 ]
 
 { #category : #accessing }
+Game >> positionFor: aPlayer [
+  ^playersPosition at: aPlayer name
+	
+]
+
+{ #category : #accessing }
 Game >> positionOfPlayers [
 	^ playersPosition
 ]

@@ -21,8 +21,8 @@ GameTest >> testCreateGame [
 			aDie}
 		inABoardOfLenght: boardLength.
 	self assert: aGame boardLength equals: 20.
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 0.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 0.
 	self
 		assert:
 			aGame dice

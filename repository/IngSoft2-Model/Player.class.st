@@ -29,10 +29,7 @@ Player >> takesATurnIn: aGame [
 
 { #category : #interaction }
 Player >> throwDice: aDice [
-	| aResult |
-	aResult := 0.
-	1 to: aDice size do: [ :position | aResult := aResult + (aDice at: position) roll ].
-	^ aResult
+	^ aDice sumNumbers: [ :aDie | aDie roll ]
 ]
 
 { #category : #interaction }
