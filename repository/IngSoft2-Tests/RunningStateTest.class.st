@@ -18,9 +18,11 @@ RunningStateTest >> testPlayersPositionWhenRunning [
 			{aPlayerNamedLeo.
 			aPlayerNamedGlenn}
 		throwing:
-			{aDie . anotherDie }
+			{aDie.
+			anotherDie}
 		inABoardOfLenght: boardLength.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedLeo.
+	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedGlenn.
 	self assert: (aGame positionOfPlayers at: 'Leo') equals: 2.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 0. "Tendria que dar 4 pero nos da 0 por alguna razon"
+	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 4
 ]

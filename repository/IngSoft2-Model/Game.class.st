@@ -36,11 +36,6 @@ Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
 		ifTrue: [ self endsTheGame ]
 ]
 
-{ #category : #checking }
-Game >> hasEnded [
-	^ state
-]
-
 { #category : #initialization }
 Game >> initializeWithLength: aBoardLength dice: aCollectionOfDice player: aCollectionOfPlayers [
 	boardLength := aBoardLength.
