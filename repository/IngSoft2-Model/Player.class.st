@@ -24,18 +24,10 @@ Player >> name [
 
 { #category : #interaction }
 Player >> takesATurnIn: aGame [
-	aGame letsPlay: self
+	aGame playTurn: self
 ]
 
 { #category : #interaction }
 Player >> throwDice: aDice [
-	| aResult |
-	aResult := 0.
-	1 to: aDice size do: [ :position | aResult := aResult + (aDice at: position) roll ].
-	^ aResult
-]
-
-{ #category : #interaction }
-Player >> throwDie: aDie [
-	^ aDie roll
+	^ aDice sumNumbers: [ :aDie | aDie roll ]
 ]

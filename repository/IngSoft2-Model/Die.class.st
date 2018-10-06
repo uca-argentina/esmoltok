@@ -8,19 +8,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-Die class >> containingTheGenerator: aGenerator [
-	self verifyMoreThanFourSides: aGenerator limit.
-	^ self new initializeWithTheGenerator: aGenerator
-]
-
-{ #category : #'as yet unclassified' }
-Die class >> randomDieWithThisNumberOfSides: aNumberOfSides [ 
-	self verifyMoreThanFourSides: aNumberOfSides.
-	^self new initializeWithTheGenerator: (RandomGenerator withThisLimit: aNumberOfSides). 
-]
-
-{ #category : #'creation approval' }
+{ #category : #validations }
 Die class >> verifyMoreThanFourSides: aNumberOfSides [
 	aNumberOfSides < 4
 		ifTrue: [ AssertionFailure
@@ -28,26 +16,20 @@ Die class >> verifyMoreThanFourSides: aNumberOfSides [
 ]
 
 { #category : #'instance creation' }
-Die class >> withThisNumberOfSides: aNumberOfSides [ 
+Die class >> withSides: aNumberOfSides andGenerator: aGenerator [
 	self verifyMoreThanFourSides: aNumberOfSides.
-	^self new initializeWithSides:aNumberOfSides.
+	^ self new initializeWithSides: aNumberOfSides andGenerator: aGenerator
 ]
 
 { #category : #initialization }
-Die >> initializeWithSides: aNumberOfSides [
-	sides := aNumberOfSides.
-	randomRollGenerator := SecuentialGenerator withNumberLimit: aNumberOfSides "should be a random generator"
-]
-
-{ #category : #initialization }
-Die >> initializeWithTheGenerator: aGenerator [
-	randomRollGenerator := aGenerator.
-	sides := randomRollGenerator limit
+Die >> initializeWithSides: anInteger andGenerator: aGenerator [
+	sides := anInteger.
+	randomRollGenerator := aGenerator
 ]
 
 { #category : #accessing }
 Die >> roll [
-	^ randomRollGenerator next
+	^ randomRollGenerator next: sides
 ]
 
 { #category : #accessing }

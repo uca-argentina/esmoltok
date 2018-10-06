@@ -15,17 +15,17 @@ PlayerTest >> testCheckPlayerName [
 PlayerTest >> testPlayerThrowADie [
 	| aPlayer aDice |
 	aPlayer := Player named: 'Leo'.
-	aDice := Die withThisNumberOfSides: 5.
-	self assert: (aPlayer throwDie: aDice) equals: 1.
-	self assert: (aPlayer throwDie: aDice) equals: 2
+	aDice := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2}).
+	self assert: (aPlayer throwDice: {aDice}) equals: 1.
+	self assert: (aPlayer throwDice: {aDice}) equals: 2
 ]
 
 { #category : #tests }
 PlayerTest >> testPlayerThrowDice [
 	| aPlayer aDice aDice2 aDice3 |
-	aDice := Die withThisNumberOfSides: 5.
-	aDice2 := Die withThisNumberOfSides: 5.
-	aDice3 := Die withThisNumberOfSides: 5.
+	aDice := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDice2 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDice3 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aPlayer := Player named: 'Leo'.
 	self
 		assert:

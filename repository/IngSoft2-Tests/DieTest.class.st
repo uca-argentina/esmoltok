@@ -6,10 +6,11 @@ Class {
 
 { #category : #tests }
 DieTest >> testInitializeWithGivenGenerator [
-	| aDie aGenerator anArray|
-	anArray:= { 4 . 6 . 2 . 9 . 14 }.
-	aGenerator:= ArrayBasedGenerator whoUsesTheArray: anArray.
-	aDie := Die containingTheGenerator: aGenerator.
+	| aDie aGenerator aCollection aNumberOfSides|
+	aCollection:= { 4 . 6 . 2 . 9 . 14 }.
+	aNumberOfSides := 5.
+	aGenerator:= CircularIterator over: aCollection.
+	aDie := Die withSides: aNumberOfSides andGenerator:  aGenerator.
 	self assert: aDie roll equals: 4.
 	self assert: aDie roll equals: 6.
 	self assert: aDie roll equals: 2.
@@ -20,35 +21,31 @@ DieTest >> testInitializeWithGivenGenerator [
 ]
 
 { #category : #tests }
-DieTest >> testRollADie [
-	| aDie |
-	aDie := Die withThisNumberOfSides: 6.
-	self assert: aDie roll == 1.
-	self assert: aDie roll == 2.
-	self assert: aDie roll == 3.
-	self assert: aDie roll == 4.
-	self assert: aDie roll == 5.
-	self assert: aDie roll == 6.
-	self assert: aDie roll == 1
-]
-
-{ #category : #tests }
 DieTest >> testRollRandomDie [
 	| aRandomDie |
-	aRandomDie := Die randomDieWithThisNumberOfSides: 6.
+	aRandomDie := Die withSides: 6 andGenerator:  RandomGenerator new.
 	self assert: aRandomDie sides equals: 6.
 	self assert: (aRandomDie roll between: 1 and: 6)
 ]
 
 { #category : #tests }
 DieTest >> testVerifyNumberOfDieSides [
-	| aDie |
-	aDie := Die withThisNumberOfSides: 6.
-	self assert: aDie sides equals: 6
+		| aDie aGenerator aCollection aNumberOfSides|
+	aCollection:= { 4 }.
+	aNumberOfSides := 5.
+	aGenerator:= CircularIterator over: aCollection.
+	aDie := Die withSides: aNumberOfSides andGenerator:  aGenerator.
+	self assert: aDie sides equals: 5
 ]
 
 { #category : #tests }
 DieTest >> testVerifyNumberOfDieSidesFourOrMore [
-	| aDie |
-	self should: [ aDie := Die withThisNumberOfSides: 3 ] raise: AssertionFailure
+	| aDie aGenerator aCollection aNumberOfSides |
+	aCollection := {4}.
+	aNumberOfSides := 3.
+	aGenerator := CircularIterator over: aCollection.
+	self
+		should: [ aDie := Die withSides: aNumberOfSides andGenerator: aGenerator ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The number sides must be larger than or equal to 4' ]
 ]
