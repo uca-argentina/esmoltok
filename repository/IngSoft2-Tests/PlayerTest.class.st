@@ -16,8 +16,8 @@ PlayerTest >> testPlayerThrowADie [
 	| aPlayer aDice |
 	aPlayer := Player named: 'Leo'.
 	aDice := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2}).
-	self assert: (aPlayer throwDie: aDice) equals: 1.
-	self assert: (aPlayer throwDie: aDice) equals: 2
+	self assert: (aPlayer throwDice: {aDice}) equals: 1.
+	self assert: (aPlayer throwDice: {aDice}) equals: 2
 ]
 
 { #category : #tests }

@@ -31,8 +31,3 @@ Player >> takesATurnIn: aGame [
 Player >> throwDice: aDice [
 	^ aDice sumNumbers: [ :aDie | aDie roll ]
 ]
-
-{ #category : #interaction }
-Player >> throwDie: aDie [
-	^ aDie roll
-]
