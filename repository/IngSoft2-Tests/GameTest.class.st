@@ -6,10 +6,11 @@ Class {
 
 { #category : #tests }
 GameTest >> testCreateGame [
-	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength |
+	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection|
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aDie := Die withThisNumberOfSides: 4.
+	aCollection := { 1 . 2 . 3 . 4 . 5 }.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
 	boardLength := 20.
 	aGame := Game
 		playedBy:
@@ -37,9 +38,9 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 80.
-	aDie := Die containingTheGenerator: (ArrayBasedGenerator whoUsesTheArray: {1 . 2 . 3 . 5 . 6 . 40}).
-	anotherDie := Die containingTheGenerator: (ArrayBasedGenerator whoUsesTheArray: {1 . 2 . 3 . 5 . 6 . 40}).
-	oneMoreDie := Die containingTheGenerator: (ArrayBasedGenerator whoUsesTheArray: {1 . 2 . 3 . 5 . 6 . 40}).
+	aDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	oneMoreDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
 	"this way, we are assured that the third player will win"
 	aGame := Game
 		playedBy:
@@ -74,12 +75,9 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 16.
-"	aDie := Die withSides: 4."
-	aDie := Die containingTheGenerator: (SecuentialGenerator withNumberLimit: 4).
-"	anotherDie := Die withSides: 6."
-	anotherDie := Die containingTheGenerator: (SecuentialGenerator withNumberLimit: 6).
-"	oneMoreDie := Die withSides: 5."
-	oneMoreDie := Die containingTheGenerator: (SecuentialGenerator withNumberLimit: 5).
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -95,6 +93,9 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"1st round end."
+	self assert: (aGame positionOfPlayers at: 'Leo') equals: 3.
+	self assert: (aGame positionOfPlayers at: 'Albert') equals: 6.
+	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 9.
 	"2nd round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
@@ -113,9 +114,9 @@ GameTest >> testSimulateTurn [
 	anotherPlayer := Player named: 'Albert'.
 	yetAnotherPlayer := Player named: 'Glenn'.
 	boardLength := 20.
-	aDie := Die withThisNumberOfSides: 4.
-	anotherDie := Die withThisNumberOfSides: 6.
-	oneMoreDie := Die withThisNumberOfSides: 5.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 }).
 	aGame := Game
 		playedBy:
 			{aPlayer.
