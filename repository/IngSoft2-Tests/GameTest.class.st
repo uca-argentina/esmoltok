@@ -63,9 +63,9 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 18.
-	self assert: (aGame positionOfPlayers at: 'Albert') equals: 24.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 129
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 18.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 24.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 129
 ]
 
 { #category : #tests }
@@ -93,44 +93,44 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"1st round end."
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 3.
-	self assert: (aGame positionOfPlayers at: 'Albert') equals: 6.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 9.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9.
 	"2nd round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 15.
-	self assert: (aGame positionOfPlayers at: 'Albert') equals: 17.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 9
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 17.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
 ]
 
 { #category : #tests }
 GameTest >> testSimulateTurn [
-	| aGame aPlayer anotherPlayer yetAnotherPlayer aDie anotherDie oneMoreDie boardLength |
-	aPlayer := Player named: 'Leo'.
-	anotherPlayer := Player named: 'Albert'.
-	yetAnotherPlayer := Player named: 'Glenn'.
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedAlbert := Player named: 'Albert'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 20.
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4}).
 	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 . 6}).
 	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 }).
 	aGame := Game
 		playedBy:
-			{aPlayer.
-			anotherPlayer.
-			yetAnotherPlayer}
+			{aPlayerNamedLeo.
+			aPlayerNamedAlbert.
+			aPlayerNamedGlenn}
 		throwing:
 			{aDie.
 			anotherDie.
 			oneMoreDie}
 		inABoardOfLenght: boardLength.
-	aPlayer takesATurnIn: aGame.
-	anotherPlayer takesATurnIn: aGame.
-	yetAnotherPlayer takesATurnIn: aGame.
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 3.
-	self assert: (aGame positionOfPlayers at: 'Albert') equals: 6.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 9
+	aPlayerNamedLeo takesATurnIn: aGame.
+	aPlayerNamedAlbert takesATurnIn: aGame.
+	aPlayerNamedGlenn takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
 ]
