@@ -32,7 +32,7 @@ Game >> endsTheGame [
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
-	(self positionOfPlayers at: aPlayer) >= self boardLength
+	(self positionFor: aPlayer) >= self boardLength
 		ifTrue: [ self endsTheGame ]
 ]
 
@@ -51,7 +51,7 @@ Game >> initializeWithLength: aBoardLength dice: aCollectionOfDice player: aColl
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
 	aNumberOfCells := aPlayer throwDice: self dice.
-	self updatePositionBy: aNumberOfCells OfThePlayerNamed: aPlayer name
+	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer
 ]
 
 { #category : #updating }
@@ -71,7 +71,7 @@ Game >> positionOfPlayers [
 ]
 
 { #category : #updating }
-Game >> updatePositionBy: aNumberOfCells OfThePlayerNamed: aPlayer [
-	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
+Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
+	playersPosition at: aPlayer name put: (self positionFor: aPlayer) + aNumberOfCells.
 	self gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer
 ]

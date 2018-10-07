@@ -65,7 +65,7 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	"results:"
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 18.
 	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 24.
-	self assert: (aGame positionFor: 'Glenn') equals: 129
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 129
 ]
 
 { #category : #tests }
