@@ -63,9 +63,9 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionOfPlayers at: 'Leo') equals: 18.
-	self assert: (aGame positionOfPlayers at: 'Albert') equals: 24.
-	self assert: (aGame positionOfPlayers at: 'Glenn') equals: 129
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 18.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 24.
+	self assert: (aGame positionFor: 'Glenn') equals: 129
 ]
 
 { #category : #tests }
