@@ -21,8 +21,8 @@ Game >> applyNoEffectTo: aPlayer [
 ]
 
 { #category : #updating }
-Game >> applySpeedUpEffectTo: aPlayer [ 
-	self updatePositionBy: 4 OfThePlayer: aPlayer
+Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
+	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]
 
 { #category : #updating }

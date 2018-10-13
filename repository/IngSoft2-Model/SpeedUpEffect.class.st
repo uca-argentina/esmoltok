@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interactions }
-SpeedUpEffect >> triggerOn: aGame and: aPlayer [ 
-	aGame applySpeedUpEffectTo: aPlayer
+SpeedUpEffect >> triggerOn: aGame and: aPlayer [
+	aGame applySpeedUpEffectTo: aPlayer positionIncrementedBy: 4
 ]
