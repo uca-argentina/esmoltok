@@ -15,6 +15,11 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 	^ self new initializeWithLength: aBoardLength dice: aDice player: aPlayer
 ]
 
+{ #category : #updating }
+Game >> applyNoEffectTo: aPlayer [
+	
+]
+
 { #category : #accessing }
 Game >> boardLength [
 	^ boardLength
