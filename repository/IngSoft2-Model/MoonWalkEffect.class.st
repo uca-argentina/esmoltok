@@ -16,3 +16,8 @@ MoonWalkEffect class >> withSteps: anInteger [
 MoonWalkEffect >> initializeWithSteps: anInteger [
 	steps := anInteger
 ]
+
+{ #category : #accessing }
+MoonWalkEffect >> steps [
+	^ steps
+]
