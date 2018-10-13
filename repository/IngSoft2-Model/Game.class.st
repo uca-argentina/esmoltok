@@ -20,6 +20,11 @@ Game >> applyNoEffectTo: aPlayer [
 	
 ]
 
+{ #category : #updating }
+Game >> applyWormHoleEffectTo: aPlayer [ 
+	self updatePositionBy: 4 negated OfThePlayer: aPlayer
+]
+
 { #category : #accessing }
 Game >> boardLength [
 	^ boardLength
