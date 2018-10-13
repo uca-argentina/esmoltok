@@ -15,6 +15,36 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 	^ self new initializeWithLength: aBoardLength dice: aDice player: aPlayer
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> applyAtomicEffect: aPlayer [
+	playersPosition
+		associationsDo:
+			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) OfThePlayer: (Player named: each key) ]
+]
+
+{ #category : #updating }
+Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
+	playersPosition
+		associationsDo: [ :each | 
+			each key = aPlayer name
+				ifFalse: [ self updatePositionBy: steps OfThePlayer: (Player named: each key) ] ]
+]
+
+{ #category : #updating }
+Game >> applyNoEffectTo: aPlayer [
+	
+]
+
+{ #category : #updating }
+Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
+	self updatePositionBy: anInteger OfThePlayer: aPlayer
+]
+
+{ #category : #updating }
+Game >> applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger [
+	self updatePositionBy: anInteger OfThePlayer: aPlayer
+]
+
 { #category : #accessing }
 Game >> boardLength [
 	^ boardLength
