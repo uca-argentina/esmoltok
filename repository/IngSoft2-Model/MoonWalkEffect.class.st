@@ -24,5 +24,5 @@ MoonWalkEffect >> steps [
 
 { #category : #interactions }
 MoonWalkEffect >> triggerOn: aGame and: aPlayer [ 
-	aGame applyMoonWalkEffectExcluding: aPlayer steps: steps
+	aGame applyMoonWalkEffectExcluding: aPlayer steps: steps negated
 ]

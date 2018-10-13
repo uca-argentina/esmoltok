@@ -16,12 +16,11 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 ]
 
 { #category : #updating }
-Game >> applyMoonWalkEffectExcluding: aPlayer steps: anInteger [ 
+Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 	playersPosition
-		inject: anInteger negated
-		into: [ :steps :each | 
-			each = aPlayer name
-				ifFalse: [ self updatePositionBy: steps OfThePlayer: each ] ]
+		associationsDo: [ :each | 
+			each key = aPlayer name
+				ifFalse: [ self updatePositionBy: steps OfThePlayer: (Player named: each key) ] ]
 ]
 
 { #category : #updating }
