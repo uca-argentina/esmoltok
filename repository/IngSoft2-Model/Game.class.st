@@ -15,6 +15,13 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 	^ self new initializeWithLength: aBoardLength dice: aDice player: aPlayer
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> applyAtomicEffect: aPlayer [
+	playersPosition
+		associationsDo:
+			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) OfThePlayer: (Player named: each key) ]
+]
+
 { #category : #updating }
 Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 	playersPosition
