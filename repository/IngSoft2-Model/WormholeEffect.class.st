@@ -6,5 +6,5 @@ Class {
 
 { #category : #interactions }
 WormholeEffect >> triggerOn: aGame and: aPlayer [
-	aGame applyWormHoleEffectTo: aPlayer
+	aGame applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger
 ]
