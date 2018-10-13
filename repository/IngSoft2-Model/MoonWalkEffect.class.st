@@ -21,3 +21,8 @@ MoonWalkEffect >> initializeWithSteps: anInteger [
 MoonWalkEffect >> steps [
 	^ steps
 ]
+
+{ #category : #interactions }
+MoonWalkEffect >> triggerOn: aGame and: aPlayer [ 
+	aGame applyMoonWalkEffectExcluding: aPlayer steps: steps
+]
