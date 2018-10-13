@@ -21,6 +21,11 @@ Game >> applyNoEffectTo: aPlayer [
 ]
 
 { #category : #updating }
+Game >> applySpeedUpEffectTo: aPlayer [ 
+	self updatePositionBy: 4 OfThePlayer: aPlayer
+]
+
+{ #category : #updating }
 Game >> applyWormHoleEffectTo: aPlayer [ 
 	self updatePositionBy: 4 negated OfThePlayer: aPlayer
 ]
