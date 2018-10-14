@@ -5,7 +5,8 @@ Class {
 		'boardLength',
 		'dice',
 		'playersPosition',
-		'state'
+		'state',
+		'playersOrder'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -15,10 +16,10 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
-		inABoardOfLenght: aBoardLength
+		inABoardOfLength: aBoardLength
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
@@ -54,6 +55,11 @@ Game >> boardLength [
 ]
 
 { #category : #accessing }
+Game >> currentPlayerTurn [
+	^playersOrder currentTurn  
+]
+
+{ #category : #accessing }
 Game >> dice [
 	^ dice
 ]
@@ -64,27 +70,35 @@ Game >> ends [
 ]
 
 { #category : #updating }
-Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
+Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
 	(self positionFor: aPlayer) >= self boardLength
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLenght: aBoardLength [
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength [
 	boardLength := aBoardLength.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers
 		inject: 0
 		into: [ :position :each | playersPosition at: each name put: position ].
+	playersOrder := Turn names: (aCollectionOfPlayers collect: [:each | each name]).
 	state := RunningState new
 ]
 
 { #category : #updating }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
+	self turnOf: aPlayer.
 	aNumberOfCells := aPlayer throwDice: self dice.
-	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer
+	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self nextPlayerTurn
+]
+
+{ #category : #updating }
+Game >> nextPlayerTurn [
+	playersOrder updateToNextTurn
 ]
 
 { #category : #updating }
@@ -103,8 +117,18 @@ Game >> positionOfPlayers [
 	^ playersPosition
 ]
 
+{ #category : #assertions }
+Game >> turnOf: aPlayer [
+	playersOrder turnOf: aPlayer name
+]
+
+{ #category : #accessing }
+Game >> turnOrder [
+	^ playersOrder order
+]
+
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
 	playersPosition at: aPlayer name put: (self positionFor: aPlayer) + aNumberOfCells.
-	self gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer
+	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
 ]
