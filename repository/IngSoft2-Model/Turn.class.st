@@ -29,6 +29,11 @@ Turn >> order [
 	^ nameOrder
 ]
 
+{ #category : #assertions }
+Turn >> turnOf: aName [ 
+^ aName = currentTurn 
+]
+
 { #category : #updating }
 Turn >> updateToNextTurn [
 	 currentTurn := currentTurn = nameOrder last
