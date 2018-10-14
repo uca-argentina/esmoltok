@@ -162,3 +162,34 @@ GameTest >> testSimulateTurn [
 	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
 ]
+
+{ #category : #tests }
+GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedAlbert := Player named: 'Albert'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	boardLength := 20.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedAlbert.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			anotherDie.
+			oneMoreDie}
+		inABoardOfLenght: boardLength.
+	self assert: aGame currentPlayerTurn equals: 'Leo'.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: aGame currentPlayerTurn equals: 'Albert'.
+	aPlayerNamedAlbert takesATurnIn: aGame.
+	self assert: aGame currentPlayerTurn equals: 'Glenn'.
+	aPlayerNamedGlenn takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
+]
