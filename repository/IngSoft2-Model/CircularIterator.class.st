@@ -10,11 +10,11 @@ Class {
 
 { #category : #'instance creation' }
 CircularIterator class >> over: anArray [ 
-	^ self new initializeUsing: anArray.
+	^ self new initializeOver: anArray.
 ]
 
 { #category : #initialization }
-CircularIterator >> initializeUsing: aCollection [
+CircularIterator >> initializeOver: aCollection [
 	collection := aCollection.
 	currentIndex := 0
 ]
