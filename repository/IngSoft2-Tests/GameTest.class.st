@@ -32,6 +32,34 @@ GameTest >> testCreateGame [
 ]
 
 { #category : #tests }
+GameTest >> testCreateGameWithTurnOrder [
+	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection|
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := { 1 . 2 . 3 . 4 . 5 }.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	boardLength := 20.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			aDie}
+		inABoardOfLenght: boardLength.
+	self assert: aGame boardLength equals: 20.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 0.
+	self
+		assert:
+			aGame dice
+				equals:
+					{aDie.
+					aDie}.
+	self assert: aGame turnOrder equals: { 'Leo' . 'Glenn' }
+]
+
+{ #category : #tests }
 GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
