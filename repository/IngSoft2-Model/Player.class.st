@@ -9,11 +9,11 @@ Class {
 
 { #category : #'instance creation' }
 Player class >> named: aString [
-	^ self new initializeWithName: aString
+	^ self new initializeNamed: aString
 ]
 
 { #category : #initialization }
-Player >> initializeWithName: theirOwnName [
+Player >> initializeNamed: theirOwnName [
 	name := theirOwnName
 ]
 
