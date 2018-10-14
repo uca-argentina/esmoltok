@@ -55,6 +55,11 @@ Game >> boardLength [
 ]
 
 { #category : #accessing }
+Game >> currentPlayerTurn [
+	^playersOrder currentTurn  
+]
+
+{ #category : #accessing }
 Game >> dice [
 	^ dice
 ]
