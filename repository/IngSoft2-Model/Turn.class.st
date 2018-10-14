@@ -23,3 +23,10 @@ Turn >> initializeNames: aCollection [
 	nameOrder:= aCollection.
 	currentTurn:= aCollection first.
 ]
+
+{ #category : #updating }
+Turn >> updateToNextTurn [
+	 currentTurn := currentTurn = nameOrder last
+		ifTrue: [  nameOrder first ]
+		ifFalse: [ nameOrder after: currentTurn ]
+]
