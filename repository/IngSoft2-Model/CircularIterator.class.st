@@ -16,7 +16,7 @@ CircularIterator class >> over: anArray [
 { #category : #initialization }
 CircularIterator >> initializeOver: aCollection [
 	collection := aCollection.
-	currentElement := 0
+	currentElement := collection first
 ]
 
 { #category : #accessing }
