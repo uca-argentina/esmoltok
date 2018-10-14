@@ -90,9 +90,10 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inA
 { #category : #updating }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
+	self turnOf: aPlayer.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
-	self nextPlayerTurn.
+	self nextPlayerTurn
 ]
 
 { #category : #updating }

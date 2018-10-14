@@ -218,7 +218,7 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 	aPlayerNamedLeo takesATurnIn: aGame.
 	self assert: aGame currentPlayerTurn equals: 'Albert'.
 	self
-		should: [ aPlayerNamedGlenn takesATurnIn: aGame. ]
+		should: [ aPlayerNamedGlenn takesATurnIn: aGame ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'This isn''t the turn of Glenn' ].
 	aPlayerNamedAlbert takesATurnIn: aGame.
