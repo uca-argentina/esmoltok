@@ -119,8 +119,7 @@ Game >> positionOfPlayers [
 
 { #category : #assertions }
 Game >> turnOf: aPlayer [
-	(playersOrder turnOf: aPlayer name)
-		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aPlayer name}) ]
+	playersOrder turnOf: aPlayer name
 ]
 
 { #category : #accessing }
