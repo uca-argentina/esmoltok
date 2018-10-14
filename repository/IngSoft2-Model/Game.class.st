@@ -59,14 +59,14 @@ Game >> dice [
 ]
 
 { #category : #updating }
-Game >> endsTheGame [
+Game >> ends [
 	state := FinishedState new.
 ]
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
 	(self positionFor: aPlayer) >= self boardLength
-		ifTrue: [ self endsTheGame ]
+		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
