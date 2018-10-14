@@ -2,8 +2,8 @@ Class {
 	#name : #CircularIterator,
 	#superclass : #Object,
 	#instVars : [
-		'currentIndex',
-		'collection'
+		'collection',
+		'currentElement'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -16,13 +16,13 @@ CircularIterator class >> over: anArray [
 { #category : #initialization }
 CircularIterator >> initializeOver: aCollection [
 	collection := aCollection.
-	currentIndex := 0
+	currentElement := 0
 ]
 
 { #category : #accessing }
 CircularIterator >> next: aSides [
-	currentIndex = collection  size
-		ifTrue: [ currentIndex := 0 ].
-	currentIndex := currentIndex + 1.
-	^ collection at: currentIndex
+	currentElement = collection  size
+		ifTrue: [ currentElement := 0 ].
+	currentElement := currentElement + 1.
+	^ collection at: currentElement
 ]
