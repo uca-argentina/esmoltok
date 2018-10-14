@@ -21,8 +21,7 @@ CircularIterator >> initializeOver: aCollection [
 
 { #category : #accessing }
 CircularIterator >> next: aSides [
-	currentElement = collection  size
-		ifTrue: [ currentElement := 0 ].
-	currentElement := currentElement + 1.
-	^ collection at: currentElement
+	^ currentElement := currentElement = collection last
+		ifTrue: [ collection first ]
+		ifFalse: [ collection after: currentElement ]
 ]
