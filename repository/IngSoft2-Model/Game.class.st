@@ -5,7 +5,8 @@ Class {
 		'boardLength',
 		'dice',
 		'playersPosition',
-		'state'
+		'state',
+		'playersOrder'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -77,6 +78,7 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inA
 	aCollectionOfPlayers
 		inject: 0
 		into: [ :position :each | playersPosition at: each name put: position ].
+	playersOrder := Turn names: (aCollectionOfPlayers collect: [:each | each name]).
 	state := RunningState new
 ]
 
@@ -101,6 +103,11 @@ Game >> positionFor: aPlayer [
 { #category : #accessing }
 Game >> positionOfPlayers [
 	^ playersPosition
+]
+
+{ #category : #accessing }
+Game >> turnOrder [
+	^ playersOrder order
 ]
 
 { #category : #updating }

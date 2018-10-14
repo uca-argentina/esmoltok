@@ -24,6 +24,11 @@ Turn >> initializeNames: aCollection [
 	currentTurn:= aCollection first.
 ]
 
+{ #category : #accessing }
+Turn >> order [
+	^ nameOrder
+]
+
 { #category : #updating }
 Turn >> updateToNextTurn [
 	 currentTurn := currentTurn = nameOrder last
