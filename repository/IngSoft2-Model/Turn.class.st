@@ -31,7 +31,8 @@ Turn >> order [
 
 { #category : #assertions }
 Turn >> turnOf: aName [ 
-^ aName = currentTurn 
+	^(aName = currentTurn)
+		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aName}) ]
 ]
 
 { #category : #updating }
