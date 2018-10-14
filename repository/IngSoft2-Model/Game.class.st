@@ -16,7 +16,7 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
-		inABoardOfLenght: aBoardLength
+		inABoardOfLength: aBoardLength
 ]
 
 { #category : #'as yet unclassified' }
@@ -65,13 +65,13 @@ Game >> ends [
 ]
 
 { #category : #updating }
-Game >> gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer [
+Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
 	(self positionFor: aPlayer) >= self boardLength
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLenght: aBoardLength [
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength [
 	boardLength := aBoardLength.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
@@ -113,5 +113,5 @@ Game >> turnOrder [
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
 	playersPosition at: aPlayer name put: (self positionFor: aPlayer) + aNumberOfCells.
-	self gameHasEndedIfBoardLenghtHasBeenReachedBy: aPlayer
+	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
 ]
