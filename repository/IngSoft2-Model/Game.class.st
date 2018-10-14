@@ -19,7 +19,7 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
 		inABoardOfLength: aBoardLength
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
@@ -91,8 +91,13 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inA
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
 	aNumberOfCells := aPlayer throwDice: self dice.
-	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer
+	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
 	self nextPlayerTurn.
+]
+
+{ #category : #updating }
+Game >> nextPlayerTurn [
+	playersOrder updateToNextTurn
 ]
 
 { #category : #updating }
