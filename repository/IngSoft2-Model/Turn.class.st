@@ -13,6 +13,11 @@ Turn class >> names: aCollection [
 	^ self new initializeNames: aCollection.
 ]
 
+{ #category : #accessing }
+Turn >> currentTurn [
+	^ currentTurn
+]
+
 { #category : #initialization }
 Turn >> initializeNames: aCollection [ 
 	nameOrder:= aCollection.
