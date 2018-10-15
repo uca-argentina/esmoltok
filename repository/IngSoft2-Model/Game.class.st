@@ -73,7 +73,7 @@ Game >> ends [
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
-	(self positionFor: aPlayer) >= self boardLength
+	(playersPosition at: aPlayer name) >=( boardLength * laps)
 		ifTrue: [ self ends ]
 ]
 
@@ -100,6 +100,11 @@ Game >> isPlayedBy: aPlayer [
 ]
 
 { #category : #accessing }
+Game >> lapFor: aPlayer [
+	^ ((playersPosition at: aPlayer name) // boardLength)+1
+]
+
+{ #category : #accessing }
 Game >> laps [
 	^ laps
 ]
@@ -116,8 +121,7 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-  ^playersPosition at: aPlayer name
-	
+	^ ((playersPosition at: aPlayer name) % boardLength)
 ]
 
 { #category : #accessing }

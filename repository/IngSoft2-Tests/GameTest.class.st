@@ -85,6 +85,37 @@ GameTest >> testCreateGameWithTurnOrder [
 ]
 
 { #category : #tests }
+GameTest >> testGameWithLapsHasEnded [
+	| aGame aPlayerNamedLeo aDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	boardLength := 7.
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: { 6 }).
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo}
+		throwing:
+			{aDie}
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 2.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 6.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 5.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 4.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+]
+
+{ #category : #tests }
 GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
@@ -172,6 +203,86 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
 	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 17.
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
+]
+
+{ #category : #tests }
+GameTest >> testLapForPlayer [
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedAlbert := Player named: 'Albert'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	boardLength := 20.
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 7 . 1 }).
+	anotherDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 7 . 1 }).
+	oneMoreDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 7 . 1 }).
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedAlbert.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			anotherDie.
+			oneMoreDie}
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 2.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+		aPlayerNamedAlbert takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
+		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 2.
+		aPlayerNamedGlenn takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedGlenn ) equals: 1.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+		aPlayerNamedAlbert takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 2.
+		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 2.
+]
+
+{ #category : #tests }
+GameTest >> testPositionForWithLaps [
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedAlbert := Player named: 'Albert'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	boardLength := 20.
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 5 . 1 }).
+	anotherDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 5 . 1 }).
+	oneMoreDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 5 . 1 }).
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedAlbert.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			anotherDie.
+			oneMoreDie}
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 2.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+		aPlayerNamedAlbert takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 15.
+		aPlayerNamedGlenn takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 3.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 6.
+		aPlayerNamedAlbert takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 10.
 ]
 
 { #category : #tests }
