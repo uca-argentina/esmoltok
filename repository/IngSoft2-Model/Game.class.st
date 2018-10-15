@@ -6,17 +6,19 @@ Class {
 		'dice',
 		'playersPosition',
 		'state',
-		'playersOrder'
+		'playersOrder',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
+Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength andAmountOfLaps: aLapAmount [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
 		inABoardOfLength: aBoardLength
+		andAmountOfLaps: aLapAmount 
 ]
 
 { #category : #updating }
@@ -76,8 +78,9 @@ Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength [
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength andAmountOfLaps: aLapAmount [
 	boardLength := aBoardLength.
+	laps :=aLapAmount .
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers
@@ -94,6 +97,11 @@ Game >> isPlayedBy: aPlayer [
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
 	self nextPlayerTurn
+]
+
+{ #category : #accessing }
+Game >> laps [
+	^ laps
 ]
 
 { #category : #updating }

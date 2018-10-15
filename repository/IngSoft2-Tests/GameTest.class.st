@@ -6,11 +6,13 @@ Class {
 
 { #category : #tests }
 GameTest >> testCreateGame [
-	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection|
+	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aCollection := { 1 . 2 . 3 . 4 . 5 }.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	aCollection := {1 . 2 . 3 . 4 . 5}.
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: aCollection).
 	boardLength := 20.
 	aGame := Game
 		playedBy:
@@ -19,25 +21,48 @@ GameTest >> testCreateGame [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-	self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
 	self
-		assert:
-			aGame dice
-				equals:
-					{aDie.
-					aDie}
+		assert: aGame dice
+		equals:
+			{aDie.
+			aDie}
+]
+
+{ #category : #tests }
+GameTest >> testCreateGameWithLaps [
+| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection lapsAmount|
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := { 1 . 2 . 3 . 4 . 5 }.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	boardLength := 20.
+	lapsAmount := 3.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			aDie}
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: lapsAmount.
+		self assert: aGame laps equals: 3
 ]
 
 { #category : #tests }
 GameTest >> testCreateGameWithTurnOrder [
-	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection|
+	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aCollection := { 1 . 2 . 3 . 4 . 5 }.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	aCollection := {1 . 2 . 3 . 4 . 5}.
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: aCollection).
 	boardLength := 20.
 	aGame := Game
 		playedBy:
@@ -46,17 +71,17 @@ GameTest >> testCreateGameWithTurnOrder [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-	self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
 	self
-		assert:
-			aGame dice
-				equals:
-					{aDie.
-					aDie}.
-	self assert: aGame turnOrder equals: { 'Leo' . 'Glenn' }
+		assert: aGame dice
+		equals:
+			{aDie.
+			aDie}.
+	self assert: aGame turnOrder equals: {'Leo' . 'Glenn'}
 ]
 
 { #category : #tests }
@@ -66,9 +91,15 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 80.
-	aDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
-	oneMoreDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	aDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	oneMoreDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
 	"this way, we are assured that the third player will win"
 	aGame := Game
 		playedBy:
@@ -79,7 +110,8 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
@@ -103,9 +135,15 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 16.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -115,7 +153,8 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
@@ -142,9 +181,15 @@ GameTest >> testSimulateTurn [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 20.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: { 1 . 2 . 3 . 4 . 5 }).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -154,7 +199,8 @@ GameTest >> testSimulateTurn [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
@@ -170,9 +216,15 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 20.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -182,7 +234,8 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	self assert: aGame currentPlayerTurn equals: 'Leo'.
 	aPlayerNamedLeo takesATurnIn: aGame.
 	self assert: aGame currentPlayerTurn equals: 'Albert'.
@@ -201,9 +254,15 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 20.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -213,14 +272,18 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	self assert: aGame currentPlayerTurn equals: 'Leo'.
 	aPlayerNamedLeo takesATurnIn: aGame.
 	self assert: aGame currentPlayerTurn equals: 'Albert'.
 	self
 		should: [ aPlayerNamedGlenn takesATurnIn: aGame ]
 		raise: AssertionFailure
-		withExceptionDo: [ :signal | self assert: signal messageText equals: 'This isn''t the turn of Glenn' ].
+		withExceptionDo: [ :signal | 
+			self
+				assert: signal messageText
+				equals: 'This isn''t the turn of Glenn' ].
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	self assert: aGame currentPlayerTurn equals: 'Glenn'.
 	aPlayerNamedGlenn takesATurnIn: aGame.
