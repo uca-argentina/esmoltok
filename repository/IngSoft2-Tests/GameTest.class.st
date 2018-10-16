@@ -88,31 +88,31 @@ GameTest >> testCreateGameWithTurnOrder [
 GameTest >> testGameWithLapsHasEnded [
 	| aGame aPlayerNamedLeo aDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
-	boardLength := 7.
+	boardLength := 5.
 	aDie := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: { 6 }).
+		andGenerator: (CircularIterator over: { 5 }).
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo}
 		throwing:
 			{aDie}
 		inABoardOfLenght: boardLength
-		andAmountOfLaps: 2.
+		andAmountOfLaps: 3.
 		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
 		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
 		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 6.
-		aPlayerNamedLeo takesATurnIn: aGame.
 		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 5.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
 		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 4.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 3.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
 		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 4.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 4.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
 ]
 
 { #category : #tests }
@@ -156,7 +156,7 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	"results:"
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 18.
 	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 24.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 129
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 49
 ]
 
 { #category : #tests }
@@ -201,7 +201,7 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	"2nd round end."
 	"results:"
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 17.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
 ]
 
@@ -243,7 +243,7 @@ GameTest >> testLapForPlayer [
 		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
 		aPlayerNamedAlbert takesATurnIn: aGame.
 		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 2.
-		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 2.
+		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 3.
 ]
 
 { #category : #tests }

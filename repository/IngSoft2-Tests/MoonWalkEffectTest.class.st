@@ -42,10 +42,10 @@ MoonWalkEffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer
 		equals: positionAlbert.
 	self
 		assert: (game positionFor: aPlayerNamedLeo)
-		equals: positionLeo - number.
+		equals: 15.
 	self
 		assert: (game positionFor: aPlayerNamedGlenn)
-		equals: positionGlenn - number
+		equals: 15
 ]
 
 { #category : #tests }

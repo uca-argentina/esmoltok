@@ -33,8 +33,10 @@ WormHoleEffectTest >> testWormHoleAppliedGoBack4Positions [
 		andAmountOfLaps: 1.
 	effect := WormholeEffect new.
 	position := game positionFor: aPlayerNamedAlbert.
+	self assert: position equals: 0.
 	effect triggerOn: game and: aPlayerNamedAlbert.
 	self
 		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: position - 4
+		equals: 19.
+		self assert: (game lapFor: aPlayerNamedAlbert) equals: -1.
 ]

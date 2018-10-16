@@ -141,6 +141,6 @@ Game >> turnOrder [
 
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
-	playersPosition at: aPlayer name put: (self positionFor: aPlayer) + aNumberOfCells.
+	playersPosition at: aPlayer name put: (playersPosition at: aPlayer name) + aNumberOfCells.
 	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
 ]
