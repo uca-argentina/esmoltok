@@ -79,10 +79,10 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inA
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers
-		inject: 0
-		into: [ :position :each | playersPosition at: each name put: position ].
+		do: [  :each | playersPosition at: each name put: 0 ].
 	playersOrder := Turn names: (aCollectionOfPlayers collect: [:each | each name]).
 	state := RunningState new
+	
 ]
 
 { #category : #updating }
