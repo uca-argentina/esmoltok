@@ -37,6 +37,6 @@ WormHoleEffectTest >> testWormHoleAppliedGoBack4Positions [
 	effect triggerOn: game and: aPlayerNamedAlbert.
 	self
 		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: 19.
-		self assert: (game lapFor: aPlayerNamedAlbert) equals: -1.
+		equals: 16.
+		self assert: (game lapFor: aPlayerNamedAlbert) equals: 0.
 ]

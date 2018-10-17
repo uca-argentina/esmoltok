@@ -101,7 +101,7 @@ Game >> isPlayedBy: aPlayer [
 
 { #category : #accessing }
 Game >> lapFor: aPlayer [
-	^ ((playersPosition at: aPlayer name) // boardLength)+1
+	^ (playersPosition at: aPlayer name) // boardLength+1
 ]
 
 { #category : #accessing }
