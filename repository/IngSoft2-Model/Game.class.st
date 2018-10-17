@@ -25,15 +25,15 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength a
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
-			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) negated OfThePlayer: (Player named: each key) ]
+			[ :each | self updatePositionBy: each key negated OfThePlayer: each key]
 ]
 
 { #category : #updating }
 Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 	playersPosition
 		associationsDo: [ :each | 
-			each key = aPlayer name
-				ifFalse: [ self updatePositionBy: steps OfThePlayer: (Player named: each key) ] ]
+			each key = aPlayer
+				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
 ]
 
 { #category : #updating }
@@ -68,27 +68,25 @@ Game >> ends [
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
-	(playersPosition at: aPlayer name) >=( boardLength * laps)
+	(playersPosition at: aPlayer) >=( boardLength * laps)
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
 Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength andAmountOfLaps: aLapAmount [
 	boardLength := aBoardLength.
-	laps :=aLapAmount .
+	laps := aLapAmount.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
-	aCollectionOfPlayers
-		do: [  :each | playersPosition at: each name put: 0 ].
-	playersOrder := Turn names: (aCollectionOfPlayers collect: [:each | each name]).
+	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 0 ].
+	playersOrder := Turn names: (aCollectionOfPlayers collect: [ :each | each name ]).
 	state := RunningState new
-	
 ]
 
 { #category : #updating }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
-	self turnOf: aPlayer.
+	self turnOf: aPlayer name.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
 	self nextPlayerTurn
@@ -96,7 +94,7 @@ Game >> isPlayedBy: aPlayer [
 
 { #category : #accessing }
 Game >> lapFor: aPlayer [
-	^ (playersPosition at: aPlayer name) // boardLength+1
+	^ (playersPosition at: aPlayer) // boardLength+1
 ]
 
 { #category : #accessing }
@@ -116,7 +114,7 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-	^ ((playersPosition at: aPlayer name) % boardLength)
+	^ ((playersPosition at: aPlayer) % boardLength)
 ]
 
 { #category : #accessing }
@@ -126,7 +124,7 @@ Game >> positionOfPlayers [
 
 { #category : #assertions }
 Game >> turnOf: aPlayer [
-	playersOrder turnOf: aPlayer name
+	playersOrder turnOf: aPlayer
 ]
 
 { #category : #accessing }
@@ -136,6 +134,6 @@ Game >> turnOrder [
 
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
-	playersPosition at: aPlayer name put: (playersPosition at: aPlayer name) + aNumberOfCells.
+	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
 	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
 ]
