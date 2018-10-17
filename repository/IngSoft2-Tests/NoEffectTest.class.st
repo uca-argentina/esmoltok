@@ -11,9 +11,15 @@ NoEffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	boardLength := 20.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -23,7 +29,8 @@ NoEffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
 	effect := NoEffect new.
 	position := game positionFor: aPlayerNamedAlbert.
 	effect triggerOn: game and: aPlayerNamedAlbert.

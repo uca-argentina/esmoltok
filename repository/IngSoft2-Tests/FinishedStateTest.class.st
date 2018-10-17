@@ -10,7 +10,9 @@ FinishedStateTest >> testPlayersPositionWhenFinished [
 	aFinishedState := FinishedState new.
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aDie := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	boardLength := 3.
 	aGame := Game
 		playedBy:
@@ -19,7 +21,9 @@ FinishedStateTest >> testPlayersPositionWhenFinished [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength.
-		
-	self assert: (aFinishedState nextTurnAt: aGame playedBy: aPlayerNamedLeo) equals: aGame positionOfPlayers.
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
+	self
+		assert: (aFinishedState nextTurnAt: aGame playedBy: aPlayerNamedLeo)
+		equals: aGame positionOfPlayers
 ]
