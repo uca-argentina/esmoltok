@@ -16,20 +16,20 @@ CircularIterator class >> over: anArray [
 { #category : #initialization }
 CircularIterator >> initializeOver: aCollection [
 	collection := aCollection.
-	currentElement := collection first
+	currentElement := 1
 ]
 
 { #category : #accessing }
 CircularIterator >> next: aSides [
-	| outElement |
-	outElement := currentElement.
+	|ourElement|
+	ourElement := collection at: currentElement. 
 	self updateIteration.
-	^ outElement
+	^ourElement 
 ]
 
 { #category : #updating }
 CircularIterator >> updateIteration [
-	currentElement := currentElement = collection last
-		ifTrue: [ collection first ]
-		ifFalse: [ collection after: currentElement ]
+	currentElement := currentElement = collection size
+		ifTrue: [ 1 ]
+		ifFalse: [ currentElement + 1 ]
 ]

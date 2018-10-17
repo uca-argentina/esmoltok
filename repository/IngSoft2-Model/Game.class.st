@@ -6,17 +6,19 @@ Class {
 		'dice',
 		'playersPosition',
 		'state',
-		'playersOrder'
+		'playersOrder',
+		'laps'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength [
+Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength andAmountOfLaps: aLapAmount [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
 		inABoardOfLength: aBoardLength
+		andAmountOfLaps: aLapAmount 
 ]
 
 { #category : #updating }
@@ -71,13 +73,14 @@ Game >> ends [
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
-	(self positionFor: aPlayer) >= self boardLength
+	(playersPosition at: aPlayer name) >=( boardLength * laps)
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength [
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength andAmountOfLaps: aLapAmount [
 	boardLength := aBoardLength.
+	laps :=aLapAmount .
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers
@@ -96,6 +99,16 @@ Game >> isPlayedBy: aPlayer [
 	self nextPlayerTurn
 ]
 
+{ #category : #accessing }
+Game >> lapFor: aPlayer [
+	^ (playersPosition at: aPlayer name) // boardLength+1
+]
+
+{ #category : #accessing }
+Game >> laps [
+	^ laps
+]
+
 { #category : #updating }
 Game >> nextPlayerTurn [
 	playersOrder updateToNextTurn
@@ -108,8 +121,7 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-  ^playersPosition at: aPlayer name
-	
+	^ ((playersPosition at: aPlayer name) % boardLength)
 ]
 
 { #category : #accessing }
@@ -129,6 +141,6 @@ Game >> turnOrder [
 
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
-	playersPosition at: aPlayer name put: (self positionFor: aPlayer) + aNumberOfCells.
+	playersPosition at: aPlayer name put: (playersPosition at: aPlayer name) + aNumberOfCells.
 	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
 ]
