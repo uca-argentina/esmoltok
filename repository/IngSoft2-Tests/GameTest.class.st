@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #tests }
+GameTest >> assert: a hasTheSameOrderThan: b [
+	self assert: a equals: b asOrderedCollection
+]
+
+{ #category : #tests }
 GameTest >> testCreateGame [
 	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
@@ -283,6 +288,52 @@ GameTest >> testPositionForWithLaps [
 		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 6.
 		aPlayerNamedAlbert takesATurnIn: aGame.
 		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 10.
+]
+
+{ #category : #tests }
+GameTest >> testReturnRanking [
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedAlbert := Player named: 'Albert'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	boardLength := 16.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedAlbert.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			anotherDie.
+			oneMoreDie}
+		inABoardOfLenght: boardLength
+		andAmountOfLaps: 1.
+	"1st round start:"
+	aPlayerNamedLeo takesATurnIn: aGame.
+	aPlayerNamedAlbert takesATurnIn: aGame.
+	aPlayerNamedGlenn takesATurnIn: aGame.
+	"1st round end."
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9.
+	self
+		assert: aGame ranking
+		hasTheSameOrderThan:
+			{aPlayerNamedGlenn.
+			aPlayerNamedAlbert.
+			aPlayerNamedLeo}.
+	"2nd round start:"
+	aPlayerNamedLeo takesATurnIn: aGame.
+	aPlayerNamedAlbert takesATurnIn: aGame.
+	aPlayerNamedGlenn takesATurnIn: aGame.
+	"2nd round end."
+	"results:"
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
 ]
 
 { #category : #tests }

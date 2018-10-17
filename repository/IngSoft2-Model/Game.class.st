@@ -122,6 +122,13 @@ Game >> positionOfPlayers [
 	^ playersPosition
 ]
 
+{ #category : #interaction }
+Game >> ranking [
+	^(playersPosition associations asSortedCollection: [ :first :second | first value > second value ])
+		collect: [ :assoc | assoc key ]
+		
+]
+
 { #category : #assertions }
 Game >> turnOf: aPlayer [
 	playersOrder turnOf: aPlayer
