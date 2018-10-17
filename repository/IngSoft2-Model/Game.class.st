@@ -37,11 +37,6 @@ Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 ]
 
 { #category : #updating }
-Game >> applyNoEffectTo: aPlayer [
-	
-]
-
-{ #category : #updating }
 Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
 	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]

@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interactions }
-NoEffect >> triggerOn: aGame and: aPlayer [ 
-	aGame applyNoEffectTo: aPlayer 
+NoEffect >> triggerOn: aGame and: aPlayer [
+	
 ]
