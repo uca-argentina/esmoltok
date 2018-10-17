@@ -25,7 +25,7 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength a
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
-			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) OfThePlayer: (Player named: each key) ]
+			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) negated OfThePlayer: (Player named: each key) ]
 ]
 
 { #category : #updating }
