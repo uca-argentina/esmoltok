@@ -2,12 +2,12 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'boardLength',
 		'dice',
 		'playersPosition',
 		'state',
 		'playersOrder',
-		'laps'
+		'laps',
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -47,8 +47,13 @@ Game >> applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger [
 ]
 
 { #category : #accessing }
+Game >> board [
+	^ board
+]
+
+{ #category : #accessing }
 Game >> boardLength [
-	^ boardLength
+	^ board size
 ]
 
 { #category : #accessing }
@@ -68,13 +73,13 @@ Game >> ends [
 
 { #category : #updating }
 Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
-	(playersPosition at: aPlayer) >=( boardLength * laps)
+	(playersPosition at: aPlayer) >=( self boardLength * laps)
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
 Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
-	boardLength := aBoard.
+	board := aBoard.
 	laps := aLapAmount.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
@@ -94,7 +99,7 @@ Game >> isPlayedBy: aPlayer [
 
 { #category : #accessing }
 Game >> lapFor: aPlayer [
-	^ (playersPosition at: aPlayer) // boardLength+1
+	^ (playersPosition at: aPlayer) // board+1
 ]
 
 { #category : #accessing }
@@ -114,7 +119,7 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-	^ ((playersPosition at: aPlayer) % boardLength)
+	^ ((playersPosition at: aPlayer) % self boardLength )
 ]
 
 { #category : #accessing }
