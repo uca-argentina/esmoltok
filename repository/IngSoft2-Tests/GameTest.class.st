@@ -39,6 +39,27 @@ GameTest >> testCreateGame [
 ]
 
 { #category : #tests }
+GameTest >> testCreateGameWithBoard [
+| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection lapsAmount|
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := { 1 . 2 . 3 . 4 . 5 }.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	board := { NoEffect new. WormholeEffect new. SpeedUpEffect new. AtomicEffect new. MoonWalkEffect withSteps: 1}.
+	lapsAmount := 3.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing:
+			{aDie.
+			aDie}
+		in: board
+		andAmountOfLaps: lapsAmount.
+		self assert: aGame laps equals: 3
+]
+
+{ #category : #tests }
 GameTest >> testCreateGameWithLaps [
 | aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection lapsAmount|
 	aPlayerNamedLeo := Player named: 'Leo'.
