@@ -13,11 +13,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength andAmountOfLaps: aLapAmount [
+Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLapAmount [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
-		inABoardOfLength: aBoardLength
+		in: aBoard
 		andAmountOfLaps: aLapAmount 
 ]
 
@@ -73,8 +73,8 @@ Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength andAmountOfLaps: aLapAmount [
-	boardLength := aBoardLength.
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
+	boardLength := aBoard.
 	laps := aLapAmount.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.

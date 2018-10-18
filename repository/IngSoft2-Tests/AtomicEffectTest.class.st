@@ -23,7 +23,7 @@ AtomicEffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	effect := AtomicEffect new.
 	aPlayerNamedLeo takesATurnIn: game.
@@ -60,7 +60,7 @@ AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	number := 5.
 	effect := AtomicEffect new.

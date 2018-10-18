@@ -29,7 +29,7 @@ NoEffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	effect := NoEffect new.
 	position := game positionFor: aPlayerNamedAlbert.

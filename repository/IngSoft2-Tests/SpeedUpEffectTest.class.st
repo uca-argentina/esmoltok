@@ -29,7 +29,7 @@ SpeedUpEffectTest >> testSpeedUpAppliedGoForward4Positions [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	effect := SpeedUpEffect new.
 	position := game positionFor: aPlayerNamedAlbert.

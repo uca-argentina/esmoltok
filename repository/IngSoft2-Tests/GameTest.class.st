@@ -26,7 +26,7 @@ GameTest >> testCreateGame [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
@@ -75,7 +75,7 @@ GameTest >> testCreateGameWithLaps [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: lapsAmount.
 		self assert: aGame laps equals: 3
 ]
@@ -97,7 +97,7 @@ GameTest >> testCreateGameWithTurnOrder [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
 	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
@@ -123,7 +123,7 @@ GameTest >> testGameWithLapsHasEnded [
 			{aPlayerNamedLeo}
 		throwing:
 			{aDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 3.
 		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
 		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
@@ -167,7 +167,7 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
@@ -210,7 +210,7 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
@@ -256,7 +256,7 @@ GameTest >> testLapForPlayer [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 2.
 		aPlayerNamedLeo takesATurnIn: aGame.
 		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
@@ -297,7 +297,7 @@ GameTest >> testPositionForWithLaps [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 2.
 		aPlayerNamedLeo takesATurnIn: aGame.
 		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
@@ -330,7 +330,7 @@ GameTest >> testReturnRanking [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
@@ -382,7 +382,7 @@ GameTest >> testSimulateTurn [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
@@ -417,7 +417,7 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	self assert: aGame currentPlayerTurn equals: 'Leo'.
 	aPlayerNamedLeo takesATurnIn: aGame.
@@ -455,7 +455,7 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	self assert: aGame currentPlayerTurn equals: 'Leo'.
 	aPlayerNamedLeo takesATurnIn: aGame.

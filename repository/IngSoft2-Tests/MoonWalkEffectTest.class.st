@@ -29,7 +29,7 @@ MoonWalkEffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	number := 5.
 	effect := MoonWalkEffect withSteps: number.

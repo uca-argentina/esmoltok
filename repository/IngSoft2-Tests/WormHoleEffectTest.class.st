@@ -29,7 +29,7 @@ WormHoleEffectTest >> testWormHoleAppliedGoBack4Positions [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	effect := WormholeEffect new.
 	position := game positionFor: aPlayerNamedAlbert.

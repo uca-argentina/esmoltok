@@ -24,7 +24,7 @@ RunningStateTest >> testPlayersPositionWhenRunning [
 		throwing:
 			{aDie.
 			anotherDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedLeo.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedGlenn.

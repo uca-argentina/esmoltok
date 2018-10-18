@@ -21,7 +21,7 @@ FinishedStateTest >> testPlayersPositionWhenFinished [
 		throwing:
 			{aDie.
 			aDie}
-		inABoardOfLenght: boardLength
+		in: boardLength
 		andAmountOfLaps: 1.
 	self
 		assert: (aFinishedState nextTurnAt: aGame playedBy: aPlayerNamedLeo)
