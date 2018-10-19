@@ -574,9 +574,9 @@ GameTest >> testSimulateTurnWithAtomicEffect [
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 2.
 	self assert: (aGame lapFor: aPlayerNamedGlenn) equals: 0.
 	aPlayerNamedLeo takesATurnIn: aGame.
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
 	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 1.
 	self assert: (aGame lapFor: aPlayerNamedGlenn) equals: 0
 ]
 
