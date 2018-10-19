@@ -1,16 +1,16 @@
 Class {
-	#name : #WormHoleEffectTest,
+	#name : #WormholeEffectTest,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-WormHoleEffectTest >> testWormHoleAppliedGoBack4Positions [
-	| position effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+WormholeEffectTest >> testWormHoleAppliedGoBack4Positions [
+	| position effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie board |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	board := UtilitiesForTests collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
@@ -29,14 +29,14 @@ WormHoleEffectTest >> testWormHoleAppliedGoBack4Positions [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		in: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	effect := WormholeEffect new.
 	position := game positionFor: aPlayerNamedAlbert.
-	self assert: position equals: 0.
+	self assert: position equals: 1.
 	effect triggerOn: game and: aPlayerNamedAlbert.
 	self
 		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: 16.
-		self assert: (game lapFor: aPlayerNamedAlbert) equals: 0.
+		equals: 17.
+		self assert: (game lapFor: aPlayerNamedAlbert) equals: -1.
 ]
