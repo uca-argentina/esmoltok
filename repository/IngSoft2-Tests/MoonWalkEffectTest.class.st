@@ -6,20 +6,14 @@ Class {
 
 { #category : #tests }
 MoonWalkEffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer [
-	| number positionAlbert positionGlenn positionLeo effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	| number positionAlbert effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
-	aDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	boardLength := UtilitiesForTests collectionOf20NoEffect.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -34,18 +28,10 @@ MoonWalkEffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer
 	number := 5.
 	effect := MoonWalkEffect withSteps: number.
 	positionAlbert := game positionFor: aPlayerNamedAlbert.
-	positionLeo := game positionFor: aPlayerNamedLeo.
-	positionGlenn := game positionFor: aPlayerNamedGlenn.
 	effect triggerOn: game and: aPlayerNamedAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: positionAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedLeo)
-		equals: 15.
-	self
-		assert: (game positionFor: aPlayerNamedGlenn)
-		equals: 15
+	self assert: (game positionFor: aPlayerNamedAlbert) equals: positionAlbert.
+	self assert: (game positionFor: aPlayerNamedLeo) equals: 16.
+	self assert: (game positionFor: aPlayerNamedGlenn) equals: 16
 ]
 
 { #category : #tests }
