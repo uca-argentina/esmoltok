@@ -469,7 +469,8 @@ GameTest >> testSimulateTurnWithEffects [
 		in: board
 		andAmountOfLaps: lapsAmount.
 		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 2.
+		
 		
 ]
 

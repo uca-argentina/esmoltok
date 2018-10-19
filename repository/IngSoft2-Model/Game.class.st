@@ -83,7 +83,7 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	laps := aLapAmount.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
-	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 0 ].
+	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
 	playersOrder := Turn names: (aCollectionOfPlayers collect: [ :each | each name ]).
 	state := RunningState new
 ]
