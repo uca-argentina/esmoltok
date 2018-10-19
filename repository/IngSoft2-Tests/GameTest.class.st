@@ -452,26 +452,29 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 ]
 
 { #category : #tests }
-GameTest >> testSimulateTurnWithEffects [
-| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount|
+GameTest >> testSimulateTurnWithWormholeEffect [
+	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aCollection := { 1 }.
+	aCollection := {1}.
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
-	board := { NoEffect new. WormholeEffect new. SpeedUpEffect new. AtomicEffect new. MoonWalkEffect withSteps: 1}.
+	board := {NoEffect new.
+	WormholeEffect new.
+	SpeedUpEffect new.
+	AtomicEffect new.
+	(MoonWalkEffect withSteps: 1)}.
 	lapsAmount := 3.
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
 			aPlayerNamedGlenn}
-		throwing:
-			{aDie}
+		throwing: {aDie}
 		in: board
 		andAmountOfLaps: lapsAmount.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 2.
-		
-		
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: -1
+	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a Wormhole, goes back 4 positions, ends in position 3 on lap -1."
 ]
 
 { #category : #tests }
