@@ -456,7 +456,7 @@ GameTest >> testSimulateTurnWithEffects [
 | board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount|
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	aCollection := { 1 . 2 . 3 . 4 . 5 }.
+	aCollection := { 1 }.
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
 	board := { NoEffect new. WormholeEffect new. SpeedUpEffect new. AtomicEffect new. MoonWalkEffect withSteps: 1}.
 	lapsAmount := 3.
@@ -465,8 +465,7 @@ GameTest >> testSimulateTurnWithEffects [
 			{aPlayerNamedLeo.
 			aPlayerNamedGlenn}
 		throwing:
-			{aDie.
-			aDie}
+			{aDie}
 		in: board
 		andAmountOfLaps: lapsAmount.
 		aPlayerNamedLeo takesATurnIn: aGame.
