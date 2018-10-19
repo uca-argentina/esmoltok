@@ -36,7 +36,7 @@ Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #updating }
 Game >> applyPositionEffectTo: aPlayer [ 
 	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
 ]
