@@ -34,6 +34,15 @@ GameTest >> collectionOf20NoEffect [
 ]
 
 { #category : #tests }
+GameTest >> collectionOf5NoEffect [
+	^ {NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}
+]
+
+{ #category : #tests }
 GameTest >> testCreateGame [
 	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie board aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
@@ -138,31 +147,27 @@ GameTest >> testCreateGameWithTurnOrder [
 GameTest >> testGameWithLapsHasEnded [
 	| aGame aPlayerNamedLeo aDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
-	boardLength := 5.
-	aDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: { 5 }).
+	boardLength := self collectionOf5NoEffect.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {5}).
 	aGame := Game
-		playedBy:
-			{aPlayerNamedLeo}
-		throwing:
-			{aDie}
+		playedBy: {aPlayerNamedLeo}
+		throwing: {aDie}
 		in: boardLength
 		andAmountOfLaps: 3.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 3.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 4.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 4.
-		self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 2.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1
 ]
 
 { #category : #tests }
