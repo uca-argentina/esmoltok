@@ -113,7 +113,7 @@ GameTest >> testCreateGameWithTurnOrder [
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: aCollection).
-	boardLength := 20.
+	boardLength := self collectionOf20NoEffect.
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -124,8 +124,8 @@ GameTest >> testCreateGameWithTurnOrder [
 		in: boardLength
 		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 1.
 	self
 		assert: aGame dice
 		equals:
