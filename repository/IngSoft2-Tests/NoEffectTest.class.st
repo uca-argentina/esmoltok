@@ -10,7 +10,7 @@ NoEffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	boardLength := UtilitiesForTests collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
