@@ -10,15 +10,39 @@ GameTest >> assert: a hasTheSameOrderThan: b [
 ]
 
 { #category : #tests }
+GameTest >> collectionOf20NoEffect [
+	^ {NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}
+]
+
+{ #category : #tests }
 GameTest >> testCreateGame [
-	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie boardLength aCollection |
+	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie board aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	aCollection := {1 . 2 . 3 . 4 . 5}.
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: aCollection).
-	boardLength := 20.
+	board := self collectionOf20NoEffect.
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -26,11 +50,11 @@ GameTest >> testCreateGame [
 		throwing:
 			{aDie.
 			aDie}
-		in: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	self assert: aGame boardLength equals: 20.
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 1.
 	self
 		assert: aGame dice
 		equals:
