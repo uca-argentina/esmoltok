@@ -481,7 +481,7 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	boardLength := self collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
@@ -508,9 +508,9 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	self assert: aGame currentPlayerTurn equals: 'Glenn'.
 	aPlayerNamedGlenn takesATurnIn: aGame.
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 4.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10
 ]
 
 { #category : #tests }
