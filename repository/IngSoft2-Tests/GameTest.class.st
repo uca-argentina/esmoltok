@@ -286,7 +286,7 @@ GameTest >> testLapForPlayer [
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	boardLength := self collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 7 . 1 }).
@@ -308,17 +308,17 @@ GameTest >> testLapForPlayer [
 		in: boardLength
 		andAmountOfLaps: 2.
 		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
-		aPlayerNamedAlbert takesATurnIn: aGame.
-		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
-		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 2.
-		aPlayerNamedGlenn takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedGlenn ) equals: 1.
-		aPlayerNamedLeo takesATurnIn: aGame.
-		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
 		aPlayerNamedAlbert takesATurnIn: aGame.
 		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 2.
-		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 3.
+		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 1.
+		aPlayerNamedGlenn takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedGlenn ) equals: 0.
+		aPlayerNamedLeo takesATurnIn: aGame.
+		self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
+		aPlayerNamedAlbert takesATurnIn: aGame.
+		self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 3.
+		self assert: (aGame lapFor: aPlayerNamedAlbert) equals: 2.
 ]
 
 { #category : #tests }
