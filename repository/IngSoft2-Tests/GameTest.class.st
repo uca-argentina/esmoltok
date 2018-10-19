@@ -90,7 +90,7 @@ GameTest >> testCreateGameWithLaps [
 	aPlayerNamedGlenn := Player named: 'Glenn'.
 	aCollection := { 1 . 2 . 3 . 4 . 5 }.
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
-	boardLength := 20.
+	boardLength := self collectionOf20NoEffect.
 	lapsAmount := 3.
 	aGame := Game
 		playedBy:
