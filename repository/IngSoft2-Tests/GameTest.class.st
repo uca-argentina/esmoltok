@@ -30,30 +30,6 @@ GameTest >> collectionOf16NoEffect [
 ]
 
 { #category : #tests }
-GameTest >> collectionOf20NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
-]
-
-{ #category : #tests }
 GameTest >> collectionOf5NoEffect [
 	^ {NoEffect new.
 	NoEffect new.
@@ -153,7 +129,7 @@ GameTest >> testCreateGame [
 	playerNamedGlenn := Player named: 'Glenn'.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -205,7 +181,7 @@ GameTest >> testCreateGameWithLaps [
 	playerNamedGlenn := Player named: 'Glenn'.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	lapsAmount := 3.
 	game := Game
 		playedBy:
@@ -226,7 +202,7 @@ GameTest >> testCreateGameWithTurnOrder [
 	playerNamedGlenn := Player named: 'Glenn'.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -358,7 +334,7 @@ GameTest >> testLapForPlayer [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	anotherDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	oneMoreDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
@@ -393,7 +369,7 @@ GameTest >> testPositionForWithLaps [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	anotherDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	oneMoreDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
@@ -497,7 +473,7 @@ GameTest >> testSimulateTurn [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
 	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
 	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
@@ -559,7 +535,7 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
 	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
 	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
@@ -671,7 +647,7 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf20NoEffect.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
 	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
 	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
