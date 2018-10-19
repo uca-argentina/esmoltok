@@ -452,6 +452,34 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 ]
 
 { #category : #tests }
+GameTest >> testSimulateTurnWithMoonWalkEffect [
+	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := {1}.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	board := {NoEffect new.
+	(MoonWalkEffect withSteps: 2).
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}.
+	lapsAmount := 3.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing: {aDie}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 2.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 4.
+	self assert: (aGame lapFor: aPlayerNamedGlenn) equals: -1
+	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a MoonWalk (with 2 steps), everyone else goes 2 positions backwards, they end in position 4 on lap -1."
+]
+
+{ #category : #tests }
 GameTest >> testSimulateTurnWithSpeedUpEffect [
 	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
 	aPlayerNamedLeo := Player named: 'Leo'.
