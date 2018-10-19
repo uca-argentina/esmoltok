@@ -6,7 +6,7 @@ Class {
 
 { #category : #tests }
 RunningStateTest >> testPlayersPositionWhenRunning [
-	| aRunningState aGame aPlayerNamedLeo aPlayerNamedGlenn aDie anotherDie boardLength |
+	| aRunningState aGame aPlayerNamedLeo aPlayerNamedGlenn aDie anotherDie board |
 	aRunningState := RunningState new.
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
@@ -16,7 +16,7 @@ RunningStateTest >> testPlayersPositionWhenRunning [
 	anotherDie := Die
 		withSides: 5
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	boardLength := 20.
+	board := UtilitiesForTests collectionOf20NoEffect.
 	aGame := Game
 		playedBy:
 			{aPlayerNamedLeo.
@@ -24,10 +24,10 @@ RunningStateTest >> testPlayersPositionWhenRunning [
 		throwing:
 			{aDie.
 			anotherDie}
-		in: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedLeo.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedGlenn.
-	self assert: (aGame positionOfPlayers at: aPlayerNamedLeo ) equals: 2.
-	self assert: (aGame positionOfPlayers at: aPlayerNamedGlenn ) equals: 4
+	self assert: (aGame positionOfPlayers at: aPlayerNamedLeo ) equals: 3.
+	self assert: (aGame positionOfPlayers at: aPlayerNamedGlenn ) equals: 5
 ]
