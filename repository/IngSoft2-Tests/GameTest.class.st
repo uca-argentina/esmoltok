@@ -418,13 +418,12 @@ GameTest >> testReturnRanking [
 			aPlayerNamedLeo}.
 	"2nd round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.	
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 16.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 2.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10
 
 ]

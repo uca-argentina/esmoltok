@@ -130,7 +130,9 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-	^ ((playersPosition at: aPlayer) % self boardLength )
+	^ (playersPosition at: aPlayer) = self boardLength
+		ifTrue: [ 1 ]
+		ifFalse: [ (playersPosition at: aPlayer) % self boardLength ]
 ]
 
 { #category : #accessing }
