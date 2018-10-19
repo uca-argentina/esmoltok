@@ -452,6 +452,32 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 ]
 
 { #category : #tests }
+GameTest >> testSimulateTurnWithSpeedUpEffect [
+	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := {1}.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	board := {NoEffect new.
+	SpeedUpEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}.
+	lapsAmount := 3.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing: {aDie}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 1
+	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a SpeedUp, goes 4 positions forward, ends in position 1 on lap 1."
+]
+
+{ #category : #tests }
 GameTest >> testSimulateTurnWithWormholeEffect [
 	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
 	aPlayerNamedLeo := Player named: 'Leo'.
