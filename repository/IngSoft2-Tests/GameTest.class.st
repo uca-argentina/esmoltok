@@ -63,6 +63,90 @@ GameTest >> collectionOf5NoEffect [
 ]
 
 { #category : #tests }
+GameTest >> collectionOf80NoEffect [
+	^ {NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}
+]
+
+{ #category : #tests }
 GameTest >> testCreateGame [
 	| aGame aPlayerNamedLeo aPlayerNamedGlenn aDie board aCollection |
 	aPlayerNamedLeo := Player named: 'Leo'.
@@ -196,7 +280,7 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 80.
+	boardLength := self collectionOf80NoEffect .
 	aDie := Die
 		withSides: 6
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
@@ -229,9 +313,9 @@ GameTest >> testGiveResultUsingArrayBasedRollGenerator [
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 18.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 24.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 49
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 19.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 25.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 50
 ]
 
 { #category : #tests }
