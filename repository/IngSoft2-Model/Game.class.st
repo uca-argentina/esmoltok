@@ -21,6 +21,11 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		andAmountOfLaps: aLapAmount 
 ]
 
+{ #category : #accessing }
+Game >> EffectInPositionOf: aPlayer [ 
+	^board at: (self positionFor: aPlayer)
+]
+
 { #category : #updating }
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
