@@ -6,52 +6,37 @@ Class {
 
 { #category : #tests }
 MoonWalkEffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer [
-	| number positionAlbert positionGlenn positionLeo effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
-	aPlayerNamedLeo := Player named: 'Leo'.
-	aPlayerNamedAlbert := Player named: 'Albert'.
-	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
-	aDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	| number positionAlbert effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	board := UtilitiesForTests collectionOf20NoEffect.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
-			{aPlayerNamedLeo.
-			aPlayerNamedAlbert.
-			aPlayerNamedGlenn}
+			{playerNamedLeo.
+			playerNamedAlbert.
+			playerNamedGlenn}
 		throwing:
-			{aDie.
+			{die.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	number := 5.
 	effect := MoonWalkEffect withSteps: number.
-	positionAlbert := game positionFor: aPlayerNamedAlbert.
-	positionLeo := game positionFor: aPlayerNamedLeo.
-	positionGlenn := game positionFor: aPlayerNamedGlenn.
-	effect triggerOn: game and: aPlayerNamedAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: positionAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedLeo)
-		equals: 15.
-	self
-		assert: (game positionFor: aPlayerNamedGlenn)
-		equals: 15
+	positionAlbert := game positionFor: playerNamedAlbert.
+	effect triggerOn: game and: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedAlbert) equals: positionAlbert.
+	self assert: (game positionFor: playerNamedLeo) equals: 16.
+	self assert: (game positionFor: playerNamedGlenn) equals: 16
 ]
 
 { #category : #tests }
 MoonWalkEffectTest >> testMoonWalkInitializedWith7Steps [
 	| number effect |
-
 	number := 7.
 	effect := MoonWalkEffect withSteps: number.
 	self assert: effect steps equals: number

@@ -1,12 +1,12 @@
 Class {
-	#name : #SpeedUpEffectTest,
+	#name : #WormholeEffectTest,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-SpeedUpEffectTest >> testSpeedUpAppliedGoForward4Positions [
-	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+WormholeEffectTest >> testWormHoleAppliedGoBack4Positions [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
@@ -25,8 +25,9 @@ SpeedUpEffectTest >> testSpeedUpAppliedGoForward4Positions [
 			oneMoreDie}
 		in: board
 		andAmountOfLaps: 1.
-	effect := SpeedUpEffect new.
-	position := game positionFor: playerNamedAlbert.
+	effect := WormholeEffect new.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	effect triggerOn: game and: playerNamedAlbert.
-	self assert: (game positionFor: playerNamedAlbert) equals: position + 4
+	self assert: (game positionFor: playerNamedAlbert) equals: 17.
+	self assert: (game lapFor: playerNamedAlbert) equals: -1
 ]

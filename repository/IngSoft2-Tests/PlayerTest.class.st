@@ -13,42 +13,42 @@ PlayerTest >> testCheckPlayerName [
 
 { #category : #tests }
 PlayerTest >> testPlayerThrowADie [
-	| aPlayer aDice |
-	aPlayer := Player named: 'Leo'.
-	aDice := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2}).
-	self assert: (aPlayer throwDice: {aDice}) equals: 1.
-	self assert: (aPlayer throwDice: {aDice}) equals: 2
+	| player die |
+	player := Player named: 'Leo'.
+	die := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2}).
+	self assert: (player throwDice: {die}) equals: 1.
+	self assert: (player throwDice: {die}) equals: 2
 ]
 
 { #category : #tests }
 PlayerTest >> testPlayerThrowDice [
-	| aPlayer aDice aDice2 aDice3 |
-	aDice := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	aDice2 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	aDice3 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	aPlayer := Player named: 'Leo'.
+	| player die die2 die3 |
+	die := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	die2 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	die3 := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	player := Player named: 'Leo'.
 	self
 		assert:
-			(aPlayer
+			(player
 				throwDice:
-					{aDice.
-					aDice2.
-					aDice3})
+					{die.
+					die2.
+					die3})
 		equals: 3.
 	self
 		assert:
-			(aPlayer
+			(player
 				throwDice:
-					{aDice.
-					aDice2.
-					aDice3})
+					{die.
+					die2.
+					die3})
 		equals: 6.
 	self
 		assert:
-			(aPlayer
+			(player
 				throwDice:
-					{aDice.
-					aDice2.
-					aDice3})
+					{die.
+					die2.
+					die3})
 		equals: 9
 ]

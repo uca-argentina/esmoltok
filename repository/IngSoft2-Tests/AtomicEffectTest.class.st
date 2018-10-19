@@ -5,45 +5,60 @@ Class {
 }
 
 { #category : #tests }
-AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
-	| number positionAlbert positionGlenn positionLeo effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
-	aPlayerNamedLeo := Player named: 'Leo'.
-	aPlayerNamedAlbert := Player named: 'Albert'.
-	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
-	aDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+AtomicEffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	board := UtilitiesForTests collectionOf20NoEffect.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
-			{aPlayerNamedLeo.
-			aPlayerNamedAlbert.
-			aPlayerNamedGlenn}
+			{playerNamedLeo.
+			playerNamedAlbert.
+			playerNamedGlenn}
 		throwing:
-			{aDie.
+			{die.
 			anotherDie.
 			oneMoreDie}
-		inABoardOfLenght: boardLength
+		in: board
 		andAmountOfLaps: 1.
-	number := 5.
 	effect := AtomicEffect new.
-	positionAlbert := game positionFor: aPlayerNamedAlbert.
-	positionLeo := game positionFor: aPlayerNamedLeo.
-	positionGlenn := game positionFor: aPlayerNamedGlenn.
-	effect triggerOn: game and: aPlayerNamedAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: positionAlbert - positionAlbert.
-	self
-		assert: (game positionFor: aPlayerNamedLeo)
-		equals: positionLeo - positionLeo.
-	self
-		assert: (game positionFor: aPlayerNamedGlenn)
-		equals: positionGlenn - positionGlenn
+	playerNamedLeo takesATurnIn: game.
+	playerNamedAlbert takesATurnIn: game.
+	playerNamedGlenn takesATurnIn: game.
+	effect triggerOn: game and: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1
+]
+
+{ #category : #tests }
+AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	board := UtilitiesForTests collectionOf20NoEffect.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedAlbert.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			anotherDie.
+			oneMoreDie}
+		in: board
+		andAmountOfLaps: 1.
+	effect := AtomicEffect new.
+	effect triggerOn: game and: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #MoonWalkEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#instVars : [
 		'steps'
 	],

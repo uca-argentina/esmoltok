@@ -1,10 +1,10 @@
 Class {
 	#name : #NoEffect,
-	#superclass : #Object,
+	#superclass : #Effect,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #interactions }
-NoEffect >> triggerOn: aGame and: aPlayer [ 
-	aGame applyNoEffectTo: aPlayer 
+NoEffect >> triggerOn: aGame and: aPlayer [
+	
 ]

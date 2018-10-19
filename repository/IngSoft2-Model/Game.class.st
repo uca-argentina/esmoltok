@@ -2,22 +2,22 @@ Class {
 	#name : #Game,
 	#superclass : #Object,
 	#instVars : [
-		'boardLength',
 		'dice',
 		'playersPosition',
 		'state',
 		'playersOrder',
-		'laps'
+		'laps',
+		'board'
 	],
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength andAmountOfLaps: aLapAmount [
+Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLapAmount [
 	^ self new
 		initializePlayedBy: aPlayer
 		throwing: aDice
-		inABoardOfLength: aBoardLength
+		in: aBoard
 		andAmountOfLaps: aLapAmount 
 ]
 
@@ -25,20 +25,20 @@ Game class >> playedBy: aPlayer throwing: aDice inABoardOfLenght: aBoardLength a
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
-			[ :each | self updatePositionBy: (self positionFor: (Player named: each key)) OfThePlayer: (Player named: each key) ]
+			[ :each | self updatePositionBy: ((each value) negated + 1) OfThePlayer: each key]
 ]
 
 { #category : #updating }
 Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 	playersPosition
 		associationsDo: [ :each | 
-			each key = aPlayer name
-				ifFalse: [ self updatePositionBy: steps OfThePlayer: (Player named: each key) ] ]
+			each key = aPlayer
+				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
 ]
 
 { #category : #updating }
-Game >> applyNoEffectTo: aPlayer [
-	
+Game >> applyPositionEffectTo: aPlayer [ 
+	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
 ]
 
 { #category : #updating }
@@ -52,8 +52,13 @@ Game >> applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger [
 ]
 
 { #category : #accessing }
+Game >> board [
+	^ board
+]
+
+{ #category : #accessing }
 Game >> boardLength [
-	^ boardLength
+	^ board size
 ]
 
 { #category : #accessing }
@@ -66,42 +71,46 @@ Game >> dice [
 	^ dice
 ]
 
+{ #category : #accessing }
+Game >> effectInPositionOf: aPlayer [ 
+	^board at: (self positionFor: aPlayer)
+]
+
 { #category : #updating }
 Game >> ends [
 	state := FinishedState new.
 ]
 
 { #category : #updating }
-Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
-	(playersPosition at: aPlayer name) >=( boardLength * laps)
+Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
+	(playersPosition at: aPlayer) >=( self boardLength * laps)
 		ifTrue: [ self ends ]
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice inABoardOfLength: aBoardLength andAmountOfLaps: aLapAmount [
-	boardLength := aBoardLength.
-	laps :=aLapAmount .
+Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
+	board := aBoard.
+	laps := aLapAmount.
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
-	aCollectionOfPlayers
-		inject: 0
-		into: [ :position :each | playersPosition at: each name put: position ].
-	playersOrder := Turn names: (aCollectionOfPlayers collect: [:each | each name]).
+	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
+	playersOrder := Turn names: (aCollectionOfPlayers collect: [ :each | each name ]).
 	state := RunningState new
 ]
 
 { #category : #updating }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
-	self turnOf: aPlayer.
+	self turnOf: aPlayer name.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
 ]
 
 { #category : #accessing }
 Game >> lapFor: aPlayer [
-	^ (playersPosition at: aPlayer name) // boardLength+1
+	^ (playersPosition at: aPlayer) // self boardLength
 ]
 
 { #category : #accessing }
@@ -121,7 +130,9 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-	^ ((playersPosition at: aPlayer name) % boardLength)
+	^ (playersPosition at: aPlayer) = self boardLength
+		ifTrue: [ self boardLength ]
+		ifFalse: [ (playersPosition at: aPlayer) % self boardLength ]
 ]
 
 { #category : #accessing }
@@ -129,9 +140,16 @@ Game >> positionOfPlayers [
 	^ playersPosition
 ]
 
+{ #category : #interaction }
+Game >> ranking [
+	^(playersPosition associations asSortedCollection: [ :first :second | first value > second value ])
+		collect: [ :assoc | assoc key ]
+		
+]
+
 { #category : #assertions }
 Game >> turnOf: aPlayer [
-	playersOrder turnOf: aPlayer name
+	playersOrder turnOf: aPlayer
 ]
 
 { #category : #accessing }
@@ -141,6 +159,6 @@ Game >> turnOrder [
 
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
-	playersPosition at: aPlayer name put: (playersPosition at: aPlayer name) + aNumberOfCells.
-	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
+	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
+	self endsIfBoardLengthHasBeenReachedBy: aPlayer
 ]
