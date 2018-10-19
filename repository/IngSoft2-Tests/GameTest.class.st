@@ -460,9 +460,9 @@ GameTest >> testSimulateTurnWithWormholeEffect [
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
 	board := {NoEffect new.
 	WormholeEffect new.
-	SpeedUpEffect new.
-	AtomicEffect new.
-	(MoonWalkEffect withSteps: 1)}.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}.
 	lapsAmount := 3.
 	aGame := Game
 		playedBy:

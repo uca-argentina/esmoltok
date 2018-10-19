@@ -36,6 +36,11 @@ Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
 ]
 
+{ #category : #'as yet unclassified' }
+Game >> applyPositionEffectTo: aPlayer [ 
+	(self EffectInPositionOf: aPlayer) triggerOn: self and: aPlayer
+]
+
 { #category : #updating }
 Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
 	self updatePositionBy: anInteger OfThePlayer: aPlayer
@@ -94,6 +99,7 @@ Game >> isPlayedBy: aPlayer [
 	self turnOf: aPlayer name.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
 ]
 
