@@ -240,7 +240,7 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 16.
+	boardLength := self collectionOf16NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
@@ -266,18 +266,18 @@ GameTest >> testGiveResultUsingSecuentialRollGenerator [
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"1st round end."
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 4.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10.
 	"2nd round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 16.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10
 ]
 
 { #category : #tests }
@@ -422,7 +422,7 @@ GameTest >> testReturnRanking [
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 16.
 	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
 	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10
 
