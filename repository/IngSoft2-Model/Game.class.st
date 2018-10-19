@@ -82,7 +82,7 @@ Game >> ends [
 ]
 
 { #category : #updating }
-Game >> gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer [
+Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 	(playersPosition at: aPlayer) >=( self boardLength * laps)
 		ifTrue: [ self ends ]
 ]
@@ -160,5 +160,5 @@ Game >> turnOrder [
 { #category : #updating }
 Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
 	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
-	self gameHasEndedIfBoardLengthHasBeenReachedBy: aPlayer
+	self endsIfBoardLengthHasBeenReachedBy: aPlayer
 ]
