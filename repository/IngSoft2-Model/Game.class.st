@@ -21,11 +21,6 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		andAmountOfLaps: aLapAmount 
 ]
 
-{ #category : #accessing }
-Game >> EffectInPositionOf: aPlayer [ 
-	^board at: (self positionFor: aPlayer)
-]
-
 { #category : #updating }
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
@@ -43,7 +38,7 @@ Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
 
 { #category : #'as yet unclassified' }
 Game >> applyPositionEffectTo: aPlayer [ 
-	(self EffectInPositionOf: aPlayer) triggerOn: self and: aPlayer
+	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
 ]
 
 { #category : #updating }
@@ -74,6 +69,11 @@ Game >> currentPlayerTurn [
 { #category : #accessing }
 Game >> dice [
 	^ dice
+]
+
+{ #category : #accessing }
+Game >> effectInPositionOf: aPlayer [ 
+	^board at: (self positionFor: aPlayer)
 ]
 
 { #category : #updating }

@@ -10,6 +10,26 @@ GameTest >> assert: a hasTheSameOrderThan: b [
 ]
 
 { #category : #tests }
+GameTest >> collectionOf16NoEffect [
+	^ {NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new.
+	NoEffect new}
+]
+
+{ #category : #tests }
 GameTest >> collectionOf20NoEffect [
 	^ {NoEffect new.
 	NoEffect new.
@@ -363,11 +383,11 @@ GameTest >> testReturnLengthOfBoard [
 
 { #category : #tests }
 GameTest >> testReturnRanking [
-	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie board |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 16.
+	board := self collectionOf16NoEffect.
 	aDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
 	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
 	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
@@ -380,16 +400,16 @@ GameTest >> testReturnRanking [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		in: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	"1st round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"1st round end."
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 3.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 6.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 4.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 7.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10.
 	self
 		assert: aGame ranking
 		hasTheSameOrderThan:
@@ -398,13 +418,15 @@ GameTest >> testReturnRanking [
 			aPlayerNamedLeo}.
 	"2nd round start:"
 	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 1.	
 	aPlayerNamedAlbert takesATurnIn: aGame.
 	aPlayerNamedGlenn takesATurnIn: aGame.
 	"2nd round end."
 	"results:"
-	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 15.
-	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 1.
-	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 9
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 16.
+	self assert: (aGame positionFor: aPlayerNamedAlbert) equals: 2.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 10
+
 ]
 
 { #category : #tests }
