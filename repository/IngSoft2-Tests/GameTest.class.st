@@ -414,6 +414,39 @@ GameTest >> testSimulateTurn [
 ]
 
 { #category : #tests }
+GameTest >> testSimulateTurnWithAtomicEffect [
+	| board aGame aPlayerNamedLeo aPlayerNamedGlenn aDie aCollection lapsAmount |
+	aPlayerNamedLeo := Player named: 'Leo'.
+	aPlayerNamedGlenn := Player named: 'Glenn'.
+	aCollection := {1}.
+	aDie := Die withSides: 4 andGenerator: (CircularIterator over: aCollection).
+	board := {NoEffect new.
+	NoEffect new.
+	AtomicEffect new.
+	NoEffect new.
+	NoEffect new}.
+	lapsAmount := 3.
+	aGame := Game
+		playedBy:
+			{aPlayerNamedLeo.
+			aPlayerNamedGlenn}
+		throwing: {aDie}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 2.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
+	aPlayerNamedGlenn takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 2.
+	self assert: (aGame lapFor: aPlayerNamedGlenn) equals: 0.
+	aPlayerNamedLeo takesATurnIn: aGame.
+	self assert: (aGame positionFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame lapFor: aPlayerNamedLeo) equals: 0.
+	self assert: (aGame positionFor: aPlayerNamedGlenn) equals: 0.
+	self assert: (aGame lapFor: aPlayerNamedGlenn) equals: 0
+]
+
+{ #category : #tests }
 GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	| aGame aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
