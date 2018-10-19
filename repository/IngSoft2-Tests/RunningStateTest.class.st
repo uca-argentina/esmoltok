@@ -28,6 +28,6 @@ RunningStateTest >> testPlayersPositionWhenRunning [
 		andAmountOfLaps: 1.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedLeo.
 	aRunningState nextTurnAt: aGame playedBy: aPlayerNamedGlenn.
-	self assert: (aGame positionOfPlayers at: aPlayerNamedLeo ) equals: 3.
-	self assert: (aGame positionOfPlayers at: aPlayerNamedGlenn ) equals: 5
+	self assert: (aGame positionFor: aPlayerNamedLeo ) equals: 3.
+	self assert: (aGame positionFor: aPlayerNamedGlenn ) equals: 5
 ]

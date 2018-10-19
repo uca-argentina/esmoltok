@@ -6,11 +6,11 @@ Class {
 
 { #category : #tests }
 SpeedUpEffectTest >> testSpeedUpAppliedGoForward4Positions [
-	| position effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	| position effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie board |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	board := UtilitiesForTests collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
@@ -29,7 +29,7 @@ SpeedUpEffectTest >> testSpeedUpAppliedGoForward4Positions [
 			{aDie.
 			anotherDie.
 			oneMoreDie}
-		in: boardLength
+		in: board
 		andAmountOfLaps: 1.
 	effect := SpeedUpEffect new.
 	position := game positionFor: aPlayerNamedAlbert.
