@@ -37,11 +37,11 @@ AtomicEffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 
 { #category : #tests }
 AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
-	| number positionAlbert positionGlenn positionLeo effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
+	| positionAlbert positionGlenn positionLeo effect game aPlayerNamedLeo aPlayerNamedAlbert aPlayerNamedGlenn aDie anotherDie oneMoreDie boardLength |
 	aPlayerNamedLeo := Player named: 'Leo'.
 	aPlayerNamedAlbert := Player named: 'Albert'.
 	aPlayerNamedGlenn := Player named: 'Glenn'.
-	boardLength := 20.
+	boardLength := UtilitiesForTests collectionOf20NoEffect .
 	aDie := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
@@ -62,7 +62,6 @@ AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 			oneMoreDie}
 		in: boardLength
 		andAmountOfLaps: 1.
-	number := 5.
 	effect := AtomicEffect new.
 	positionAlbert := game positionFor: aPlayerNamedAlbert.
 	positionLeo := game positionFor: aPlayerNamedLeo.
@@ -70,11 +69,11 @@ AtomicEffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 	effect triggerOn: game and: aPlayerNamedAlbert.
 	self
 		assert: (game positionFor: aPlayerNamedAlbert)
-		equals: positionAlbert - positionAlbert.
+		equals: 1.
 	self
 		assert: (game positionFor: aPlayerNamedLeo)
-		equals: positionLeo - positionLeo.
+		equals: 1.
 	self
 		assert: (game positionFor: aPlayerNamedGlenn)
-		equals: positionGlenn - positionGlenn
+		equals: 1
 ]
