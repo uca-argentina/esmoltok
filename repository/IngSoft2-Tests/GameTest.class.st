@@ -11,115 +11,32 @@ GameTest >> assert: a hasTheSameOrderThan: b [
 
 { #category : #tests }
 GameTest >> collectionOf16NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 16.
+	^ result
 ]
 
 { #category : #tests }
 GameTest >> collectionOf5NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 5.
+	^ result
 ]
 
 { #category : #tests }
 GameTest >> collectionOf80NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 80.
+	^ result
 ]
 
 { #category : #tests }

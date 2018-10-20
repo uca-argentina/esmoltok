@@ -23,6 +23,7 @@ Distributor >> generateEffectCollectionWith: aLength and: anAssociation [
 { #category : #interaction }
 Distributor >> generateFrom: aCollection withLength: aBoardLength [
 	| anOrderedCollection |
+	self verifyPercentagesOf: aCollection.
 	anOrderedCollection := OrderedCollection new.
 	aCollection do: [ :eachDistributedEffect | anOrderedCollection addAll: (self generateEffectCollectionWith: aBoardLength and: eachDistributedEffect) ].
 	^ fillMetric fill: anOrderedCollection upTo: aBoardLength using: aCollection
@@ -31,4 +32,12 @@ Distributor >> generateFrom: aCollection withLength: aBoardLength [
 { #category : #initialization }
 Distributor >> initializeWithFillMetric: aMetric [
 	fillMetric := aMetric
+]
+
+{ #category : #assertions }
+Distributor >> verifyPercentagesOf: aCollection [
+	| percentages |
+	percentages := aCollection collect: [ :each | each value ].
+	^ (percentages sumNumbers: [ :each | each ]) = 100
+		ifFalse: [ AssertionFailure signal: 'The sum of percentages should be 100' ]
 ]

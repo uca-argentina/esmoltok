@@ -28,6 +28,20 @@ DistributorTest >> testCreateABoard [
 ]
 
 { #category : #tests }
+DistributorTest >> testCreateABoardAndVerifyPercentagesAreCorrectRaisesException [
+	| noEffect speedUpEffect collection distributor |
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	collection := {(speedUpEffect -> 50).
+	(noEffect -> 51)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	self
+		should: [ distributor generateFrom: collection withLength: 9 ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The sum of percentages should be 100' ]
+]
+
+{ #category : #tests }
 DistributorTest >> testCreateABoardWith7Elements [
 	| noEffect speedUpEffect result collection distributor |
 	noEffect := NoEffect new.
