@@ -175,6 +175,139 @@ GameTest >> testCreateGameWithBoard [
 ]
 
 { #category : #tests }
+GameTest >> testCreateGameWithDistribution [
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	wormHoleEffect := WormholeEffect new.
+	moonWalkEffect := MoonWalkEffect withSteps: 2.
+	atomicEffect := AtomicEffect new.
+	collection := {(speedUpEffect -> 20).
+	(noEffect -> 48).
+	(wormHoleEffect -> 20).
+	(moonWalkEffect -> 10).
+	(atomicEffect -> 2)}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := distributor generateFrom: collection withLength: 100.
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	self
+		assert: game board
+		equals:
+			{speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			atomicEffect.
+			atomicEffect} asOrderedCollection
+]
+
+{ #category : #tests }
 GameTest >> testCreateGameWithLaps [
 	| game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
 	playerNamedLeo := Player named: 'Leo'.
