@@ -14,9 +14,9 @@ Distributor class >> fillMetric: aMetric [
 
 { #category : #interaction }
 Distributor >> generateEffectCollectionWith: aLength and: anAssociation [
-	| aCollection |
-	aCollection := OrderedCollection new.
-	1 to: (anAssociation value / 100 * aLength) do: [ :number | aCollection add: anAssociation key ].
+	| aCollection collectionSize |
+	collectionSize := (anAssociation value / 100 * aLength) asInteger.
+	aCollection := OrderedCollection new: collectionSize withAll: anAssociation key.
 	^ aCollection
 ]
 
