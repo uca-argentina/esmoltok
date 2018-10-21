@@ -21,12 +21,12 @@ Distributor >> generateEffectCollectionWith: aLength and: anAssociation [
 ]
 
 { #category : #interaction }
-Distributor >> generateFrom: aCollection withLength: aBoardLength [
+Distributor >> generateFrom: aCollection withLength: aLength [
 	| anOrderedCollection |
 	self verifyPercentagesOf: aCollection.
 	anOrderedCollection := OrderedCollection new.
-	aCollection do: [ :eachDistributedEffect | anOrderedCollection addAll: (self generateEffectCollectionWith: aBoardLength and: eachDistributedEffect) ].
-	^ fillMetric fill: anOrderedCollection upTo: aBoardLength using: aCollection
+	aCollection do: [ :eachDistributedEffect | anOrderedCollection addAll: (self generateEffectCollectionWith: aLength and: eachDistributedEffect) ].
+	^ fillMetric fill: anOrderedCollection upTo: aLength using: aCollection
 ]
 
 { #category : #initialization }
