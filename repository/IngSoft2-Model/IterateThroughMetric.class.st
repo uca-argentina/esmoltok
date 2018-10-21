@@ -8,6 +8,6 @@ Class {
 IterateThroughMetric >> fill: aCollection upTo: aLength using: aDistribution [
 	| iterator |
 	iterator := CircularIterator over: (aDistribution collect: [ :each | each key ]).
-	(aCollection size +1) to: aLength do: [ :noUse | aCollection add: (iterator next: noUse) ].
+	[aCollection size < aLength] whileTrue: [ aCollection add: (iterator next: iterator) ].
 	^ aCollection
 ]
