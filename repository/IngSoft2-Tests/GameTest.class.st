@@ -107,9 +107,9 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 	(wormHoleEffect -> 20).
 	(moonWalkEffect -> 10).
 	(atomicEffect -> 2)}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 4 . 6}).
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
 	board := distributor generateFrom: collection withLength: 10.
-	lapsAmount := 2.
+	lapsAmount := 3.
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -131,45 +131,45 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 			moonWalkEffect.
 			speedUpEffect} asOrderedCollection.
 	"First turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 6.
+	playerNamedLeo takesATurnIn: game."dice rolls 1, ends in position 2."
+	self assert: (game positionFor: playerNamedLeo) equals: 6. "SpeedUp effect applied, goes 4 positions forward."
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
-	playerNamedGlenn takesATurnIn: game.
-	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	playerNamedGlenn takesATurnIn: game."dice rolls 7, ends in position 8"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4."Wormhole effect applied, goes 4 positions backwards."
 	self assert: (game lapFor: playerNamedGlenn) equals: 0.
 	"Second turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 9.
+	playerNamedLeo takesATurnIn: game."dice rolls 3, ends in position 9"
+	self assert: (game positionFor: playerNamedLeo) equals: 9. "moonwalk effect applied, Glenn goes 2 positions backwards."
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
-	playerNamedGlenn takesATurnIn: game.
-	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	playerNamedGlenn takesATurnIn: game."dice rolls 8, ends in position 10"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4."SpeedUp effect applied, ends 4 positions forward. Ends in next lap."
 	self assert: (game lapFor: playerNamedGlenn) equals: 1.
 	"Third turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	playerNamedLeo takesATurnIn: game."dice rolls 1, ends in position 10"
+	self assert: (game positionFor: playerNamedLeo) equals: 4."SpeedUp effect applied, ends 4 positions forward in next lap."
 	self assert: (game lapFor: playerNamedLeo) equals: 1.
-	playerNamedGlenn takesATurnIn: game.
-	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	playerNamedGlenn takesATurnIn: game."dice rolls 6, ends in position 10"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4."SpeedUp effect applied, ends 4 positions forward. Ends in next lap."
 	self assert: (game lapFor: playerNamedGlenn) equals: 2.
 	"Fourth turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 5.
+	playerNamedLeo takesATurnIn: game."dice rolls 10, ends in the same position, next lap."
+	self assert: (game positionFor: playerNamedLeo) equals: 4.
 	self assert: (game lapFor: playerNamedLeo) equals: 2.
-	playerNamedGlenn takesATurnIn: game.
+	playerNamedGlenn takesATurnIn: game."dice rolls 1, ends in position 5"
 	self assert: (game positionFor: playerNamedGlenn) equals: 5.
 	self assert: (game lapFor: playerNamedGlenn) equals: 2.
 	"Fifth turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 9.
+	playerNamedLeo takesATurnIn: game."dice rolls 5, ends in position 9"
+	self assert: (game positionFor: playerNamedLeo) equals: 9. "moonwalk effect applied, Glenn goes 2 positions backwards."
 	self assert: (game lapFor: playerNamedLeo) equals: 2.
-	playerNamedGlenn takesATurnIn: game.
-	self assert: (game positionFor: playerNamedGlenn) equals: 9.
+	playerNamedGlenn takesATurnIn: game."dice rolls 6, ends in position 9"
+	self assert: (game positionFor: playerNamedGlenn) equals: 9."moonwalk effect applied, Leo goes 2 positions backwards."
 	self assert: (game lapFor: playerNamedGlenn) equals: 2.
 	"Sixth turn:"
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	playerNamedLeo takesATurnIn: game."dice rolls 3, ends in position 10"
+	self assert: (game positionFor: playerNamedLeo) equals: 4."SpeedUp effect applied, goes 4 positions forward. Ends in next lap. Leo wins"
 	self assert: (game lapFor: playerNamedLeo) equals: 3.
-	playerNamedGlenn takesATurnIn: game.
+	playerNamedGlenn takesATurnIn: game."dice rolls 1, but the game has already ended."
 	self assert: (game positionFor: playerNamedGlenn) equals: 9.
 	self assert: (game lapFor: playerNamedGlenn) equals: 2.
 	self
