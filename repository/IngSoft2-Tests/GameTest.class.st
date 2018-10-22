@@ -580,6 +580,39 @@ GameTest >> testSimulateTurnWithAtomicEffect [
 ]
 
 { #category : #tests }
+GameTest >> testSimulateTurnWithAtomicEffectOnLapNumber1 [
+	| board game playerNamedLeo playerNamedGlenn die collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {6 . 6 . 1}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := {NoEffect new.
+	NoEffect new.
+	AtomicEffect new.
+	NoEffect new.
+	NoEffect new}.
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 2.
+	self assert: (game lapFor: playerNamedGlenn) equals: 1.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	self assert: (game lapFor: playerNamedGlenn) equals: 1
+]
+
+{ #category : #tests }
 GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	| game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
 	playerNamedLeo := Player named: 'Leo'.
