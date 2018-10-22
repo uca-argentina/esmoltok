@@ -92,6 +92,94 @@ GameTest >> testCreateGameWithBoard [
 ]
 
 { #category : #tests }
+GameTest >> testCreateGameWithDistributedBoardGiveRanking [
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	wormHoleEffect := WormholeEffect new.
+	moonWalkEffect := MoonWalkEffect withSteps: 2.
+	atomicEffect := AtomicEffect new.
+	collection := {(speedUpEffect -> 20).
+	(noEffect -> 48).
+	(wormHoleEffect -> 20).
+	(moonWalkEffect -> 10).
+	(atomicEffect -> 2)}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 4 . 6}).
+	board := distributor generateFrom: collection withLength: 10.
+	lapsAmount := 2.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	self
+		assert: game board
+		equals:
+			{speedUpEffect.
+			speedUpEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			moonWalkEffect.
+			speedUpEffect} asOrderedCollection.
+	"First turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 6.
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	self assert: (game lapFor: playerNamedGlenn) equals: 0.
+	"Second turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 9.
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	self assert: (game lapFor: playerNamedGlenn) equals: 1.
+	"Third turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Fourth turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 5.
+	self assert: (game lapFor: playerNamedLeo) equals: 2.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 5.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Fifth turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 9.
+	self assert: (game lapFor: playerNamedLeo) equals: 2.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 9.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Sixth turn:"
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	self assert: (game lapFor: playerNamedLeo) equals: 3.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 9.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	self
+		assert: game ranking
+		hasTheSameOrderThan:
+			{playerNamedLeo.
+			playerNamedGlenn}
+]
+
+{ #category : #tests }
 GameTest >> testCreateGameWithDistribution [
 	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
 	playerNamedLeo := Player named: 'Leo'.
