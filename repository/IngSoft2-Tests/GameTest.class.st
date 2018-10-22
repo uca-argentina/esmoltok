@@ -606,7 +606,7 @@ GameTest >> testSimulateTurnWithAtomicEffectOnLapNumber1 [
 	self assert: (game positionFor: playerNamedGlenn) equals: 2.
 	self assert: (game lapFor: playerNamedGlenn) equals: 1.
 	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game lapFor: playerNamedLeo) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1.
 	self assert: (game lapFor: playerNamedGlenn) equals: 1
