@@ -47,7 +47,7 @@ Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [
 ]
 
 { #category : #updating }
-Game >> applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger [
+Game >> applyWormHoleEffectTo: aPlayer positionDecrementedBy: anInteger [
 	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]
 
