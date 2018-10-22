@@ -11,115 +11,32 @@ GameTest >> assert: a hasTheSameOrderThan: b [
 
 { #category : #tests }
 GameTest >> collectionOf16NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 16.
+	^ result
 ]
 
 { #category : #tests }
 GameTest >> collectionOf5NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 5.
+	^ result
 ]
 
 { #category : #tests }
 GameTest >> collectionOf80NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 80.
+	^ result
 ]
 
 { #category : #tests }
@@ -172,6 +89,227 @@ GameTest >> testCreateGameWithBoard [
 		in: board
 		andAmountOfLaps: lapsAmount.
 	self assert: game board equals: board
+]
+
+{ #category : #tests }
+GameTest >> testCreateGameWithDistributedBoardGiveRanking [
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	wormHoleEffect := WormholeEffect new.
+	moonWalkEffect := MoonWalkEffect withSteps: 2.
+	atomicEffect := AtomicEffect new.
+	collection := {(speedUpEffect -> 20).
+	(noEffect -> 48).
+	(wormHoleEffect -> 20).
+	(moonWalkEffect -> 10).
+	(atomicEffect -> 2)}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
+	board := distributor generateFrom: collection withLength: 10.
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	self
+		assert: game board
+		equals:
+			{speedUpEffect.
+			speedUpEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			moonWalkEffect.
+			speedUpEffect} asOrderedCollection.
+	"First turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 1, ends in position 2."
+	self assert: (game positionFor: playerNamedLeo) equals: 6.	"SpeedUp effect applied, goes 4 positions forward."
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 7, ends in position 8"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.	"Wormhole effect applied, goes 4 positions backwards."
+	self assert: (game lapFor: playerNamedGlenn) equals: 0.
+	"Second turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 3, ends in position 9"
+	self assert: (game positionFor: playerNamedLeo) equals: 9.	"moonwalk effect applied, Glenn goes 2 positions backwards."
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 8, ends in position 10"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.	"SpeedUp effect applied, ends 4 positions forward. Ends in next lap."
+	self assert: (game lapFor: playerNamedGlenn) equals: 1.
+	"Third turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 1, ends in position 10"
+	self assert: (game positionFor: playerNamedLeo) equals: 4.	"SpeedUp effect applied, ends 4 positions forward in next lap."
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 6, ends in position 10"
+	self assert: (game positionFor: playerNamedGlenn) equals: 4.	"SpeedUp effect applied, ends 4 positions forward. Ends in next lap."
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Fourth turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 10, ends in the same position, next lap."
+	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	self assert: (game lapFor: playerNamedLeo) equals: 2.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 1, ends in position 5"
+	self assert: (game positionFor: playerNamedGlenn) equals: 5.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Fifth turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 5, ends in position 9"
+	self assert: (game positionFor: playerNamedLeo) equals: 9.	"moonwalk effect applied, Glenn goes 2 positions backwards."
+	self assert: (game lapFor: playerNamedLeo) equals: 2.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 6, ends in position 9"
+	self assert: (game positionFor: playerNamedGlenn) equals: 9.	"moonwalk effect applied, Leo goes 2 positions backwards."
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	"Sixth turn:"
+	playerNamedLeo takesATurnIn: game.	"dice rolls 3, ends in position 10"
+	self assert: (game positionFor: playerNamedLeo) equals: 4.	"SpeedUp effect applied, goes 4 positions forward. Ends in next lap. Leo wins"
+	self assert: (game lapFor: playerNamedLeo) equals: 3.
+	playerNamedGlenn takesATurnIn: game.	"dice rolls 1, but the game has already ended."
+	self assert: (game positionFor: playerNamedGlenn) equals: 9.
+	self assert: (game lapFor: playerNamedGlenn) equals: 2.
+	self
+		assert: game ranking
+		hasTheSameOrderThan:
+			{playerNamedLeo.
+			playerNamedGlenn}
+]
+
+{ #category : #tests }
+GameTest >> testCreateGameWithDistribution [
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	wormHoleEffect := WormholeEffect new.
+	moonWalkEffect := MoonWalkEffect withSteps: 2.
+	atomicEffect := AtomicEffect new.
+	collection := {(speedUpEffect -> 20).
+	(noEffect -> 48).
+	(wormHoleEffect -> 20).
+	(moonWalkEffect -> 10).
+	(atomicEffect -> 2)}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := distributor generateFrom: collection withLength: 100.
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	self
+		assert: game board
+		equals:
+			{speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			wormHoleEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			moonWalkEffect.
+			atomicEffect.
+			atomicEffect} asOrderedCollection
 ]
 
 { #category : #tests }
@@ -527,6 +665,39 @@ GameTest >> testSimulateTurnWithAtomicEffect [
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1.
 	self assert: (game lapFor: playerNamedGlenn) equals: 0
+]
+
+{ #category : #tests }
+GameTest >> testSimulateTurnWithAtomicEffectOnLapNumber1 [
+	| board game playerNamedLeo playerNamedGlenn die collection lapsAmount |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {6 . 6 . 1}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := {NoEffect new.
+	NoEffect new.
+	AtomicEffect new.
+	NoEffect new.
+	NoEffect new}.
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 2.
+	self assert: (game lapFor: playerNamedGlenn) equals: 1.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game lapFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	self assert: (game lapFor: playerNamedGlenn) equals: 1
 ]
 
 { #category : #tests }

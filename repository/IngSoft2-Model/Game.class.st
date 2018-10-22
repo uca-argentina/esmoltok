@@ -25,7 +25,7 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 Game >> applyAtomicEffect: aPlayer [
 	playersPosition
 		associationsDo:
-			[ :each | self updatePositionBy: ((each value) negated + 1) OfThePlayer: each key]
+			[ :each | self updatePositionBy: ((self positionFor: each key) negated + 1) OfThePlayer: each key]
 ]
 
 { #category : #updating }
@@ -47,7 +47,7 @@ Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [
 ]
 
 { #category : #updating }
-Game >> applyWormHoleEffectTo: aPlayer positionIncrementedBy: anInteger [
+Game >> applyWormHoleEffectTo: aPlayer positionDecrementedBy: anInteger [
 	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]
 
@@ -130,7 +130,7 @@ Game >> playTurn: aPlayer [
 
 { #category : #accessing }
 Game >> positionFor: aPlayer [
-	^ (playersPosition at: aPlayer) = self boardLength
+	^ ((playersPosition at: aPlayer) % self boardLength = 0)
 		ifTrue: [ self boardLength ]
 		ifFalse: [ (playersPosition at: aPlayer) % self boardLength ]
 ]

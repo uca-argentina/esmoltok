@@ -6,24 +6,10 @@ Class {
 
 { #category : #interaction }
 UtilitiesForTests class >> collectionOf20NoEffect [
-	^ {NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new.
-	NoEffect new}
+	| noEffect result collection distributor |
+	noEffect := NoEffect new.
+	collection := {(noEffect -> 100)}.
+	distributor := Distributor fillMetric: IterateThroughMetric new.
+	result := distributor generateFrom: collection withLength: 20.
+	^ result
 ]
