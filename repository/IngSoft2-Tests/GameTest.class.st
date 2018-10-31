@@ -419,8 +419,14 @@ GameTest >> testGiveResultUsingAnotherCircularIterator [
 	self assert: (game positionFor: playerNamedGlenn) equals: 10.
 	"2nd round start:"
 	playerNamedLeo takesATurnIn: game.
-	playerNamedAlbert takesATurnIn: game.
-	playerNamedGlenn takesATurnIn: game.
+	self
+		should: [ playerNamedAlbert takesATurnIn: game ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ].
+	self
+		should: [ playerNamedGlenn takesATurnIn: game ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ].
 	"2nd round end."
 	"results:"
 	self assert: (game positionFor: playerNamedLeo) equals: 16.

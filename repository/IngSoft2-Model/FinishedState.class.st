@@ -6,5 +6,5 @@ Class {
 
 { #category : #interactions }
 FinishedState >> nextTurnAt: aGame playedBy: aPlayer [
-	^aGame positionOfPlayers
+	^ AssertionFailure new signal: 'The game is over...'
 ]
