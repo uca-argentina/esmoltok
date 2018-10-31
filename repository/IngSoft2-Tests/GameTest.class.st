@@ -169,7 +169,6 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 	playerNamedLeo takesATurnIn: game.	"dice rolls 3, ends in position 10"
 	self assert: (game positionFor: playerNamedLeo) equals: 4.	"SpeedUp effect applied, goes 4 positions forward. Ends in next lap. Leo wins"
 	self assert: (game lapFor: playerNamedLeo) equals: 3.
-	playerNamedGlenn takesATurnIn: game.	"dice rolls 1, but the game has already ended."
 	self assert: (game positionFor: playerNamedGlenn) equals: 9.
 	self assert: (game lapFor: playerNamedGlenn) equals: 2.
 	self
@@ -383,7 +382,10 @@ GameTest >> testGameWithLapsHasEnded [
 	playerNamedLeo takesATurnIn: game.
 	self assert: (game lapFor: playerNamedLeo) equals: 3.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
-	playerNamedLeo takesATurnIn: game.
+	self
+		should: [ playerNamedLeo takesATurnIn: game ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ].
 	self assert: (game lapFor: playerNamedLeo) equals: 3.
 	self assert: (game positionFor: playerNamedLeo) equals: 1
 ]
@@ -602,8 +604,6 @@ GameTest >> testReturnRanking [
 			playerNamedLeo}.
 	"2nd round start:"
 	playerNamedLeo takesATurnIn: game.
-	playerNamedAlbert takesATurnIn: game.
-	playerNamedGlenn takesATurnIn: game.
 	"2nd round end."
 	"results:"
 	self assert: (game positionFor: playerNamedLeo) equals: 16.
