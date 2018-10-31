@@ -22,33 +22,8 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 ]
 
 { #category : #updating }
-Game >> applyAtomicEffect: aPlayer [
-	playersPosition
-		associationsDo:
-			[ :each | self updatePositionBy: ((self positionFor: each key) negated + 1) OfThePlayer: each key]
-]
-
-{ #category : #updating }
-Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
-	playersPosition
-		associationsDo: [ :each | 
-			each key = aPlayer
-				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
-]
-
-{ #category : #updating }
 Game >> applyPositionEffectTo: aPlayer [ 
 	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
-]
-
-{ #category : #updating }
-Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
-	self updatePositionBy: anInteger OfThePlayer: aPlayer
-]
-
-{ #category : #updating }
-Game >> applyWormHoleEffectTo: aPlayer positionDecrementedBy: anInteger [
-	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]
 
 { #category : #accessing }
