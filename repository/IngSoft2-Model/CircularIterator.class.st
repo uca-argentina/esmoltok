@@ -1,6 +1,6 @@
 Class {
 	#name : #CircularIterator,
-	#superclass : #Object,
+	#superclass : #RollGenerator,
 	#instVars : [
 		'collection',
 		'currentElement'
@@ -13,6 +13,16 @@ CircularIterator class >> over: anArray [
 	^ self new initializeOver: anArray.
 ]
 
+{ #category : #accessing }
+CircularIterator >> collection [
+	^ collection
+]
+
+{ #category : #accessing }
+CircularIterator >> currentElement [
+	^ collection at: currentElement
+]
+
 { #category : #initialization }
 CircularIterator >> initializeOver: aCollection [
 	collection := aCollection.
@@ -20,11 +30,11 @@ CircularIterator >> initializeOver: aCollection [
 ]
 
 { #category : #accessing }
-CircularIterator >> next: aSides [
-	|ourElement|
-	ourElement := collection at: currentElement. 
+CircularIterator >> next: aLimit [
+	| ourElement |
+	ourElement := collection at: currentElement.
 	self updateIteration.
-	^ourElement 
+	^ ourElement
 ]
 
 { #category : #updating }

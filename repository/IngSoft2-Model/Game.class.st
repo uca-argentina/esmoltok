@@ -38,7 +38,7 @@ Game >> boardLength [
 
 { #category : #accessing }
 Game >> currentPlayerTurn [
-	^playersOrder currentTurn  
+	^ playersOrder currentElement
 ]
 
 { #category : #accessing }
@@ -69,7 +69,7 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := Turn names: (aCollectionOfPlayers collect: [ :each | each name ]).
+	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each name ]).
 	state := RunningState new
 ]
 
@@ -95,7 +95,7 @@ Game >> laps [
 
 { #category : #updating }
 Game >> nextPlayerTurn [
-	playersOrder updateToNextTurn
+	playersOrder updateIteration
 ]
 
 { #category : #updating }
@@ -123,13 +123,14 @@ Game >> ranking [
 ]
 
 { #category : #assertions }
-Game >> turnOf: aPlayer [
-	playersOrder turnOf: aPlayer
+Game >> turnOf: aName [
+	^ aName = playersOrder currentElement 
+		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aName}) ]
 ]
 
 { #category : #accessing }
 Game >> turnOrder [
-	^ playersOrder order
+	^ playersOrder collection
 ]
 
 { #category : #updating }

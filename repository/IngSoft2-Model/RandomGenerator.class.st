@@ -1,6 +1,6 @@
 Class {
 	#name : #RandomGenerator,
-	#superclass : #Object,
+	#superclass : #RollGenerator,
 	#category : #'IngSoft2-Model'
 }
 
