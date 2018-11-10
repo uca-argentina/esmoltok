@@ -21,5 +21,8 @@ FinishedStateTest >> testPlayersPositionWhenFinished [
 			die}
 		in: board
 		andAmountOfLaps: 1.
-	self assert: (finishedState nextTurnAt: game playedBy: playerNamedLeo) equals: game positionOfPlayers
+	self
+		should: [ finishedState nextTurnAt: game playedBy: playerNamedLeo ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ]
 ]

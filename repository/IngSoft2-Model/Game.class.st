@@ -22,33 +22,8 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 ]
 
 { #category : #updating }
-Game >> applyAtomicEffect: aPlayer [
-	playersPosition
-		associationsDo:
-			[ :each | self updatePositionBy: ((self positionFor: each key) negated + 1) OfThePlayer: each key]
-]
-
-{ #category : #updating }
-Game >> applyMoonWalkEffectExcluding: aPlayer steps: steps [
-	playersPosition
-		associationsDo: [ :each | 
-			each key = aPlayer
-				ifFalse: [ self updatePositionBy: steps OfThePlayer: each key ] ]
-]
-
-{ #category : #updating }
 Game >> applyPositionEffectTo: aPlayer [ 
 	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
-]
-
-{ #category : #updating }
-Game >> applySpeedUpEffectTo: aPlayer positionIncrementedBy: anInteger [ 
-	self updatePositionBy: anInteger OfThePlayer: aPlayer
-]
-
-{ #category : #updating }
-Game >> applyWormHoleEffectTo: aPlayer positionDecrementedBy: anInteger [
-	self updatePositionBy: anInteger OfThePlayer: aPlayer
 ]
 
 { #category : #accessing }
@@ -63,7 +38,7 @@ Game >> boardLength [
 
 { #category : #accessing }
 Game >> currentPlayerTurn [
-	^playersOrder currentTurn  
+	^ playersOrder currentElement
 ]
 
 { #category : #accessing }
@@ -94,7 +69,7 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := Turn names: (aCollectionOfPlayers collect: [ :each | each name ]).
+	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each name ]).
 	state := RunningState new
 ]
 
@@ -120,7 +95,7 @@ Game >> laps [
 
 { #category : #updating }
 Game >> nextPlayerTurn [
-	playersOrder updateToNextTurn
+	playersOrder updateIteration
 ]
 
 { #category : #updating }
@@ -148,13 +123,14 @@ Game >> ranking [
 ]
 
 { #category : #assertions }
-Game >> turnOf: aPlayer [
-	playersOrder turnOf: aPlayer
+Game >> turnOf: aName [
+	^ aName = playersOrder currentElement 
+		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aName}) ]
 ]
 
 { #category : #accessing }
 Game >> turnOrder [
-	^ playersOrder order
+	^ playersOrder collection
 ]
 
 { #category : #updating }

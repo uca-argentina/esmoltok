@@ -1,10 +1,10 @@
 Class {
 	#name : #FinishedState,
-	#superclass : #Object,
+	#superclass : #GameState,
 	#category : #'IngSoft2-Model'
 }
 
 { #category : #interactions }
 FinishedState >> nextTurnAt: aGame playedBy: aPlayer [
-	^aGame positionOfPlayers
+	^ AssertionFailure new signal: 'The game is over...'
 ]

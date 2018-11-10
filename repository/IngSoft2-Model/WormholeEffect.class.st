@@ -6,5 +6,7 @@ Class {
 
 { #category : #interactions }
 WormholeEffect >> triggerOn: aGame and: aPlayer [
-	aGame applyWormHoleEffectTo: aPlayer positionDecrementedBy: 4 negated
+	| steps |
+	steps := 4 negated.
+	aGame updatePositionBy: steps OfThePlayer: aPlayer
 ]

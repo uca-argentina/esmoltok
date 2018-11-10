@@ -1,6 +1,6 @@
 Class {
 	#name : #RunningState,
-	#superclass : #Object,
+	#superclass : #GameState,
 	#category : #'IngSoft2-Model'
 }
 
