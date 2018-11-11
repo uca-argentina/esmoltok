@@ -14,5 +14,6 @@ SpeedCard >> activateOn: aGame to: aPlayerCollection [
 
 { #category : #interactions }
 SpeedCard >> applyOn: aGame to: aPlayerCollection [ 
+	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: aPlayerCollection
 ]

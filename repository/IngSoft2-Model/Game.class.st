@@ -8,7 +8,9 @@ Class {
 		'playersOrder',
 		'laps',
 		'board',
-		'cards'
+		'cards',
+		'lastEffectPlayer',
+		'lastPlayedCard'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -87,7 +89,9 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
 	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each]).
 	state := RunningState new.
-	cards := Dictionary new
+	cards := Dictionary new.
+	lastEffectPlayer := (NoEffect new)->(self currentPlayerTurn).
+	lastPlayedCard := BlankCard new
 ]
 
 { #category : #testing }
@@ -96,6 +100,7 @@ Game >> isPlayedBy: aPlayer [
 	self turnOf: aPlayer.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self updateLastEffectPlayer: aPlayer.
 	self playCards.
 	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
@@ -109,6 +114,16 @@ Game >> lapFor: aPlayer [
 { #category : #accessing }
 Game >> laps [
 	^ laps
+]
+
+{ #category : #accesing }
+Game >> lastEffectPlayer [
+	^lastEffectPlayer
+]
+
+{ #category : #accessing }
+Game >> lastPlayedCard [
+	^lastPlayedCard
 ]
 
 { #category : #updating }
@@ -160,6 +175,16 @@ Game >> turnOf: player [
 { #category : #accessing }
 Game >> turnOrder [
 	^ playersOrder collection
+]
+
+{ #category : #updating }
+Game >> updateLastEffectPlayer: aPlayer [ 
+	lastEffectPlayer := (self effectInPositionOf: aPlayer)->(aPlayer)
+]
+
+{ #category : #updating }
+Game >> updateLastPlayedCard: aCard [ 
+	lastPlayedCard := aCard 
 ]
 
 { #category : #updating }

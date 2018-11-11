@@ -14,5 +14,6 @@ OverloadCard >> activateOn: aGame to: aPlayerCollection [
 
 { #category : #interactions }
 OverloadCard >> applyOn: aGame to: aPlayerCollection [ 
+	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: aPlayerCollection 
 ]

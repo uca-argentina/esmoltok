@@ -106,6 +106,56 @@ CardsTest >> testApplyOverloadSubstract2 [
 	self assert: (game positionFor: playerNamedLeo ) equals: 3
 ]
 
+{ #category : #redo }
+CardsTest >> testApplyRedoReapplyOverloadCard [
+
+	| redoCard overloadCard game playerNamedLeo playerNamedGlenn die board collection |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		in: board
+		andAmountOfLaps: 1.
+	overloadCard := OverloadCard new.
+	overloadCard applyOn: game to: {playerNamedLeo}.
+	redoCard := RedoCard new.
+	redoCard  applyOn: game to: {playerNamedLeo}.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+]
+
+{ #category : #repeat }
+CardsTest >> testApplyRepeatRepeatsSpeedUpEffect [
+	"comment stating purpose of message"
+
+	| repeatCard game playerNamedLeo playerNamedGlenn die board collection |
+	
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := {NoEffect new . NoEffect new . NoEffect new . NoEffect new . SpeedUpEffect new . NoEffect new . NoEffect new . NoEffect new . NoEffect new . NoEffect new .}.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		in: board
+		andAmountOfLaps: 1.
+	repeatCard := RepeatCard new.
+	playerNamedLeo takesATurnIn: game.
+	repeatCard applyOn: game to: {playerNamedLeo}.
+	self assert: (game positionFor: playerNamedLeo ) equals: 3
+]
+
 { #category : #speed }
 CardsTest >> testApplySpeedAdd1 [
 	| speedCard game playerNamedLeo playerNamedGlenn die board collection |

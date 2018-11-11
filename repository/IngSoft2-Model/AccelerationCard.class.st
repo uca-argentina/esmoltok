@@ -11,5 +11,6 @@ AccelerationCard >> activateOn: aGame to: aPlayerCollection [
 
 { #category : #interactions }
 AccelerationCard >> applyOn: aGame to: aCollection [ 
+	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: (aGame positionOfPlayers keys)
 ]

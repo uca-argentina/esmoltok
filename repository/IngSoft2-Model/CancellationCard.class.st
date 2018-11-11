@@ -14,5 +14,6 @@ CancellationCard >> activateOn: aGame to: aCollection [
 
 { #category : #interactions }
 CancellationCard >> applyOn: aGame to: aCollection [ 
+	aGame updateLastPlayedCard: self.
 	self activateOn: aGame  to: aCollection  
 ]
