@@ -7,7 +7,8 @@ Class {
 		'state',
 		'playersOrder',
 		'laps',
-		'board'
+		'board',
+		'cards'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,6 +20,11 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		throwing: aDice
 		in: aBoard
 		andAmountOfLaps: aLapAmount 
+]
+
+{ #category : #updating }
+Game >> addCard: aCard asociatedWith: aPlayerCollection [ 
+	cards at: aCard put: aPlayerCollection
 ]
 
 { #category : #updating }
@@ -34,6 +40,11 @@ Game >> board [
 { #category : #accessing }
 Game >> boardLength [
 	^ board size
+]
+
+{ #category : #accessing }
+Game >> cards [
+	^ cards
 ]
 
 { #category : #accessing }
@@ -62,6 +73,11 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
+{ #category : #assertions }
+Game >> hasCard: aCard [ 
+	^cards includesKey: aCard  
+]
+
 { #category : #initialization }
 Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
 	board := aBoard.
@@ -69,16 +85,18 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each name ]).
-	state := RunningState new
+	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each]).
+	state := RunningState new.
+	cards := Dictionary new
 ]
 
-{ #category : #updating }
+{ #category : #testing }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
-	self turnOf: aPlayer name.
+	self turnOf: aPlayer.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self playCards.
 	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
 ]
@@ -96,6 +114,12 @@ Game >> laps [
 { #category : #updating }
 Game >> nextPlayerTurn [
 	playersOrder updateIteration
+]
+
+{ #category : #interactions }
+Game >> playCards [
+	cards associationsDo:
+			[ :each | each key activateOn: self to: (each value)]
 ]
 
 { #category : #updating }
@@ -122,10 +146,15 @@ Game >> ranking [
 		
 ]
 
+{ #category : #updating }
+Game >> removeCard: aCard [ 
+	cards removeKey: aCard 
+]
+
 { #category : #assertions }
-Game >> turnOf: aName [
-	^ aName = playersOrder currentElement 
-		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aName}) ]
+Game >> turnOf: player [
+	^ player = playersOrder currentElement 
+		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {player name}) ]
 ]
 
 { #category : #accessing }

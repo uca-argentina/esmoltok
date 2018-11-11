@@ -332,7 +332,7 @@ GameTest >> testCreateGameWithLaps [
 	self assert: game laps equals: 3
 ]
 
-{ #category : #'create tests' }
+{ #category : #tests }
 GameTest >> testCreateGameWithTurnOrder [
 	| game playerNamedLeo playerNamedGlenn die board collection |
 	playerNamedLeo := Player named: 'Leo'.
@@ -357,7 +357,7 @@ GameTest >> testCreateGameWithTurnOrder [
 		equals:
 			{die.
 			die}.
-	self assert: game turnOrder equals: {'Leo' . 'Glenn'}
+	self assert: game turnOrder equals: {playerNamedLeo . playerNamedGlenn}
 ]
 
 { #category : #'test laps' }
@@ -727,11 +727,11 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 			oneMoreDie}
 		in: board
 		andAmountOfLaps: 1.
-	self assert: game currentPlayerTurn equals: 'Leo'.
+	self assert: game currentPlayerTurn equals: playerNamedLeo .
 	playerNamedLeo takesATurnIn: game.
-	self assert: game currentPlayerTurn equals: 'Albert'.
+	self assert: game currentPlayerTurn equals: playerNamedAlbert .
 	playerNamedAlbert takesATurnIn: game.
-	self assert: game currentPlayerTurn equals: 'Glenn'.
+	self assert: game currentPlayerTurn equals: playerNamedGlenn .
 	playerNamedGlenn takesATurnIn: game.
 	self assert: (game positionFor: playerNamedLeo) equals: 4.
 	self assert: (game positionFor: playerNamedAlbert) equals: 7.
@@ -839,15 +839,15 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 			oneMoreDie}
 		in: board
 		andAmountOfLaps: 1.
-	self assert: game currentPlayerTurn equals: 'Leo'.
+	self assert: game currentPlayerTurn equals: playerNamedLeo .
 	playerNamedLeo takesATurnIn: game.
-	self assert: game currentPlayerTurn equals: 'Albert'.
+	self assert: game currentPlayerTurn equals: playerNamedAlbert .
 	self
 		should: [ playerNamedGlenn takesATurnIn: game ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'This isn''t the turn of Glenn' ].
 	playerNamedAlbert takesATurnIn: game.
-	self assert: game currentPlayerTurn equals: 'Glenn'.
+	self assert: game currentPlayerTurn equals: playerNamedGlenn .
 	playerNamedGlenn takesATurnIn: game.
 	self assert: (game positionFor: playerNamedLeo) equals: 4.
 	self assert: (game positionFor: playerNamedAlbert) equals: 7.
