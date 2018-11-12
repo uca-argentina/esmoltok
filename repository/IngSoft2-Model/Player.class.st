@@ -18,6 +18,11 @@ Player >> addCard: aCard [
 	cards add: aCard 
 ]
 
+{ #category : #updating }
+Player >> drawCardFrom: aDeck [
+	self addCard: (aDeck next: aDeck)
+]
+
 { #category : #testing }
 Player >> hasCard: aCard [ 
 	^cards includes: aCard 
@@ -50,9 +55,10 @@ Player >> throwDice: aDice [
 ]
 
 { #category : #interaction }
-Player >> use: aCard on: aGame affecting: aPlayerOrCard [
+Player >> uses: aCard on: aGame affecting: aPlayerOrCard [
 	(self hasCard: aCard)
 		ifTrue: [ aCard verifyCardIsApplicableBy: self on: aGame.
 			aCard applyOn: aGame to: aPlayerOrCard.
 			self removeCard: aCard ]
+		ifFalse: [ AssertionFailure new signal: ('{1} doesn''t have that card in hand.' format: {self name}) ]
 ]

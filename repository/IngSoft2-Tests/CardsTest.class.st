@@ -98,6 +98,34 @@ CardsTest >> testApplyOverloadCardWithCardRaisesException [
 ]
 
 { #category : #overload }
+CardsTest >> testApplyOverloadSubstractsTwoToManyPlayersRoll [
+	| overloadCard overloadCardCopy  game playerNamedLeo playerNamedGlenn die board collection |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: 1.
+	overloadCard := OverloadCard new.
+	overloadCard applyOn: game to: playerNamedLeo.
+	overloadCardCopy := overloadCard deepCopy.
+	overloadCardCopy applyOn: game to: playerNamedGlenn.
+	self assert: (game hasCard: overloadCard) equals: true.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 3.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1
+]
+
+{ #category : #overload }
 CardsTest >> testApplyOverloadSubstractsTwoToPlayerRoll [
 	| overloadCard game playerNamedLeo playerNamedGlenn die board collection |
 	playerNamedLeo := Player named: 'Leo'.

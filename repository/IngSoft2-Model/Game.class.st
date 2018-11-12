@@ -31,7 +31,7 @@ Game >> activatePermanentCards [
 
 { #category : #updating }
 Game >> addCard: aCard asociatedWith: aPlayerOrCollection [
-	permanentCardsAssociations at: aCard put: aPlayerOrCollection
+	permanentCardsAssociations add: aCard -> aPlayerOrCollection
 ]
 
 { #category : #updating }
@@ -80,9 +80,9 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
-{ #category : #assertion }
-Game >> hasCard: aCard [ 
-	^permanentCardsAssociations includesKey: aCard  
+{ #category : #testing }
+Game >> hasCard: aCard [
+	^ permanentCardsAssociations includesKey: aCard
 ]
 
 { #category : #assertion }
@@ -97,10 +97,10 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each]).
+	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each ]).
 	state := RunningState new.
 	permanentCardsAssociations := Dictionary new.
-	lastEffectPlayer := (NoEffect new)->(self currentPlayerTurn).
+	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
 	lastPlayedCard := BlankCard new
 ]
 
