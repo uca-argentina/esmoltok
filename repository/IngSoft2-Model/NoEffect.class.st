@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 NoEffect >> triggerOn: aGame and: aPlayer [
 	
 ]

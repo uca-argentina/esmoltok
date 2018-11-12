@@ -49,7 +49,7 @@ Player >> throwDice: aDice [
 	^ aDice sumNumbers: [ :aDie | aDie roll ]
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 Player >> useCard: aCard on: aGame affecting: aCollection [
 	(self hasCard: aCard)
 		ifTrue: [ aCard verifyCardIsApplicableBy: self on: aGame.

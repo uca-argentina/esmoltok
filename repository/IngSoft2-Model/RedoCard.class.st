@@ -4,19 +4,19 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 RedoCard >> activateOn: aGame to: aCollection [
 	| card |
 	card := (aGame lastPlayedCard) deepCopy.
 	card applyOn: aGame to: aCollection
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 RedoCard >> applyOn: aGame to: aCollection [
 	self activateOn: aGame to: aCollection
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 RedoCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
 	^aGame lastPlayedCard verifyCardIsApplicableBy: aPlayer on: aGame
 ]

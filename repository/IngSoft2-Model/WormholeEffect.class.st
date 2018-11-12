@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 WormholeEffect >> triggerOn: aGame and: aPlayer [
 	| steps |
 	steps := 4 negated.

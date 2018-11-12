@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 RepeatCard >> activateOn: aGame to: aCollection [
 	| player effect| 
 	effect := aGame lastEffectPlayer key.
@@ -12,13 +12,13 @@ RepeatCard >> activateOn: aGame to: aCollection [
 	effect triggerOn: aGame and: player
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 RepeatCard >> applyOn: aGame to: aPlayerCollection [ 
 	aGame updateLastPlayedCard: self.
 	self activateOn: aGame to: aPlayerCollection 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 RepeatCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
 	^true
 ]

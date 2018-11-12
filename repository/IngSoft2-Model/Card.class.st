@@ -4,17 +4,17 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 Card >> activateOn: aGame to: aPlayerCollection [ 
  ^self subclassResponsibility 
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 Card >> applyOn: aGame to: aCollection [ 
 	 ^ self subclassResponsibility 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 Card >> verifyCardIsApplicableBy: aPlayer on: aGame [
 	 ^ self subclassResponsibility 
 ]

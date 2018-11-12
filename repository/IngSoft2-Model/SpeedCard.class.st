@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 SpeedCard >> activateOn: aGame to: aPlayerCollection [ 
 	| aPlayer |
 	aPlayer := aPlayerCollection first.
@@ -12,20 +12,20 @@ SpeedCard >> activateOn: aGame to: aPlayerCollection [
 		ifTrue: [ aGame updatePositionBy: 1 OfThePlayer: aPlayer ]
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 SpeedCard >> applyOn: aGame to: aPlayerCollection [
 	self validateCollectionIsAPlayer: aPlayerCollection.
 	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: aPlayerCollection
 ]
 
-{ #category : #verifications }
+{ #category : #validation }
 SpeedCard >> validateCollectionIsAPlayer: aCollection [ 
 	^(aCollection first isMemberOf: Player)
 		ifFalse: [ AssertionFailure new signal: 'Speed Card only applies to players' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 SpeedCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
 	aGame turnOf: aPlayer
 ]

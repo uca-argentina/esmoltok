@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 RunningState >> nextTurnAt: aGame playedBy: aPlayer [ 
 	aGame isPlayedBy: aPlayer.
 ]

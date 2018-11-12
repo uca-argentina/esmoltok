@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 CancellationCard >> activateOn: aGame to: aCollection [ 
 	| card |
 	card := aCollection first.
@@ -12,7 +12,7 @@ CancellationCard >> activateOn: aGame to: aCollection [
 		ifTrue: [ aGame removeCard: card ]
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 CancellationCard >> applyOn: aGame to: aCollection [
 	self validateCollectionIsACard: aCollection.
 	self validateGameHasCards: aGame.
@@ -20,20 +20,20 @@ CancellationCard >> applyOn: aGame to: aCollection [
 	self activateOn: aGame to: aCollection
 ]
 
-{ #category : #validations }
+{ #category : #validation }
 CancellationCard >> validateCollectionIsACard: aCollection [ 
 	^(aCollection first isKindOf: Card)
 		ifFalse: [ AssertionFailure new signal: 'Cancellation Card only applies to other cards' ]
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 CancellationCard >> validateGameHasCards: aGame [
 	(aGame hasPermanentCards)
 		ifFalse: [ AssertionFailure new
 				signal: 'There are no permanent cards in the game' ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 CancellationCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
 	^true
 ]

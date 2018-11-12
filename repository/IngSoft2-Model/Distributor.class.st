@@ -34,7 +34,7 @@ Distributor >> initializeWithFillMetric: aMetric [
 	fillMetric := aMetric
 ]
 
-{ #category : #assertions }
+{ #category : #assertion }
 Distributor >> verifyPercentagesOf: aCollection [
 	| percentages |
 	percentages := aCollection collect: [ :each | each value ].

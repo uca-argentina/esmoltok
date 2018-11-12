@@ -75,12 +75,12 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
-{ #category : #assertions }
+{ #category : #assertion }
 Game >> hasCard: aCard [ 
 	^cards includesKey: aCard  
 ]
 
-{ #category : #assertions }
+{ #category : #assertion }
 Game >> hasPermanentCards [
 	^(cards isNotEmpty)
 ]
@@ -121,7 +121,7 @@ Game >> laps [
 	^ laps
 ]
 
-{ #category : #accesing }
+{ #category : #accessing }
 Game >> lastEffectPlayer [
 	^lastEffectPlayer
 ]
@@ -136,7 +136,7 @@ Game >> nextPlayerTurn [
 	playersOrder updateIteration
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 Game >> playCards [
 	cards associationsDo:
 			[ :each | each key activateOn: self to: (each value)]
@@ -171,7 +171,7 @@ Game >> removeCard: aCard [
 	cards removeKey: aCard 
 ]
 
-{ #category : #assertions }
+{ #category : #assertion }
 Game >> turnOf: player [
 	^ player = playersOrder currentElement 
 		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {player name}) ]

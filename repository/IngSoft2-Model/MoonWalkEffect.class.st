@@ -22,7 +22,7 @@ MoonWalkEffect >> steps [
 	^ steps
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 MoonWalkEffect >> triggerOn: aGame and: aPlayer [
 	aGame positionOfPlayers
 		associationsDo: [ :each | 

@@ -4,18 +4,18 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 AccelerationCard >> activateOn: aGame to: aPlayerCollection [ 
 		aGame updatePositionBy: 1 OfThePlayer: (aGame currentPlayerTurn)
 ]
 
-{ #category : #interactions }
+{ #category : #interaction }
 AccelerationCard >> applyOn: aGame to: aCollection [ 
 	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: (aGame positionOfPlayers keys)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #validation }
 AccelerationCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
 	aGame turnOf: aPlayer
 ]
