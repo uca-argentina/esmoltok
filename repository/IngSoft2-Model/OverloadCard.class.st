@@ -5,23 +5,21 @@ Class {
 }
 
 { #category : #interaction }
-OverloadCard >> activateOn: aGame to: aPlayerCollection [
-	| aPlayer |
-	aPlayer := aPlayerCollection first.
-	aPlayer = (aGame currentPlayerTurn)
-		ifTrue: [ aGame updatePositionBy: (2 negated) OfThePlayer: aPlayer ]
+OverloadCard >> activateOn: aGame to: aPlayer [
+	aPlayer = aGame currentPlayerTurn
+		ifTrue: [ aGame updatePositionBy: 2 negated OfThePlayer: aPlayer ]
 ]
 
 { #category : #interaction }
-OverloadCard >> applyOn: aGame to: aPlayerCollection [
-	self validateCollectionIsAPlayer: aPlayerCollection.
+OverloadCard >> applyOn: aGame to: aPlayer [
+	self validateParameterIsAPlayer: aPlayer.
 	aGame updateLastPlayedCard: self.
-	aGame addCard: self asociatedWith: aPlayerCollection 
+	aGame addCard: self asociatedWith: aPlayer
 ]
 
 { #category : #validation }
-OverloadCard >> validateCollectionIsAPlayer: aCollection [ 
-	^(aCollection first isMemberOf: Player)
+OverloadCard >> validateParameterIsAPlayer: aPlayer [
+	^ (aPlayer isMemberOf: Player)
 		ifFalse: [ AssertionFailure new signal: 'Overload Card only applies to players' ]
 ]
 

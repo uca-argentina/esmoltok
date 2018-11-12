@@ -5,18 +5,18 @@ Class {
 }
 
 { #category : #interaction }
-RedoCard >> activateOn: aGame to: aCollection [
+RedoCard >> activateOn: aGame to: aPlayerOrCard [
 	| card |
-	card := (aGame lastPlayedCard) deepCopy.
-	card applyOn: aGame to: aCollection
+	card := aGame lastPlayedCard deepCopy.
+	card applyOn: aGame to: aPlayerOrCard
 ]
 
 { #category : #interaction }
-RedoCard >> applyOn: aGame to: aCollection [
-	self activateOn: aGame to: aCollection
+RedoCard >> applyOn: aGame to: aPlayerOrCard [
+	self activateOn: aGame to: aPlayerOrCard
 ]
 
 { #category : #validation }
-RedoCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
-	^aGame lastPlayedCard verifyCardIsApplicableBy: aPlayer on: aGame
+RedoCard >> verifyCardIsApplicableBy: aPlayer on: aGame [
+	^ aGame lastPlayedCard verifyCardIsApplicableBy: aPlayer on: aGame
 ]

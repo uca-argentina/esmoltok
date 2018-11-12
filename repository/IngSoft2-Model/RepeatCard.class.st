@@ -5,20 +5,20 @@ Class {
 }
 
 { #category : #interaction }
-RepeatCard >> activateOn: aGame to: aCollection [
-	| player effect| 
-	effect := aGame lastEffectPlayer key.
-	player := aGame lastEffectPlayer value.
+RepeatCard >> activateOn: aGame to: aPlayerOrCard [
+	| player effect |
+	effect := aGame lastEffectAppliedToAPlayer.
+	player := aGame lastPlayerAffectedByAnEffect.
 	effect triggerOn: aGame and: player
 ]
 
 { #category : #interaction }
-RepeatCard >> applyOn: aGame to: aPlayerCollection [ 
+RepeatCard >> applyOn: aGame to: aPlayerOrCard [
 	aGame updateLastPlayedCard: self.
-	self activateOn: aGame to: aPlayerCollection 
+	self activateOn: aGame to: aPlayerOrCard
 ]
 
 { #category : #validation }
-RepeatCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
-	^true
+RepeatCard >> verifyCardIsApplicableBy: aPlayer on: aGame [
+	^ true
 ]

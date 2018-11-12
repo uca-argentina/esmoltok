@@ -8,9 +8,9 @@ Class {
 		'playersOrder',
 		'laps',
 		'board',
-		'cards',
 		'lastEffectPlayer',
-		'lastPlayedCard'
+		'lastPlayedCard',
+		'permanentCardsAssociations'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -24,9 +24,14 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		andAmountOfLaps: aLapAmount 
 ]
 
+{ #category : #interaction }
+Game >> activatePermanentCards [
+	permanentCardsAssociations associationsDo: [ :each | each key activateOn: self to: each value ]
+]
+
 { #category : #updating }
-Game >> addCard: aCard asociatedWith: aPlayerCollection [ 
-	cards at: aCard put: aPlayerCollection
+Game >> addCard: aCard asociatedWith: aPlayerOrCollection [
+	permanentCardsAssociations at: aCard put: aPlayerOrCollection
 ]
 
 { #category : #updating }
@@ -46,7 +51,7 @@ Game >> boardLength [
 
 { #category : #accessing }
 Game >> cards [
-	^ cards
+	^ permanentCardsAssociations
 ]
 
 { #category : #accessing }
@@ -77,12 +82,12 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 
 { #category : #assertion }
 Game >> hasCard: aCard [ 
-	^cards includesKey: aCard  
+	^permanentCardsAssociations includesKey: aCard  
 ]
 
 { #category : #assertion }
 Game >> hasPermanentCards [
-	^(cards isNotEmpty)
+	^(permanentCardsAssociations isNotEmpty)
 ]
 
 { #category : #initialization }
@@ -94,7 +99,7 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
 	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each]).
 	state := RunningState new.
-	cards := Dictionary new.
+	permanentCardsAssociations := Dictionary new.
 	lastEffectPlayer := (NoEffect new)->(self currentPlayerTurn).
 	lastPlayedCard := BlankCard new
 ]
@@ -106,7 +111,7 @@ Game >> isPlayedBy: aPlayer [
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
 	self updateLastEffectPlayer: aPlayer.
-	self playCards.
+	self activatePermanentCards.
 	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
 ]
@@ -121,6 +126,11 @@ Game >> laps [
 	^ laps
 ]
 
+{ #category : #interaction }
+Game >> lastEffectAppliedToAPlayer [
+	^ self lastEffectPlayer key 
+]
+
 { #category : #accessing }
 Game >> lastEffectPlayer [
 	^lastEffectPlayer
@@ -131,20 +141,24 @@ Game >> lastPlayedCard [
 	^lastPlayedCard
 ]
 
+{ #category : #interaction }
+Game >> lastPlayerAffectedByAnEffect [
+	^ self lastEffectPlayer value
+]
+
 { #category : #updating }
 Game >> nextPlayerTurn [
 	playersOrder updateIteration
 ]
 
-{ #category : #interaction }
-Game >> playCards [
-	cards associationsDo:
-			[ :each | each key activateOn: self to: (each value)]
-]
-
 { #category : #updating }
 Game >> playTurn: aPlayer [ 
 	state nextTurnAt: self playedBy: aPlayer .
+]
+
+{ #category : #interaction }
+Game >> playersPlaying [
+	^ self positionOfPlayers keys
 ]
 
 { #category : #accessing }
@@ -167,8 +181,9 @@ Game >> ranking [
 ]
 
 { #category : #updating }
-Game >> removeCard: aCard [ 
-	cards removeKey: aCard 
+Game >> removeCard: aCard [
+	(self hasCard: aCard)
+		ifTrue: [ permanentCardsAssociations removeKey: aCard ]
 ]
 
 { #category : #assertion }

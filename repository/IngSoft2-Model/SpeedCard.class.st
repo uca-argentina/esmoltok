@@ -5,27 +5,25 @@ Class {
 }
 
 { #category : #interaction }
-SpeedCard >> activateOn: aGame to: aPlayerCollection [ 
-	| aPlayer |
-	aPlayer := aPlayerCollection first.
-	aPlayer = (aGame currentPlayerTurn)
+SpeedCard >> activateOn: aGame to: aPlayer [
+	aPlayer = aGame currentPlayerTurn
 		ifTrue: [ aGame updatePositionBy: 1 OfThePlayer: aPlayer ]
 ]
 
 { #category : #interaction }
-SpeedCard >> applyOn: aGame to: aPlayerCollection [
-	self validateCollectionIsAPlayer: aPlayerCollection.
+SpeedCard >> applyOn: aGame to: aPlayer [
+	self validateParameterIsAPlayer: aPlayer.
 	aGame updateLastPlayedCard: self.
-	aGame addCard: self asociatedWith: aPlayerCollection
+	aGame addCard: self asociatedWith: aPlayer
 ]
 
 { #category : #validation }
-SpeedCard >> validateCollectionIsAPlayer: aCollection [ 
-	^(aCollection first isMemberOf: Player)
+SpeedCard >> validateParameterIsAPlayer: aPlayer [
+	^ (aPlayer isMemberOf: Player)
 		ifFalse: [ AssertionFailure new signal: 'Speed Card only applies to players' ]
 ]
 
 { #category : #validation }
-SpeedCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
+SpeedCard >> verifyCardIsApplicableBy: aPlayer on: aGame [
 	aGame turnOf: aPlayer
 ]

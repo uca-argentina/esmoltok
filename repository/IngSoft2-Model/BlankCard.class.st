@@ -5,16 +5,16 @@ Class {
 }
 
 { #category : #interaction }
-BlankCard >> activateOn: aGame to: aCollection [ 
+BlankCard >> activateOn: aGame to: aPlayerOrCard [
 	
 ]
 
 { #category : #interaction }
-BlankCard >> applyOn: aGame to: aCollection [ 
-	self activateOn: aGame to: aCollection 
+BlankCard >> applyOn: aGame to: aPlayerOrCard [
+	self activateOn: aGame to: aPlayerOrCard
 ]
 
 { #category : #validation }
-BlankCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
-	^true
+BlankCard >> verifyCardIsApplicableBy: aPlayer on: aGame [
+	^ true
 ]
