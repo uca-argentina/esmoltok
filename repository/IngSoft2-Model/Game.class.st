@@ -7,7 +7,10 @@ Class {
 		'state',
 		'playersOrder',
 		'laps',
-		'board'
+		'board',
+		'lastEffectPlayer',
+		'lastPlayedCard',
+		'permanentCardsAssociations'
 	],
 	#category : #'IngSoft2-Model'
 }
@@ -19,6 +22,16 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		throwing: aDice
 		in: aBoard
 		andAmountOfLaps: aLapAmount 
+]
+
+{ #category : #interaction }
+Game >> activatePermanentCards [
+	permanentCardsAssociations associationsDo: [ :each | each key activateOn: self to: each value ]
+]
+
+{ #category : #updating }
+Game >> addCard: aCard asociatedWith: aPlayerOrCollection [
+	permanentCardsAssociations add: aCard -> aPlayerOrCollection
 ]
 
 { #category : #updating }
@@ -34,6 +47,11 @@ Game >> board [
 { #category : #accessing }
 Game >> boardLength [
 	^ board size
+]
+
+{ #category : #accessing }
+Game >> cards [
+	^ permanentCardsAssociations
 ]
 
 { #category : #accessing }
@@ -62,6 +80,16 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
+{ #category : #testing }
+Game >> hasCard: aCard [
+	^ permanentCardsAssociations includesKey: aCard
+]
+
+{ #category : #assertion }
+Game >> hasPermanentCards [
+	^(permanentCardsAssociations isNotEmpty)
+]
+
 { #category : #initialization }
 Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
 	board := aBoard.
@@ -69,16 +97,21 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	dice := aCollectionOfDice.
 	playersPosition := Dictionary new.
 	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each name ]).
-	state := RunningState new
+	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each ]).
+	state := RunningState new.
+	permanentCardsAssociations := Dictionary new.
+	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
+	lastPlayedCard := BlankCard new
 ]
 
-{ #category : #updating }
+{ #category : #testing }
 Game >> isPlayedBy: aPlayer [
 	| aNumberOfCells |
-	self turnOf: aPlayer name.
+	self turnOf: aPlayer.
 	aNumberOfCells := aPlayer throwDice: self dice.
 	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
+	self updateLastEffectPlayer: aPlayer.
+	self activatePermanentCards.
 	self applyPositionEffectTo: aPlayer.
 	self nextPlayerTurn
 ]
@@ -93,6 +126,26 @@ Game >> laps [
 	^ laps
 ]
 
+{ #category : #interaction }
+Game >> lastEffectAppliedToAPlayer [
+	^ self lastEffectPlayer key 
+]
+
+{ #category : #accessing }
+Game >> lastEffectPlayer [
+	^lastEffectPlayer
+]
+
+{ #category : #accessing }
+Game >> lastPlayedCard [
+	^lastPlayedCard
+]
+
+{ #category : #interaction }
+Game >> lastPlayerAffectedByAnEffect [
+	^ self lastEffectPlayer value
+]
+
 { #category : #updating }
 Game >> nextPlayerTurn [
 	playersOrder updateIteration
@@ -101,6 +154,11 @@ Game >> nextPlayerTurn [
 { #category : #updating }
 Game >> playTurn: aPlayer [ 
 	state nextTurnAt: self playedBy: aPlayer .
+]
+
+{ #category : #interaction }
+Game >> playersPlaying [
+	^ self positionOfPlayers keys
 ]
 
 { #category : #accessing }
@@ -122,15 +180,31 @@ Game >> ranking [
 		
 ]
 
-{ #category : #assertions }
-Game >> turnOf: aName [
-	^ aName = playersOrder currentElement 
-		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {aName}) ]
+{ #category : #updating }
+Game >> removeCard: aCard [
+	(self hasCard: aCard)
+		ifTrue: [ permanentCardsAssociations removeKey: aCard ]
+]
+
+{ #category : #assertion }
+Game >> turnOf: player [
+	^ player = playersOrder currentElement 
+		ifFalse: [ AssertionFailure signal: ('This isn''t the turn of {1}' format: {player name}) ]
 ]
 
 { #category : #accessing }
 Game >> turnOrder [
 	^ playersOrder collection
+]
+
+{ #category : #updating }
+Game >> updateLastEffectPlayer: aPlayer [ 
+	lastEffectPlayer := (self effectInPositionOf: aPlayer)->(aPlayer)
+]
+
+{ #category : #updating }
+Game >> updateLastPlayedCard: aCard [ 
+	lastPlayedCard := aCard 
 ]
 
 { #category : #updating }

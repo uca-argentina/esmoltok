@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 Effect >> triggerOn: aGame and: aPlayer [
 	self subclassResponsibility
 ]

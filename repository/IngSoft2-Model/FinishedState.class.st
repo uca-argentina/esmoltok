@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #interactions }
+{ #category : #interaction }
 FinishedState >> nextTurnAt: aGame playedBy: aPlayer [
 	^ AssertionFailure new signal: 'The game is over...'
 ]
