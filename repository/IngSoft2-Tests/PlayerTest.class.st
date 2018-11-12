@@ -185,7 +185,7 @@ PlayerTest >> testCheckTurnBeforeUsingSpeedCard [
 ]
 
 { #category : #'cards tests' }
-PlayerTest >> testDrawCardsFromDeck [
+PlayerTest >> testDrawCardFromDeckHasCardInHand [
 	| player deck card |
 	player := Player named: 'Alber'.
 	card := OverloadCard new.
