@@ -50,9 +50,9 @@ Player >> throwDice: aDice [
 ]
 
 { #category : #interaction }
-Player >> useCard: aCard on: aGame affecting: aCollection [
+Player >> use: aCard on: aGame affecting: aPlayerOrCard [
 	(self hasCard: aCard)
 		ifTrue: [ aCard verifyCardIsApplicableBy: self on: aGame.
-			aCard applyOn: aGame to: aCollection.
+			aCard applyOn: aGame to: aPlayerOrCard.
 			self removeCard: aCard ]
 ]
