@@ -82,6 +82,31 @@ CardsTest >> testApplyCancellationRemoveChosenCard [
 ]
 
 { #category : #overload }
+CardsTest >> testApplyOverloadCardWithCardRaisesException [
+
+	| overloadCard game playerNamedLeo playerNamedGlenn die board collection |
+	
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		in: board
+		andAmountOfLaps: 1.
+	overloadCard := OverloadCard new.
+	self
+		should: [  overloadCard applyOn: game to: {overloadCard} ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'Overload Card only applies to players' ].
+]
+
+{ #category : #overload }
 CardsTest >> testApplyOverloadSubstract2 [
 	"comment stating purpose of message"
 
@@ -176,4 +201,77 @@ CardsTest >> testApplySpeedAdd1 [
 	self assert: (game hasCard: speedCard) equals: true.
 	playerNamedLeo takesATurnIn: game.
 	self assert: (game positionFor: playerNamedLeo) equals: 6
+]
+
+{ #category : #speed }
+CardsTest >> testApplySpeedCardWithCardRaisesException [
+	
+	| speedCard game playerNamedLeo playerNamedGlenn die board collection |
+	
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		in: board
+		andAmountOfLaps: 1.
+	speedCard := SpeedCard new.
+	self
+		should: [  speedCard applyOn: game to: {speedCard} ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'Speed Card only applies to players' ].
+]
+
+{ #category : #cancellation }
+CardsTest >> testApplyWithPlayerRaisesException [
+	| cancellationCard game playerNamedLeo playerNamedGlenn die board collection |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: 1.
+	cancellationCard := CancellationCard new.
+	self
+		should: [  cancellationCard applyOn: game to: {playerNamedLeo}  ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'Cancellation Card only applies to other cards' ].
+]
+
+{ #category : #cancellation }
+CardsTest >> testRaiseExceptionIfGameHasNoCards [
+	"comment stating purpose of message"
+
+	| cancellationCard game playerNamedLeo playerNamedGlenn die board collection |
+	
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: 1.
+	cancellationCard := CancellationCard new.
+	
+	self
+		should: [  cancellationCard applyOn: game to: {cancellationCard}  ]
+		raise: AssertionFailure
+		withExceptionDo: [ :signal | self assert: signal messageText equals: 'There are no permanent cards in the game' ].
 ]

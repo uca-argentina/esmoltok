@@ -13,3 +13,8 @@ Card >> activateOn: aGame to: aPlayerCollection [
 Card >> applyOn: aGame to: aCollection [ 
 	 ^ self subclassResponsibility 
 ]
+
+{ #category : #'as yet unclassified' }
+Card >> verifyCardIsApplicableBy: aPlayer on: aGame [
+	 ^ self subclassResponsibility 
+]

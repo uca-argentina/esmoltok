@@ -80,6 +80,11 @@ Game >> hasCard: aCard [
 	^cards includesKey: aCard  
 ]
 
+{ #category : #assertions }
+Game >> hasPermanentCards [
+	^(cards isNotEmpty)
+]
+
 { #category : #initialization }
 Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
 	board := aBoard.

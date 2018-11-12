@@ -14,3 +14,8 @@ AccelerationCard >> applyOn: aGame to: aCollection [
 	aGame updateLastPlayedCard: self.
 	aGame addCard: self asociatedWith: (aGame positionOfPlayers keys)
 ]
+
+{ #category : #'as yet unclassified' }
+AccelerationCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
+	aGame turnOf: aPlayer
+]

@@ -11,6 +11,10 @@ BlankCard >> activateOn: aGame to: aCollection [
 
 { #category : #interactions }
 BlankCard >> applyOn: aGame to: aCollection [ 
-	aGame updateLastPlayedCard: self.
 	self activateOn: aGame to: aCollection 
+]
+
+{ #category : #'as yet unclassified' }
+BlankCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
+	^true
 ]

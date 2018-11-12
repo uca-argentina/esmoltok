@@ -17,3 +17,8 @@ RepeatCard >> applyOn: aGame to: aPlayerCollection [
 	aGame updateLastPlayedCard: self.
 	self activateOn: aGame to: aPlayerCollection 
 ]
+
+{ #category : #'as yet unclassified' }
+RepeatCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
+	^true
+]

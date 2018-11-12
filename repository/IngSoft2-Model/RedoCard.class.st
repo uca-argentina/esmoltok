@@ -15,3 +15,8 @@ RedoCard >> activateOn: aGame to: aCollection [
 RedoCard >> applyOn: aGame to: aCollection [
 	self activateOn: aGame to: aCollection
 ]
+
+{ #category : #'as yet unclassified' }
+RedoCard >> verifyCardIsApplicableBy: aPlayer on: aGame [ 
+	^aGame lastPlayedCard verifyCardIsApplicableBy: aPlayer on: aGame
+]
