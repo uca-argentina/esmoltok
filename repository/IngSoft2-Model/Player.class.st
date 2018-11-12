@@ -18,7 +18,7 @@ Player >> addCard: aCard [
 	cards add: aCard 
 ]
 
-{ #category : #updating }
+{ #category : #interaction }
 Player >> drawCardFrom: aDeck [
 	self addCard: (aDeck next: aDeck)
 ]
