@@ -148,6 +148,56 @@ GameTest >> gameForResultsIteratorWithPlayer: playerNamedLeo and: playerNamedGle
 	^ game
 ]
 
+{ #category : #'test return' }
+GameTest >> gameForReturnLenghtOf: board [
+	| playerNamedLeo collection playerNamedGlenn lapsAmount die game |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	collection := {1 . 2 . 3 . 4 . 5}.
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: collection).
+	lapsAmount := 3.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			die}
+		in: board
+		andAmountOfLaps: lapsAmount.
+	^ game
+]
+
+{ #category : #tests }
+GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
+	| die game collection board |
+	collection := {1 . 2 . 3 . 4 . 5}.
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			die}
+		in: board
+		andAmountOfLaps: 1.
+	self assert: game boardLength equals: 20.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	self
+		assert: game dice
+		equals:
+			{die.
+			die}.
+	^ game
+]
+
 { #category : #'simulation tests' }
 GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| collection lapsAmount board die game |
@@ -235,14 +285,14 @@ GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerName
 ]
 
 { #category : #'simulation tests' }
-GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: moonwalk [
+GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: effect [
 	| collection lapsAmount board die game |
 	collection := {1}.
 	die := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
-	moonwalk.
+	effect.
 	NoEffect new.
 	NoEffect new.
 	NoEffect new}.
@@ -552,30 +602,15 @@ GameTest >> testCreateGameWithLaps [
 
 { #category : #tests }
 GameTest >> testCreateGameWithTurnOrder [
-	| game playerNamedLeo playerNamedGlenn die board collection |
+	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {1 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
+	game := self gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn.
+	self
+		assert: game turnOrder
+		equals:
 			{playerNamedLeo.
 			playerNamedGlenn}
-		throwing:
-			{die.
-			die}
-		in: board
-		andAmountOfLaps: 1.
-	self assert: game boardLength equals: 20.
-	self assert: (game positionFor: playerNamedLeo) equals: 1.
-	self assert: (game positionFor: playerNamedGlenn) equals: 1.
-	self
-		assert: game dice
-		equals:
-			{die.
-			die}.
-	self assert: game turnOrder equals: {playerNamedLeo . playerNamedGlenn}
 ]
 
 { #category : #'test laps' }
@@ -711,26 +746,13 @@ GameTest >> testPositionForWithLaps [
 
 { #category : #'test return' }
 GameTest >> testReturnLengthOfBoard [
-	| board game playerNamedLeo playerNamedGlenn die collection lapsAmount |
-	playerNamedLeo := Player named: 'Leo'.
-	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {1 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	| board game |
 	board := {NoEffect new.
 	WormholeEffect new.
 	SpeedUpEffect new.
 	AtomicEffect new.
 	(MoonWalkEffect withSteps: 1)}.
-	lapsAmount := 3.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			die}
-		in: board
-		andAmountOfLaps: lapsAmount.
+	game := self gameForReturnLenghtOf: board.
 	self assert: game boardLength equals: board size
 ]
 
@@ -740,21 +762,7 @@ GameTest >> testReturnRanking [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := self collectionOf16NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForResultsAnotherIteratorWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert.
 	"1st round start:"
 	playerNamedLeo takesATurnIn: game.
 	playerNamedAlbert takesATurnIn: game.
