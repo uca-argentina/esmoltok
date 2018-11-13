@@ -40,18 +40,18 @@ GameTest >> collectionOf80NoEffect [
 ]
 
 { #category : #'test laps' }
-GameTest >> gameForLapsDifferentDieWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
+GameTest >> gameForLapsWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
 	| oneMoreDie anotherDie board die game |
 	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
+		andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	anotherDie := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
+		andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	oneMoreDie := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
+		andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -67,18 +67,18 @@ GameTest >> gameForLapsDifferentDieWithPlayer: playerNamedLeo and: playerNamedGl
 ]
 
 { #category : #'test laps' }
-GameTest >> gameForLapsWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
+GameTest >> gameForPositionForWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
 	| oneMoreDie anotherDie board die game |
 	board := UtilitiesForTests collectionOf20NoEffect.
 	die := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
+		andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	anotherDie := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
+		andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	oneMoreDie := Die
 		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
+		andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -170,7 +170,7 @@ GameTest >> gameForReturnLenghtOf: board [
 	^ game
 ]
 
-{ #category : #tests }
+{ #category : #'turn tests' }
 GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
 	| die game collection board |
 	collection := {1 . 2 . 3 . 4 . 5}.
@@ -198,7 +198,7 @@ GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
 	^ game
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| collection lapsAmount board die game |
 	collection := {1}.
@@ -221,7 +221,7 @@ GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGl
 	^ game
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> gameUsingAnotherAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| collection lapsAmount board die game |
 	collection := {6 . 6 . 1}.
@@ -257,7 +257,7 @@ GameTest >> gameWith5NoEffectBoardWithPlayer: playerNamedLeo [
 	^ game
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerNamedAlbert [
 	| oneMoreDie anotherDie board die game |
 	board := UtilitiesForTests collectionOf20NoEffect.
@@ -284,7 +284,7 @@ GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerName
 	^ game
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: effect [
 	| collection lapsAmount board die game |
 	collection := {1}.
@@ -600,7 +600,7 @@ GameTest >> testCreateGameWithLaps [
 	self assert: game laps equals: 3
 ]
 
-{ #category : #tests }
+{ #category : #'turn tests' }
 GameTest >> testCreateGameWithTurnOrder [
 	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -729,7 +729,7 @@ GameTest >> testPositionForWithLaps [
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self
-		gameForLapsDifferentDieWithPlayer: playerNamedLeo
+		gameForPositionForWithPlayer: playerNamedLeo
 		and: playerNamedGlenn
 		and: playerNamedAlbert.
 	playerNamedLeo takesATurnIn: game.
@@ -786,7 +786,7 @@ GameTest >> testReturnRanking [
 	self assert: (game positionFor: playerNamedGlenn) equals: 10
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurn [
 	| game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -804,7 +804,7 @@ GameTest >> testSimulateTurn [
 	self assert: (game positionFor: playerNamedGlenn) equals: 10
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithAtomicEffect [
 	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -825,7 +825,7 @@ GameTest >> testSimulateTurnWithAtomicEffect [
 	self assert: (game lapFor: playerNamedGlenn) equals: 0
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithAtomicEffectOnLapNumber1 [
 	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -846,7 +846,7 @@ GameTest >> testSimulateTurnWithAtomicEffectOnLapNumber1 [
 	self assert: (game lapFor: playerNamedGlenn) equals: 1
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	| game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -864,25 +864,27 @@ GameTest >> testSimulateTurnWithCorrectOrderOfPlayers [
 	self assert: (game positionFor: playerNamedGlenn) equals: 10
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithMoonWalkEffect [
 	| game playerNamedLeo playerNamedGlenn moonwalk |
-	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a MoonWalk (with 2 steps), everyone else goes 2 positions backwards, they end in position 4 on lap -1."
+	
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	moonwalk := MoonWalkEffect withSteps: 2.
-	game := self
-		gameWithPlayer: playerNamedLeo
-		and: playerNamedGlenn
-		usingEffect: moonwalk.
-	playerNamedLeo takesATurnIn: game.
-	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	game := self gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: moonwalk.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
-	self assert: (game positionFor: playerNamedGlenn) equals: 4.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 2.	"Leo was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a MoonWalk (with 2 steps)"
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	self assert: (game positionFor: playerNamedGlenn) equals: 4. "everyone else (Glenn) goes 2 positions backwards, they end in position 4 on lap -1."
 	self assert: (game lapFor: playerNamedGlenn) equals: -1
+
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithSpeedUpEffect [
 	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
@@ -897,7 +899,7 @@ GameTest >> testSimulateTurnWithSpeedUpEffect [
 	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a SpeedUp, goes 4 positions forward, ends in position 1 on lap 1."
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithWormholeEffect [
 	|  game playerNamedLeo playerNamedGlenn  |
 	playerNamedLeo := Player named: 'Leo'.
@@ -912,7 +914,7 @@ GameTest >> testSimulateTurnWithWormholeEffect [
 	"was in position 1 (NoEffect), die rolled 1, goes to position 2 but there's a Wormhole, goes back 4 positions, ends in position 3 on lap -1."
 ]
 
-{ #category : #'simulation tests' }
+{ #category : #'turn tests' }
 GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 	| game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.

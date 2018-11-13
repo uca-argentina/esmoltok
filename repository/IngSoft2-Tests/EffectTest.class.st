@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #'wormhole effect tests' }
+{ #category : #'utilities for tests' }
 EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn [
 	| oneMoreDie anotherDie board die game |
 	board := UtilitiesForTests collectionOf20NoEffect.
@@ -99,7 +99,7 @@ EffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	self assert: (game positionFor: playerNamedAlbert) equals: position
 ]
 
-{ #category : #tests }
+{ #category : #'speed up tests' }
 EffectTest >> testSpeedUpAppliedGoForward4Positions [
 	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.

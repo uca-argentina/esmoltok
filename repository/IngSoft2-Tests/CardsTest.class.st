@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #overload }
+{ #category : #'utilities for tests' }
 CardsTest >> gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| die game collection board |
 	collection := {4 . 2 . 3 . 4 . 5}.
@@ -22,7 +22,7 @@ CardsTest >> gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	^ game
 ]
 
-{ #category : #repeat }
+{ #category : #'utilities for tests' }
 CardsTest >> gameForRepeatTestWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| die game collection board |
 	collection := {4 . 2 . 3 . 4 . 5}.

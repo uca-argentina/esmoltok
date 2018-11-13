@@ -4,7 +4,7 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #'running state tests' }
+{ #category : #'utilities for tests' }
 GameStateTest >> gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| die anotherDie game board |
 	die := Die
