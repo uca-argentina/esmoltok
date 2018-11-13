@@ -118,10 +118,7 @@ EffectTest >> testWormHoleAppliedGoBack4Positions [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	game := self
-		gameForEffectsTestsWithPlayer: playerNamedLeo
-		and: playerNamedAlbert
-		and: playerNamedGlenn.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := WormholeEffect new.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	effect triggerOn: game and: playerNamedAlbert.
