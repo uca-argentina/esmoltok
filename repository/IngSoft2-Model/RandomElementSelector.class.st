@@ -1,6 +1,6 @@
 Class {
 	#name : #RandomElementSelector,
-	#superclass : #Object,
+	#superclass : #RollGenerator,
 	#instVars : [
 		'collection'
 	],
