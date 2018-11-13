@@ -14,7 +14,7 @@ GameTest >> collectionOf16NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 16.
 	^ result
 ]
@@ -24,7 +24,7 @@ GameTest >> collectionOf5NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 5.
 	^ result
 ]
@@ -34,7 +34,7 @@ GameTest >> collectionOf80NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 80.
 	^ result
 ]
@@ -42,7 +42,7 @@ GameTest >> collectionOf80NoEffect [
 { #category : #'create tests' }
 GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playerNamedLeo and: playerNamedGlenn [
 	| distributor lapsAmount board die game |
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	die := Die
 		withSides: 4
 		andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
@@ -460,7 +460,7 @@ GameTest >> testCreateGameWithDistribution [
 	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	wormHoleEffect := WormholeEffect new.

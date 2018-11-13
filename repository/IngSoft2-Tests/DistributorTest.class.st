@@ -11,7 +11,7 @@ DistributorTest >> testCreateABoard [
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 9.
 	self
 		assert: result
@@ -34,7 +34,7 @@ DistributorTest >> testCreateABoardAndVerifyPercentagesAreCorrectRaisesException
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 51)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	self
 		should: [ distributor generateFrom: collection withLength: 9 ]
 		raise: AssertionFailure
@@ -48,7 +48,7 @@ DistributorTest >> testCreateABoardWith7Elements [
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 7.
 	self
 		assert: result
@@ -75,7 +75,7 @@ DistributorTest >> testCreateABoardWithFixedDistribution [
 	(wormHoleEffect -> 20).
 	(moonWalkEffect -> 10).
 	(atomicEffect -> 2)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 100.
 	self
 		assert: result
@@ -190,7 +190,7 @@ DistributorTest >> testCreateAnEffectDistributor [
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor fillMetric: IterateThroughMetric new.
+	distributor := Distributor new.
 	result := distributor generateFrom: collection withLength: 10.
 	self
 		assert: result

@@ -7,9 +7,14 @@ Class {
 	#category : #'IngSoft2-Model'
 }
 
-{ #category : #'instance creation' }
-Distributor class >> fillMetric: aMetric [
-	^ self new initializeWithFillMetric: aMetric
+{ #category : #interaction }
+Distributor >> fill: aCollection upTo: aLength using: aDistribution [
+	| iterator |
+	iterator := CircularIterator over: (aDistribution collect: [ :each | each key ]).
+	[aCollection size < aLength] whileTrue: [ aCollection add: (iterator next: iterator) ].
+	^ aCollection
+	
+
 ]
 
 { #category : #interaction }
@@ -26,12 +31,9 @@ Distributor >> generateFrom: aCollection withLength: aLength [
 	self verifyPercentagesOf: aCollection.
 	anOrderedCollection := OrderedCollection new.
 	aCollection do: [ :eachDistributedEffect | anOrderedCollection addAll: (self generateEffectCollectionWith: aLength and: eachDistributedEffect) ].
-	^ fillMetric fill: anOrderedCollection upTo: aLength using: aCollection
-]
+	^ self  fill:  anOrderedCollection upTo: aLength using: aCollection
+	
 
-{ #category : #initialization }
-Distributor >> initializeWithFillMetric: aMetric [
-	fillMetric := aMetric
 ]
 
 { #category : #assertion }
