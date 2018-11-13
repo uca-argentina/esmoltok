@@ -4,16 +4,19 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
-{ #category : #'atomic effect tests' }
-EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
-	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
-	playerNamedLeo := Player named: 'Leo'.
-	playerNamedAlbert := Player named: 'Albert'.
-	playerNamedGlenn := Player named: 'Glenn'.
+{ #category : #'utilities for tests' }
+EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn [
+	| oneMoreDie anotherDie board die game |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die
+		withSides: 6
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die
+		withSides: 5
+		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -25,6 +28,16 @@ EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 			oneMoreDie}
 		in: board
 		andAmountOfLaps: 1.
+	^ game
+]
+
+{ #category : #'atomic effect tests' }
+EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := AtomicEffect new.
 	playerNamedLeo takesATurnIn: game.
 	playerNamedAlbert takesATurnIn: game.
@@ -37,25 +50,11 @@ EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 
 { #category : #'atomic effect tests' }
 EffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
-	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := AtomicEffect new.
 	effect triggerOn: game and: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
@@ -65,25 +64,11 @@ EffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 
 { #category : #'moonwalk effect tests' }
 EffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer [
-	| number positionAlbert effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| number positionAlbert effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	number := 5.
 	effect := MoonWalkEffect withSteps: number.
 	positionAlbert := game positionFor: playerNamedAlbert.
@@ -103,52 +88,24 @@ EffectTest >> testMoonWalkInitializedWith7Steps [
 
 { #category : #'no effect tests' }
 EffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
-	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := NoEffect new.
 	position := game positionFor: playerNamedAlbert.
 	effect triggerOn: game and: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: position
 ]
 
-{ #category : #'speedup effect tests' }
+{ #category : #'speed up tests' }
 EffectTest >> testSpeedUpAppliedGoForward4Positions [
-	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := SpeedUpEffect new.
 	position := game positionFor: playerNamedAlbert.
 	effect triggerOn: game and: playerNamedAlbert.
@@ -157,25 +114,11 @@ EffectTest >> testSpeedUpAppliedGoForward4Positions [
 
 { #category : #'wormhole effect tests' }
 EffectTest >> testWormHoleAppliedGoBack4Positions [
-	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedAlbert.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			anotherDie.
-			oneMoreDie}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := WormholeEffect new.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	effect triggerOn: game and: playerNamedAlbert.

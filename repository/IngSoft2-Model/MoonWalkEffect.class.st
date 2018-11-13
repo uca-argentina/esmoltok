@@ -24,8 +24,7 @@ MoonWalkEffect >> steps [
 
 { #category : #interaction }
 MoonWalkEffect >> triggerOn: aGame and: aPlayer [
-	aGame positionOfPlayers
-		associationsDo: [ :each | 
-			each key = aPlayer
-				ifFalse: [ aGame updatePositionBy: steps negated OfThePlayer: each key ] ]
+	| otherPlayers |
+	otherPlayers := aGame playersPlaying reject: [ :each | each = aPlayer ].
+	otherPlayers do: [ :each | aGame updatePositionBy: steps negated OfThePlayer: each ]
 ]

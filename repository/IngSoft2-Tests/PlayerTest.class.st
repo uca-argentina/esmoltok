@@ -4,6 +4,24 @@ Class {
 	#category : #'IngSoft2-Tests'
 }
 
+{ #category : #'utilities for tests' }
+PlayerTest >> gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
+	| die game collection board |
+	collection := {4 . 2 . 3 . 4 . 5}.
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing: {die}
+		in: board
+		andAmountOfLaps: 1.
+	^ game
+]
+
 { #category : #'cards tests' }
 PlayerTest >> testAssignCardsToPlayer [
 	| player firstCard secondCard |
@@ -25,19 +43,10 @@ PlayerTest >> testCheckPlayerName [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingAccelerationCard [
-	| accelerationCard game playerNamedLeo playerNamedGlenn die board collection |
+	| accelerationCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	accelerationCard := AccelerationCard new.
 	playerNamedGlenn addCard: accelerationCard.
 	self
@@ -48,19 +57,10 @@ PlayerTest >> testCheckTurnBeforeUsingAccelerationCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingBlankCard [
-	| blankCard game playerNamedLeo playerNamedGlenn die board collection |
+	| blankCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	blankCard := BlankCard new.
 	playerNamedGlenn addCard: blankCard.
 	playerNamedGlenn uses: blankCard on: game affecting: playerNamedLeo.
@@ -69,19 +69,10 @@ PlayerTest >> testCheckTurnBeforeUsingBlankCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingCancellationCard [
-	| overloadCard cancellationCard game playerNamedLeo playerNamedGlenn die board collection |
+	| overloadCard cancellationCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	cancellationCard := CancellationCard new.
 	overloadCard := OverloadCard new.
 	playerNamedLeo addCard: overloadCard.
@@ -93,19 +84,10 @@ PlayerTest >> testCheckTurnBeforeUsingCancellationCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingOverloadCard [
-	| overloadCard game playerNamedLeo playerNamedGlenn die board collection |
+	| overloadCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
 	playerNamedGlenn addCard: overloadCard.
 	self
@@ -116,19 +98,10 @@ PlayerTest >> testCheckTurnBeforeUsingOverloadCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingRedoCard [
-	| redoCard overloadCard game playerNamedLeo playerNamedGlenn die board collection |
+	| redoCard overloadCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
 	redoCard := RedoCard new.
 	playerNamedLeo addCard: overloadCard.
@@ -142,19 +115,10 @@ PlayerTest >> testCheckTurnBeforeUsingRedoCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingRepeatCard [
-	| repeatCard game playerNamedLeo playerNamedGlenn die board collection |
+	| repeatCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	repeatCard := RepeatCard new.
 	playerNamedGlenn addCard: repeatCard.
 	playerNamedGlenn uses: repeatCard on: game affecting: playerNamedGlenn.
@@ -163,19 +127,10 @@ PlayerTest >> testCheckTurnBeforeUsingRepeatCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testCheckTurnBeforeUsingSpeedCard [
-	| speedCard game playerNamedLeo playerNamedGlenn die board collection |
+	| speedCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	speedCard := SpeedCard new.
 	playerNamedGlenn addCard: speedCard.
 	self
@@ -238,19 +193,10 @@ PlayerTest >> testPlayerThrowDice [
 
 { #category : #'cards tests' }
 PlayerTest >> testPlayerUseCard [
-	| accelerationCard game playerNamedLeo playerNamedGlenn die board collection |
+	| accelerationCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	accelerationCard := AccelerationCard new.
 	playerNamedLeo addCard: accelerationCard.
 	playerNamedLeo uses: accelerationCard on: game affecting: {playerNamedGlenn}.
@@ -259,19 +205,10 @@ PlayerTest >> testPlayerUseCard [
 
 { #category : #'cards tests' }
 PlayerTest >> testRaisesExceptionWhenTryingToUseACardThatDoesntHave [
-	| speedCard game playerNamedLeo playerNamedGlenn die board collection |
+	| speedCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing: {die}
-		in: board
-		andAmountOfLaps: 1.
+	game := self gameForPlayerTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	speedCard := SpeedCard new.
 	self
 		should: [ playerNamedLeo uses: speedCard on: game affecting: playerNamedLeo ]

@@ -6,7 +6,6 @@ Class {
 
 { #category : #accessing }
 AtomicEffect >> triggerOn: aGame and: aPlayer [
-	aGame positionOfPlayers
-		associationsDo:
-			[ :each | aGame updatePositionBy: ((aGame positionFor: each key) negated + 1) OfThePlayer: each key]
+	aGame playersPlaying do:
+			[ :each | aGame updatePositionBy: ((aGame positionFor: each) negated + 1) OfThePlayer: each]
 ]

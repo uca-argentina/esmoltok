@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-CircularIteratorTest >> testIterationsResult [
+CircularIteratorTest >> testNextGivesNextInCollection [
 	| collectionIterator collection sides |
 	collection := {3 . 4 . 5 . 7}.
 	sides := 0.
