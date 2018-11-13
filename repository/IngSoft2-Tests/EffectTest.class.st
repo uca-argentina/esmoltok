@@ -99,6 +99,42 @@ EffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	self assert: (game positionFor: playerNamedAlbert) equals: position
 ]
 
+{ #category : #'random card tests' }
+EffectTest >> testRandomEffectAppliedPlayerGetsCardFromCollection [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn overload speed |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
+	overload := OverloadCard new.
+   speed := SpeedCard new.
+	effect := CardFromDeckEffect withDeck: (CircularIterator over: {overload . speed}).
+	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game and: playerNamedLeo. 
+	self assert: (playerNamedAlbert hasCard: overload) equals: true.
+	self assert: (playerNamedLeo hasCard: speed) equals: true.
+
+]
+
+{ #category : #'random card tests' }
+EffectTest >> testRandomEffectAppliedPlayerGetsRandomCardFromCollection [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn overload speed accelerate collection |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
+	overload := OverloadCard new.
+   speed := SpeedCard new.
+   accelerate := AccelerationCard new.
+   collection := {overload . speed . accelerate }.
+	effect := CardFromDeckEffect withDeck: (RandomElementSelector over: collection ).
+	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game and: playerNamedLeo. 
+	self assert: (collection includes: (playerNamedAlbert cardsInHand first )) equals: true.
+	self assert: (collection includes: (playerNamedLeo cardsInHand first )) equals: true.
+
+]
+
 { #category : #'speed up tests' }
 EffectTest >> testSpeedUpAppliedGoForward4Positions [
 	| position effect game playerNamedLeo playerNamedAlbert playerNamedGlenn |

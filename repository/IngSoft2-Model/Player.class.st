@@ -18,6 +18,11 @@ Player >> addCard: aCard [
 	cards add: aCard 
 ]
 
+{ #category : #accessing }
+Player >> cardsInHand [
+	^ cards
+]
+
 { #category : #interaction }
 Player >> drawCardFrom: aDeck [
 	self addCard: (aDeck next: aDeck)
