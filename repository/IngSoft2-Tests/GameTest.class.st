@@ -276,6 +276,57 @@ GameTest >> gameUsingAnotherAtomicEffectWithPlayer: playerNamedLeo and: playerNa
 	^ game
 ]
 
+{ #category : #'cards tests' }
+GameTest >> gameUsingCardsWithFirstPlayer: playerNamedLeo andSecondPlayer: playerNamedGlenn WithDeck: aDeck [
+	| collection board die game |
+	collection := {1 . 2 . 3 . 4 . 5 . 20}.
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	self assert: playerNamedLeo quantityOfCardsInHand equals: 0.
+	self assert: playerNamedGlenn quantityOfCardsInHand equals: 0.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		using: aDeck
+		in: board
+		andAmountOfLaps: 1.
+		^game
+]
+
+{ #category : #'cards tests' }
+GameTest >> gameUsingRandomCardsWithFirstPlayer: playerNamedLeo andSecondPlayer: playerNamedGlenn [
+	| collection deck board die game |
+	deck := RandomElementSelector
+		over:
+			{OverloadCard new.
+			SpeedCard new.
+			AccelerationCard new.
+			CancellationCard new.
+			RedoCard new.
+			RepeatCard new}.
+	collection := {1 . 2 . 3 . 4 . 5}.
+	die := Die
+		withSides: 4
+		andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	self assert: playerNamedLeo quantityOfCardsInHand equals: 0.
+	self assert: playerNamedGlenn quantityOfCardsInHand equals: 0.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die}
+		using: deck
+		in: board
+		andAmountOfLaps: 1
+]
+
 { #category : #'test laps' }
 GameTest >> gameWith5NoEffectBoardWithPlayer: playerNamedLeo [
 	| die game board deck |
@@ -812,32 +863,59 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 
 { #category : #'cards tests' }
 GameTest >> testUsingCardsGivesTwoCardsAtStartToEachPlayer [
-	| game playerNamedLeo playerNamedGlenn die board collection deck |
+	| playerNamedLeo playerNamedGlenn game |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	deck := RandomElementSelector
-		over:
-			{OverloadCard new.
-			SpeedCard new.
-			AccelerationCard new.
-			CancellationCard new.
-			RedoCard new.
-			RepeatCard new}.
-	collection := {1 . 2 . 3 . 4 . 5}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := UtilitiesForTests collectionOf20NoEffect.
-	self assert: playerNamedLeo quantityOfCardsInHand equals: 0.
-	self assert: playerNamedGlenn quantityOfCardsInHand equals: 0.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			die}
-		using: deck
-		in: board
-		andAmountOfLaps: 1.
+	game := self
+		gameUsingRandomCardsWithFirstPlayer: playerNamedLeo
+		andSecondPlayer: playerNamedGlenn.
 	self assert: playerNamedLeo quantityOfCardsInHand equals: 2.
 	self assert: playerNamedGlenn quantityOfCardsInHand equals: 2
+]
+
+{ #category : #'cards tests' }
+GameTest >> testWithCardAndGiveRanking [
+	| playerNamedLeo playerNamedGlenn game deck overload speed acceleration cancellation |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	overload := OverloadCard new.
+	speed := SpeedCard new.
+	acceleration := AccelerationCard new.
+	cancellation := CancellationCard new.
+	deck := CircularIterator
+		over:
+			{overload.
+			speed.
+			acceleration.
+			cancellation}.
+	game := self
+		gameUsingCardsWithFirstPlayer: playerNamedLeo
+		andSecondPlayer: playerNamedGlenn
+		WithDeck: deck.
+	self assert: playerNamedLeo quantityOfCardsInHand equals: 2.
+	self assert: playerNamedGlenn quantityOfCardsInHand equals: 2.
+	"First round"
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	playerNamedLeo uses: overload on: game affecting: playerNamedGlenn.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	playerNamedGlenn uses: acceleration on: game affecting: playerNamedLeo.
+	playerNamedGlenn takesATurnIn: game.
+	"Second round"
+	self assert: (game positionFor: playerNamedLeo) equals: 2.
+	self assert: (game positionFor: playerNamedGlenn) equals: 2.
+	playerNamedLeo uses: speed on: game affecting: playerNamedLeo.
+	playerNamedGlenn uses: cancellation on: game affecting: overload.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 7.
+	playerNamedGlenn takesATurnIn: game.
+	"Third round"
+	self assert: (game positionFor: playerNamedLeo) equals: 7.
+	self assert: (game positionFor: playerNamedGlenn) equals: 7.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 14.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 8.
+	self assert: (game ranking ) equals: { playerNamedGlenn . playerNamedLeo} asOrderedCollection 
 ]
