@@ -1,18 +1,18 @@
 Class {
-	#name : #DistributorTest,
+	#name : #BoardCreatorTest,
 	#superclass : #TestCase,
 	#category : #'IngSoft2-Tests'
 }
 
 { #category : #tests }
-DistributorTest >> testCreateABoard [
-	| noEffect speedUpEffect result collection distributor |
+BoardCreatorTest >> testCreateABoard [
+	| noEffect speedUpEffect result collection boardCreator |
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor new.
-	result := distributor generateFrom: collection withLength: 9.
+	boardCreator := BoardCreator new.
+	result := boardCreator generateFrom: collection withLength: 9.
 	self
 		assert: result
 		equals:
@@ -28,28 +28,28 @@ DistributorTest >> testCreateABoard [
 ]
 
 { #category : #tests }
-DistributorTest >> testCreateABoardAndVerifyPercentagesAreCorrectRaisesException [
-	| noEffect speedUpEffect collection distributor |
+BoardCreatorTest >> testCreateABoardAndVerifyPercentagesAreCorrectRaisesException [
+	| noEffect speedUpEffect collection boardCreator |
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 51)}.
-	distributor := Distributor new.
+	boardCreator := BoardCreator new.
 	self
-		should: [ distributor generateFrom: collection withLength: 9 ]
+		should: [ boardCreator generateFrom: collection withLength: 9 ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The sum of percentages should be 100' ]
 ]
 
 { #category : #tests }
-DistributorTest >> testCreateABoardWith7Elements [
-	| noEffect speedUpEffect result collection distributor |
+BoardCreatorTest >> testCreateABoardWith7Elements [
+	| noEffect speedUpEffect result collection boardCreator |
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor new.
-	result := distributor generateFrom: collection withLength: 7.
+	boardCreator := BoardCreator new.
+	result := boardCreator generateFrom: collection withLength: 7.
 	self
 		assert: result
 		equals:
@@ -63,8 +63,8 @@ DistributorTest >> testCreateABoardWith7Elements [
 ]
 
 { #category : #tests }
-DistributorTest >> testCreateABoardWithFixedDistribution [
-	| atomicEffect moonWalkEffect wormHoleEffect noEffect speedUpEffect result collection distributor |
+BoardCreatorTest >> testCreateABoardWithFixedDistribution [
+	| atomicEffect moonWalkEffect wormHoleEffect noEffect speedUpEffect result collection boardCreator |
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	wormHoleEffect := WormholeEffect new.
@@ -75,8 +75,8 @@ DistributorTest >> testCreateABoardWithFixedDistribution [
 	(wormHoleEffect -> 20).
 	(moonWalkEffect -> 10).
 	(atomicEffect -> 2)}.
-	distributor := Distributor new.
-	result := distributor generateFrom: collection withLength: 100.
+	boardCreator := BoardCreator new.
+	result := boardCreator generateFrom: collection withLength: 100.
 	self
 		assert: result
 		equals:
@@ -184,14 +184,38 @@ DistributorTest >> testCreateABoardWithFixedDistribution [
 ]
 
 { #category : #tests }
-DistributorTest >> testCreateAnEffectDistributor [
+BoardCreatorTest >> testCreateAnEffectDistributor [
 	| noEffect speedUpEffect result collection distributor |
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	collection := {(speedUpEffect -> 50).
 	(noEffect -> 50)}.
-	distributor := Distributor new.
+	distributor := BoardCreator new.
 	result := distributor generateFrom: collection withLength: 10.
+	self
+		assert: result
+		equals:
+			{speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			speedUpEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect.
+			noEffect} asOrderedCollection
+]
+
+{ #category : #tests }
+BoardCreatorTest >> testCreateAnEffectboardCreator [
+	| noEffect speedUpEffect result collection boardCreator |
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	collection := {(speedUpEffect -> 50).
+	(noEffect -> 50)}.
+	boardCreator := BoardCreator new.
+	result := boardCreator generateFrom: collection withLength: 10.
 	self
 		assert: result
 		equals:

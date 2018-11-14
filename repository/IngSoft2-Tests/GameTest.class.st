@@ -14,7 +14,7 @@ GameTest >> collectionOf16NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor new.
+	distributor := BoardCreator new.
 	result := distributor generateFrom: collection withLength: 16.
 	^ result
 ]
@@ -24,7 +24,7 @@ GameTest >> collectionOf5NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor new.
+	distributor := BoardCreator new.
 	result := distributor generateFrom: collection withLength: 5.
 	^ result
 ]
@@ -34,18 +34,18 @@ GameTest >> collectionOf80NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor new.
+	distributor := BoardCreator new.
 	result := distributor generateFrom: collection withLength: 80.
 	^ result
 ]
 
 { #category : #'create tests' }
 GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| distributor lapsAmount board die game deck |
-	distributor := Distributor new.
+	| boardCreator lapsAmount board die game deck |
+	boardCreator := BoardCreator new.
 	deck := CircularIterator over: {OverloadCard new}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
-	board := distributor generateFrom: collection withLength: 10.
+	board := boardCreator generateFrom: collection withLength: 10.
 	lapsAmount := 3.
 	game := Game
 		playedBy:
@@ -447,11 +447,11 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 
 { #category : #'create tests' }
 GameTest >> testCreateGameWithDistribution [
-	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount deck |
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect boardCreator game playerNamedLeo playerNamedGlenn die board collection lapsAmount deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	deck := CircularIterator over: {OverloadCard new}.
-	distributor := Distributor new.
+	boardCreator := BoardCreator new.
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
 	wormHoleEffect := WormholeEffect new.
@@ -463,7 +463,7 @@ GameTest >> testCreateGameWithDistribution [
 	(moonWalkEffect -> 10).
 	(atomicEffect -> 2)}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := distributor generateFrom: collection withLength: 100.
+	board := boardCreator generateFrom: collection withLength: 100.
 	lapsAmount := 3.
 	game := Game
 		playedBy:

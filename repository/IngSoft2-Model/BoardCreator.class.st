@@ -1,5 +1,5 @@
 Class {
-	#name : #Distributor,
+	#name : #BoardCreator,
 	#superclass : #Object,
 	#instVars : [
 		'fillMetric'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #interaction }
-Distributor >> fill: aCollection upTo: aLength using: aDistribution [
+BoardCreator >> fill: aCollection upTo: aLength using: aDistribution [
 	| iterator |
 	iterator := CircularIterator over: (aDistribution collect: [ :each | each key ]).
 	[aCollection size < aLength] whileTrue: [ aCollection add: (iterator next: iterator) ].
@@ -18,7 +18,7 @@ Distributor >> fill: aCollection upTo: aLength using: aDistribution [
 ]
 
 { #category : #interaction }
-Distributor >> generateEffectCollectionWith: aLength and: anAssociation [
+BoardCreator >> generateEffectCollectionWith: aLength and: anAssociation [
 	| aCollection collectionSize |
 	collectionSize := (anAssociation value / 100 * aLength) asInteger.
 	aCollection := OrderedCollection new: collectionSize withAll: anAssociation key.
@@ -26,7 +26,7 @@ Distributor >> generateEffectCollectionWith: aLength and: anAssociation [
 ]
 
 { #category : #interaction }
-Distributor >> generateFrom: aCollection withLength: aLength [
+BoardCreator >> generateFrom: aCollection withLength: aLength [
 	| anOrderedCollection |
 	self verifyPercentagesOf: aCollection.
 	anOrderedCollection := OrderedCollection new.
@@ -37,12 +37,12 @@ Distributor >> generateFrom: aCollection withLength: aLength [
 ]
 
 { #category : #interaction }
-Distributor >> generateUsingFixedDistributionWithLength: anInteger [ 
+BoardCreator >> generateUsingFixedDistributionWithLength: anInteger [ 
 	self shouldBeImplemented.
 ]
 
 { #category : #assertion }
-Distributor >> verifyPercentagesOf: aCollection [
+BoardCreator >> verifyPercentagesOf: aCollection [
 	| percentages |
 	percentages := aCollection collect: [ :each | each value ].
 	^ (percentages sumNumbers: [ :each | each ]) = 100

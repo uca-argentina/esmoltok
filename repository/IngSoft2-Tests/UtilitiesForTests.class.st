@@ -9,7 +9,7 @@ UtilitiesForTests class >> collectionOf20NoEffect [
 	| noEffect result collection distributor |
 	noEffect := NoEffect new.
 	collection := {(noEffect -> 100)}.
-	distributor := Distributor new.
+	distributor := BoardCreator new.
 	result := distributor generateFrom: collection withLength: 20.
 	^ result
 ]
