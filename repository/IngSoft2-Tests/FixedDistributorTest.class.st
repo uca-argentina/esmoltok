@@ -20,7 +20,7 @@ FixedDistributorTest >> testGenerateBoardOfExpectedLength [
 
 { #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfOnlyAtomicEffectCheckClassOfContents [
-	| board distributor |
+	| board distributor boardLength |
 	distributor := FixedDistributor
 		withProbabilityOfSpeedUp: 0
 		wormhole: 0
@@ -28,14 +28,15 @@ FixedDistributorTest >> testGenerateBoardOfOnlyAtomicEffectCheckClassOfContents 
 		noEffect: 0
 		moonwalk: 0
 		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 7.
-	self assert: board size equals: 7.
-	self assert: (board first isMemberOf: AtomicEffect) equals: true
+	boardLength := 7.
+	board := distributor boardOfLength: boardLength.
+	self assert: board size equals: boardLength.
+	1 to: boardLength do: [ :eachIndex | self assert: ((board at: eachIndex) isMemberOf: AtomicEffect) equals: true ]
 ]
 
 { #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfOnlyMoonwalkEffectCheckClassOfContents [
-	| board distributor |
+	| board distributor boardLength |
 	distributor := FixedDistributor
 		withProbabilityOfSpeedUp: 0
 		wormhole: 0
@@ -43,14 +44,15 @@ FixedDistributorTest >> testGenerateBoardOfOnlyMoonwalkEffectCheckClassOfContent
 		noEffect: 0
 		moonwalk: 100
 		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 7.
-	self assert: board size equals: 7.
-	self assert: (board first isMemberOf: MoonWalkEffect) equals: true
+	boardLength := 7.
+	board := distributor boardOfLength: boardLength.
+	self assert: board size equals: boardLength.
+	1 to: boardLength do: [ :eachIndex | self assert: ((board at: eachIndex) isMemberOf: MoonWalkEffect) equals: true ]
 ]
 
 { #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfOnlyNoEffectCheckClassOfContents [
-	| board distributor |
+	| board distributor boardLength |
 	distributor := FixedDistributor
 		withProbabilityOfSpeedUp: 0
 		wormhole: 0
@@ -58,14 +60,15 @@ FixedDistributorTest >> testGenerateBoardOfOnlyNoEffectCheckClassOfContents [
 		noEffect: 100
 		moonwalk: 0
 		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 7.
-	self assert: board size equals: 7.
-	self assert: (board first isMemberOf: NoEffect) equals: true
+	boardLength := 7.
+	board := distributor boardOfLength: boardLength.
+	self assert: board size equals: boardLength.
+	1 to: boardLength do: [ :eachIndex | self assert: ((board at: eachIndex) isMemberOf: NoEffect) equals: true ]
 ]
 
 { #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfOnlySpeedUpEffectCheckClassOfContents [
-	| board distributor |
+	| board distributor boardLength |
 	distributor := FixedDistributor
 		withProbabilityOfSpeedUp: 100
 		wormhole: 0
@@ -73,14 +76,15 @@ FixedDistributorTest >> testGenerateBoardOfOnlySpeedUpEffectCheckClassOfContents
 		noEffect: 0
 		moonwalk: 0
 		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 7.
-	self assert: board size equals: 7.
-	self assert: (board first isMemberOf: SpeedUpEffect) equals: true
+	boardLength := 7.
+	board := distributor boardOfLength: boardLength.
+	self assert: board size equals: boardLength.
+	1 to: boardLength do: [ :eachIndex | self assert: ((board at: eachIndex) isMemberOf: SpeedUpEffect) equals: true ]
 ]
 
 { #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfOnlyWormholeEffectCheckClassOfContents [
-	| board distributor |
+	| board distributor boardLength |
 	distributor := FixedDistributor
 		withProbabilityOfSpeedUp: 0
 		wormhole: 100
@@ -88,9 +92,10 @@ FixedDistributorTest >> testGenerateBoardOfOnlyWormholeEffectCheckClassOfContent
 		noEffect: 0
 		moonwalk: 0
 		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 7.
-	self assert: board size equals: 7.
-	self assert: (board first isMemberOf: WormholeEffect) equals: true
+	boardLength := 7.
+	board := distributor boardOfLength: boardLength.
+	self assert: board size equals: boardLength.
+	1 to: boardLength do: [ :eachIndex | self assert: ((board at: eachIndex) isMemberOf: WormholeEffect) equals: true ]
 ]
 
 { #category : #tests }

@@ -1,6 +1,13 @@
 Class {
 	#name : #GameTest,
 	#superclass : #TestCase,
+	#instVars : [
+		'noEffect',
+		'speedUpEffect',
+		'wormHoleEffect',
+		'moonWalkEffect',
+		'atomicEffect'
+	],
 	#category : #'IngSoft2-Tests'
 }
 
@@ -40,12 +47,25 @@ GameTest >> collectionOf80NoEffect [
 ]
 
 { #category : #'create tests' }
-GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| boardCreator lapsAmount board die game deck |
-	boardCreator := BoardCreator new.
+GameTest >> gameDistributedWithPlayer: playerNamedLeo and: playerNamedGlenn [
+	| lapsAmount board die game deck |
+	noEffect := NoEffect new.
+	speedUpEffect := SpeedUpEffect new.
+	wormHoleEffect := WormholeEffect new.
+	moonWalkEffect := MoonWalkEffect withSteps: 2.
+	atomicEffect := AtomicEffect new.
+	board := {speedUpEffect.
+	speedUpEffect.
+	noEffect.
+	noEffect.
+	noEffect.
+	noEffect.
+	wormHoleEffect.
+	wormHoleEffect.
+	moonWalkEffect.
+	speedUpEffect} asOrderedCollection.
 	deck := CircularIterator over: {OverloadCard new}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
-	board := boardCreator generateFrom: collection withLength: 10.
 	lapsAmount := 3.
 	game := Game
 		playedBy:
@@ -366,33 +386,10 @@ GameTest >> testCreateGameWithBoard [
 
 { #category : #'create tests' }
 GameTest >> testCreateGameWithDistributedBoardGiveRanking [
-	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect game playerNamedLeo playerNamedGlenn collection |
+	| game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	noEffect := NoEffect new.
-	speedUpEffect := SpeedUpEffect new.
-	wormHoleEffect := WormholeEffect new.
-	moonWalkEffect := MoonWalkEffect withSteps: 2.
-	atomicEffect := AtomicEffect new.
-	collection := {(speedUpEffect -> 20).
-	(noEffect -> 48).
-	(wormHoleEffect -> 20).
-	(moonWalkEffect -> 10).
-	(atomicEffect -> 2)}.
-	game := self gameForDistributedBoardUsingCollection: collection WithPlayer: playerNamedLeo and: playerNamedGlenn.
-	self
-		assert: game board
-		equals:
-			{speedUpEffect.
-			speedUpEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			moonWalkEffect.
-			speedUpEffect} asOrderedCollection.
+	game := self gameDistributedWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	"First turn:"
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
