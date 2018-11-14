@@ -54,10 +54,9 @@ CardsTest >> testAddCardToGame [
 	| overloadCard game playerNamedLeo playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
-	game := self
-		gameForCardTestsWithPlayer: playerNamedLeo
-		and: playerNamedGlenn.
+	game := self gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
+	self assert: (game hasCard: overloadCard) equals: false.
 	overloadCard applyOn: game to: playerNamedLeo.
 	self assert: (game hasCard: overloadCard) equals: true.
 	self assert: game cards values first equals: playerNamedLeo.
@@ -71,6 +70,7 @@ CardsTest >> testApplyAccelerationAddsOneToEveryRoll [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	accelerationCard := AccelerationCard new.
+	self assert: (game hasCard: accelerationCard) equals: false.
 	accelerationCard applyOn: game to: playerNamedLeo.
 	self assert: (game hasCard: accelerationCard) equals: true.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
@@ -88,6 +88,7 @@ CardsTest >> testApplyCancellationRemoveChosenCard [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
+	self assert: (game hasCard: overloadCard) equals: false.
 	overloadCard applyOn: game to: playerNamedLeo.
 	self assert: (game hasCard: overloadCard) equals: true.
 	cancellationCard := CancellationCard new.
@@ -115,8 +116,10 @@ CardsTest >> testApplyOverloadSubstractsTwoToManyPlayersRoll [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
+	self assert: (game hasCard: overloadCard) equals: false.
 	overloadCard applyOn: game to: playerNamedLeo.
 	overloadCardCopy := overloadCard deepCopy.
+	self assert: (game hasCard: overloadCardCopy) equals: false.
 	overloadCardCopy applyOn: game to: playerNamedGlenn.
 	self assert: (game hasCard: overloadCard) equals: true.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
@@ -134,6 +137,7 @@ CardsTest >> testApplyOverloadSubstractsTwoToPlayerRoll [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	overloadCard := OverloadCard new.
+	self assert: (game hasCard: overloadCard) equals: false.
 	overloadCard applyOn: game to: playerNamedLeo.
 	self assert: (game hasCard: overloadCard) equals: true.
 	playerNamedLeo takesATurnIn: game.
@@ -150,6 +154,7 @@ CardsTest >> testApplyRedoReapplyOverloadCard [
 	overloadCard applyOn: game to: playerNamedLeo.
 	redoCard := RedoCard new.
 	redoCard applyOn: game to: playerNamedLeo.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	playerNamedLeo takesATurnIn: game.
 	self assert: (game positionFor: playerNamedLeo) equals: 1
 ]
@@ -161,7 +166,9 @@ CardsTest >> testApplyRepeatRepeatsSpeedUpEffect [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForRepeatTestWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	repeatCard := RepeatCard new.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 9.
 	repeatCard applyOn: game to: playerNamedLeo.
 	self assert: (game positionFor: playerNamedLeo) equals: 3
 ]
@@ -175,6 +182,7 @@ CardsTest >> testApplySpeedAddsOneToPlayerRoll [
 	speedCard := SpeedCard new.
 	speedCard applyOn: game to: playerNamedLeo.
 	self assert: (game hasCard: speedCard) equals: true.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	playerNamedLeo takesATurnIn: game.
 	self assert: (game positionFor: playerNamedLeo) equals: 6
 ]

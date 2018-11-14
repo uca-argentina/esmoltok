@@ -36,6 +36,11 @@ Distributor >> generateFrom: aCollection withLength: aLength [
 
 ]
 
+{ #category : #interaction }
+Distributor >> generateUsingFixedDistributionWithLength: anInteger [ 
+	self shouldBeImplemented.
+]
+
 { #category : #assertion }
 Distributor >> verifyPercentagesOf: aCollection [
 	| percentages |

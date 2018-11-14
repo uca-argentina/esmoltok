@@ -394,6 +394,10 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 			moonWalkEffect.
 			speedUpEffect} asOrderedCollection.
 	"First turn:"
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	self assert: (game lapFor: playerNamedGlenn) equals: 0.
 	playerNamedLeo takesATurnIn: game.	"dice rolls 1, ends in position 2."
 	self assert: (game positionFor: playerNamedLeo) equals: 6.	"SpeedUp effect applied, goes 4 positions forward."
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
@@ -951,6 +955,8 @@ GameTest >> testUsingCardsGivesTwoCardsAtStartToEachPlayer [
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := UtilitiesForTests collectionOf20NoEffect.
+	self assert: playerNamedLeo quantityOfCardsInHand equals: 0.
+	self assert: playerNamedGlenn quantityOfCardsInHand equals: 0.
 	game := Game
 		playedBy:
 			{playerNamedLeo.
