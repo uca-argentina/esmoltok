@@ -24,6 +24,16 @@ Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLap
 		andAmountOfLaps: aLapAmount 
 ]
 
+{ #category : #'instance creation' }
+Game class >> playedBy: aPlayerCollection throwing: aDice using: aDeck in: aBoard andAmountOfLaps: aLapAmount [ 
+	^ self new
+		initializePlayedBy: aPlayerCollection
+		throwing: aDice
+		using: aDeck
+		in: aBoard
+		andAmountOfLaps: aLapAmount 
+]
+
 { #category : #interaction }
 Game >> activatePermanentCards [
 	permanentCardsAssociations associationsDo: [ :each | each key activateOn: self to: each value ]
@@ -57,6 +67,15 @@ Game >> cards [
 { #category : #accessing }
 Game >> currentPlayerTurn [
 	^ playersOrder currentElement
+]
+
+{ #category : #interaction }
+Game >> dealCardsToPlayersUsing: aDeck [
+	self playersPlaying
+		do: [ :each | 
+			each
+				drawCardFrom: aDeck;
+				drawCardFrom: aDeck ]
 ]
 
 { #category : #accessing }
@@ -102,6 +121,21 @@ Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in:
 	permanentCardsAssociations := Dictionary new.
 	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
 	lastPlayedCard := BlankCard new
+]
+
+{ #category : #initialization }
+Game >> initializePlayedBy: aPlayerCollection throwing: aDice using: aDeck in: aBoard andAmountOfLaps: aLapAmount [
+	board := aBoard.
+	laps := aLapAmount.
+	dice := aDice.
+	playersPosition := Dictionary new.
+	aPlayerCollection do: [ :each | playersPosition at: each put: 1 ].
+	playersOrder := CircularIterator over: (aPlayerCollection collect: [ :each | each ]).
+	state := RunningState new.
+	permanentCardsAssociations := Dictionary new.
+	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
+	lastPlayedCard := BlankCard new.
+	self dealCardsToPlayersUsing: aDeck
 ]
 
 { #category : #testing }

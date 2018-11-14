@@ -944,3 +944,33 @@ GameTest >> testSimulateTurnWithWrongOrderOfPlayersRaisesException [
 	self assert: (game positionFor: playerNamedAlbert) equals: 7.
 	self assert: (game positionFor: playerNamedGlenn) equals: 10
 ]
+
+{ #category : #'cards tests' }
+GameTest >> testUsingCardsGivesTwoCardsAtStartToEachPlayer [
+	| game playerNamedLeo playerNamedGlenn die board collection deck |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	deck := RandomElementSelector
+		over:
+			{OverloadCard new.
+			SpeedCard new.
+			AccelerationCard new.
+			CancellationCard new.
+			RedoCard new.
+			RepeatCard new}.
+	collection := {1 . 2 . 3 . 4 . 5}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
+	board := UtilitiesForTests collectionOf20NoEffect.
+	game := Game
+		playedBy:
+			{playerNamedLeo.
+			playerNamedGlenn}
+		throwing:
+			{die.
+			die}
+		using: deck
+		in: board
+		andAmountOfLaps: 1.
+	self assert: playerNamedLeo quantityOfCardsInHand equals: 2.
+	self assert: playerNamedGlenn quantityOfCardsInHand equals: 2
+]

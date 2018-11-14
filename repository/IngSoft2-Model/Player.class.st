@@ -44,6 +44,11 @@ Player >> name [
 	^name 
 ]
 
+{ #category : #interaction }
+Player >> quantityOfCardsInHand [
+	^ cards size
+]
+
 { #category : #updating }
 Player >> removeCard: aCard [ 
 	cards remove: aCard
