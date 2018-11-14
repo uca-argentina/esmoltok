@@ -22,8 +22,8 @@ FixedDistributor >> boardOfLength: aSize [
 ]
 
 { #category : #interaction }
-FixedDistributor >> collectionOf: aSize containingAll: aClass [
-	^ OrderedCollection new: aSize withAll: aClass new
+FixedDistributor >> collectionOf: aSize containingAll: aElement [
+	^ OrderedCollection new: aSize withAll: aElement
 ]
 
 { #category : #interaction }
@@ -41,11 +41,11 @@ FixedDistributor >> initializeWithProbabilityOfSpeedUp: aSpeedUpProbability worm
 			aNoEffectProbability.
 			aMoonWalkProbability}.
 	board := OrderedCollection new.
-	board add: (self collectionOf: aSpeedUpProbability containingAll: SpeedUpEffect).
-	board add: (self collectionOf: aWormholeProbability containingAll: WormholeEffect).
-	board add: (self collectionOf: aAtomicProbability containingAll: AtomicEffect).
-	board add: (self collectionOf: aNoEffectProbability containingAll: NoEffect).
-	board add: (self moonWalkcollectionOf: aMoonWalkProbability andMaximumSteps: aMaximumMoonwalkSteps)
+	board addAll: (self collectionOf: aSpeedUpProbability containingAll: SpeedUpEffect new).
+	board addAll: (self collectionOf: aWormholeProbability containingAll: WormholeEffect new).
+	board addAll: (self collectionOf: aAtomicProbability containingAll: AtomicEffect new).
+	board addAll: (self collectionOf: aNoEffectProbability containingAll: NoEffect new).
+	board addAll: (self moonWalkcollectionOf: aMoonWalkProbability andMaximumSteps: aMaximumMoonwalkSteps)
 ]
 
 { #category : #interaction }

@@ -6,10 +6,13 @@ Class {
 
 { #category : #interaction }
 UtilitiesForTests class >> collectionOf20NoEffect [
-	| noEffect result collection distributor |
-	noEffect := NoEffect new.
-	collection := {(noEffect -> 100)}.
-	distributor := BoardCreator new.
-	result := distributor generateFrom: collection withLength: 20.
-	^ result
+	| distributor |
+	distributor := FixedDistributor
+		withProbabilityOfSpeedUp: 0
+		wormhole: 0
+		atomic: 0
+		noEffect: 100
+		moonwalk: 0
+		andMaximumMoonwalkSteps: 5.
+	^ distributor boardOfLength: 20
 ]

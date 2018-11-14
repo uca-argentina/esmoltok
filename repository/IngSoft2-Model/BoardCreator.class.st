@@ -36,11 +36,6 @@ BoardCreator >> generateFrom: aCollection withLength: aLength [
 
 ]
 
-{ #category : #interaction }
-BoardCreator >> generateUsingFixedDistributionWithLength: anInteger [ 
-	self shouldBeImplemented.
-]
-
 { #category : #assertion }
 BoardCreator >> verifyPercentagesOf: aCollection [
 	| percentages |
