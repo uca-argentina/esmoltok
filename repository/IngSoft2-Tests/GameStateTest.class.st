@@ -6,13 +6,10 @@ Class {
 
 { #category : #'utilities for tests' }
 GameStateTest >> gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| die anotherDie game board |
-	die := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	anotherDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	| die anotherDie game board deck |
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	anotherDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
@@ -21,6 +18,7 @@ GameStateTest >> gameForGameStateTestsWithPlayer: playerNamedLeo and: playerName
 		throwing:
 			{die.
 			anotherDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game

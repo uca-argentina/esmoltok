@@ -6,17 +6,12 @@ Class {
 
 { #category : #'utilities for tests' }
 EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -26,6 +21,7 @@ EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbe
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -116,7 +112,7 @@ EffectTest >> testRandomEffectAppliedPlayerGetsCardFromCollection [
 
 ]
 
-{ #category : #'random card tests' }
+{ #category : #tests }
 EffectTest >> testRandomEffectAppliedPlayerGetsRandomCardFromCollection [
 	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn overload speed accelerate collection |
 	playerNamedLeo := Player named: 'Leo'.
@@ -124,15 +120,16 @@ EffectTest >> testRandomEffectAppliedPlayerGetsRandomCardFromCollection [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	overload := OverloadCard new.
-   speed := SpeedCard new.
-   accelerate := AccelerationCard new.
-   collection := {overload . speed . accelerate }.
-	effect := CardFromDeckEffect withDeck: (RandomElementSelector over: collection ).
+	speed := SpeedCard new.
+	accelerate := AccelerationCard new.
+	collection := {overload.
+	speed.
+	accelerate}.
+	effect := CardFromDeckEffect withDeck: (RandomElementSelector over: collection).
 	effect triggerOn: game and: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedLeo. 
-	self assert: (collection includes: (playerNamedAlbert cardsInHand first )) equals: true.
-	self assert: (collection includes: (playerNamedLeo cardsInHand first )) equals: true.
-
+	effect triggerOn: game and: playerNamedLeo.
+	self assert: (collection includes: playerNamedAlbert cardsInHand last) equals: true.
+	self assert: (collection includes: playerNamedLeo cardsInHand last) equals: true
 ]
 
 { #category : #'speed up tests' }

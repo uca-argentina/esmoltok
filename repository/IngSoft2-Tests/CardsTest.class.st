@@ -6,17 +6,17 @@ Class {
 
 { #category : #'utilities for tests' }
 CardsTest >> gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| die game collection board |
+	| die game collection board deck |
 	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -24,11 +24,10 @@ CardsTest >> gameForCardTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
 
 { #category : #'utilities for tests' }
 CardsTest >> gameForRepeatTestWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| die game collection board |
+	| die game collection board deck |
 	collection := {4 . 2 . 3 . 4 . 5}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
 	NoEffect new.
 	NoEffect new.
@@ -44,6 +43,7 @@ CardsTest >> gameForRepeatTestWithPlayer: playerNamedLeo and: playerNamedGlenn [
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game

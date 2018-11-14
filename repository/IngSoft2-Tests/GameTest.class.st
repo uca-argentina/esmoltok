@@ -41,11 +41,10 @@ GameTest >> collectionOf80NoEffect [
 
 { #category : #'create tests' }
 GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| distributor lapsAmount board die game |
+	| distributor lapsAmount board die game deck |
 	distributor := Distributor new.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 3 . 8 . 1 . 6 . 10 . 1 . 5 . 6 . 3}).
 	board := distributor generateFrom: collection withLength: 10.
 	lapsAmount := 3.
 	game := Game
@@ -53,6 +52,7 @@ GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playe
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	^ game
@@ -60,17 +60,12 @@ GameTest >> gameForDistributedBoardUsingCollection: collection WithPlayer: playe
 
 { #category : #'test laps' }
 GameTest >> gameForLapsWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
-	anotherDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
-	oneMoreDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 7 . 1}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
+	anotherDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
+	oneMoreDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 7 . 1}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -80,6 +75,7 @@ GameTest >> gameForLapsWithPlayer: playerNamedLeo and: playerNamedGlenn and: pla
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 2.
 	^ game
@@ -87,17 +83,12 @@ GameTest >> gameForLapsWithPlayer: playerNamedLeo and: playerNamedGlenn and: pla
 
 { #category : #'test laps' }
 GameTest >> gameForPositionForWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
-	anotherDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
-	oneMoreDie := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 5 . 1}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
+	anotherDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
+	oneMoreDie := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 5 . 1}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -107,6 +98,7 @@ GameTest >> gameForPositionForWithPlayer: playerNamedLeo and: playerNamedGlenn a
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 2.
 	^ game
@@ -114,17 +106,12 @@ GameTest >> gameForPositionForWithPlayer: playerNamedLeo and: playerNamedGlenn a
 
 { #category : #'test results' }
 GameTest >> gameForResultsAnotherIteratorWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := self collectionOf16NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -134,6 +121,7 @@ GameTest >> gameForResultsAnotherIteratorWithPlayer: playerNamedLeo and: playerN
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -141,17 +129,12 @@ GameTest >> gameForResultsAnotherIteratorWithPlayer: playerNamedLeo and: playerN
 
 { #category : #'test results' }
 GameTest >> gameForResultsIteratorWithPlayer: playerNamedLeo and: playerNamedGlenn and: playerNamedAlbert [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := self collectionOf80NoEffect.
-	die := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
-	oneMoreDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
+	oneMoreDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 5 . 6 . 40}).
 	"this way, we are assured that the third player will win"
 	game := Game
 		playedBy:
@@ -162,6 +145,7 @@ GameTest >> gameForResultsIteratorWithPlayer: playerNamedLeo and: playerNamedGle
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -169,13 +153,12 @@ GameTest >> gameForResultsIteratorWithPlayer: playerNamedLeo and: playerNamedGle
 
 { #category : #'test return' }
 GameTest >> gameForReturnLenghtOf: board [
-	| playerNamedLeo collection playerNamedGlenn lapsAmount die game |
+	| playerNamedLeo collection playerNamedGlenn lapsAmount die game deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	collection := {1 . 2 . 3 . 4 . 5}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	lapsAmount := 3.
 	game := Game
 		playedBy:
@@ -184,6 +167,7 @@ GameTest >> gameForReturnLenghtOf: board [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	^ game
@@ -191,11 +175,10 @@ GameTest >> gameForReturnLenghtOf: board [
 
 { #category : #'turn tests' }
 GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
-	| die game collection board |
+	| die game collection board deck |
 	collection := {1 . 2 . 3 . 4 . 5}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
@@ -204,6 +187,7 @@ GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	self assert: game boardLength equals: 20.
@@ -219,11 +203,10 @@ GameTest >> gameForTurnOrderLike: playerNamedLeo and: playerNamedGlenn [
 
 { #category : #'turn tests' }
 GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| collection lapsAmount board die game |
+	| collection lapsAmount board die game deck |
 	collection := {1}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
 	NoEffect new.
 	AtomicEffect new.
@@ -235,6 +218,7 @@ GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGl
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	^ game
@@ -242,11 +226,10 @@ GameTest >> gameUsingAnAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGl
 
 { #category : #'turn tests' }
 GameTest >> gameUsingAnotherAtomicEffectWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| collection lapsAmount board die game |
+	| collection lapsAmount board die game deck |
 	collection := {6 . 6 . 1}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
 	NoEffect new.
 	AtomicEffect new.
@@ -258,6 +241,7 @@ GameTest >> gameUsingAnotherAtomicEffectWithPlayer: playerNamedLeo and: playerNa
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	^ game
@@ -265,12 +249,14 @@ GameTest >> gameUsingAnotherAtomicEffectWithPlayer: playerNamedLeo and: playerNa
 
 { #category : #'test laps' }
 GameTest >> gameWith5NoEffectBoardWithPlayer: playerNamedLeo [
-	| die game board |
+	| die game board deck |
 	board := self collectionOf5NoEffect.
+	deck := CircularIterator over: {OverloadCard new}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: {5}).
 	game := Game
 		playedBy: {playerNamedLeo}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: 3.
 	^ game
@@ -278,17 +264,12 @@ GameTest >> gameWith5NoEffectBoardWithPlayer: playerNamedLeo [
 
 { #category : #'turn tests' }
 GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerNamedAlbert [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -298,6 +279,7 @@ GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerName
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -305,11 +287,10 @@ GameTest >> gameWithPlayer: playerNamedGlenn and: playerNamedLeo and: playerName
 
 { #category : #'turn tests' }
 GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: effect [
-	| collection lapsAmount board die game |
+	| collection lapsAmount board die game deck |
 	collection := {1}.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: collection).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
 	effect.
 	NoEffect new.
@@ -321,6 +302,7 @@ GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: ef
 			{playerNamedLeo.
 			playerNamedGlenn}
 		throwing: {die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	^ game
@@ -328,9 +310,10 @@ GameTest >> gameWithPlayer: playerNamedLeo and: playerNamedGlenn usingEffect: ef
 
 { #category : #'create tests' }
 GameTest >> testCreateGame [
-	| game playerNamedLeo playerNamedGlenn die board collection |
+	| game playerNamedLeo playerNamedGlenn die board collection deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
+	deck := CircularIterator over: {OverloadCard new}.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := UtilitiesForTests collectionOf20NoEffect.
@@ -341,6 +324,7 @@ GameTest >> testCreateGame [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	self assert: game boardLength equals: 20.
@@ -355,9 +339,10 @@ GameTest >> testCreateGame [
 
 { #category : #'create tests' }
 GameTest >> testCreateGameWithBoard [
-	| board game playerNamedLeo playerNamedGlenn die collection lapsAmount |
+	| board game playerNamedLeo playerNamedGlenn die collection lapsAmount deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
+	deck := CircularIterator over: {OverloadCard new}.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := {NoEffect new.
@@ -373,6 +358,7 @@ GameTest >> testCreateGameWithBoard [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	self assert: game board equals: board
@@ -457,9 +443,10 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 
 { #category : #'create tests' }
 GameTest >> testCreateGameWithDistribution [
-	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect distributor game playerNamedLeo playerNamedGlenn die board collection lapsAmount deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
+	deck := CircularIterator over: {OverloadCard new}.
 	distributor := Distributor new.
 	noEffect := NoEffect new.
 	speedUpEffect := SpeedUpEffect new.
@@ -481,6 +468,7 @@ GameTest >> testCreateGameWithDistribution [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	self
@@ -590,9 +578,10 @@ GameTest >> testCreateGameWithDistribution [
 
 { #category : #'create tests' }
 GameTest >> testCreateGameWithLaps [
-	| game playerNamedLeo playerNamedGlenn die board collection lapsAmount |
+	| game playerNamedLeo playerNamedGlenn die board collection lapsAmount deck |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
+	deck := CircularIterator over: {OverloadCard new}.
 	collection := {1 . 2 . 3 . 4 . 5}.
 	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
 	board := UtilitiesForTests collectionOf20NoEffect.
@@ -604,6 +593,7 @@ GameTest >> testCreateGameWithLaps [
 		throwing:
 			{die.
 			die}
+		using: deck
 		in: board
 		andAmountOfLaps: lapsAmount.
 	self assert: game laps equals: 3
@@ -767,7 +757,7 @@ GameTest >> testReturnLengthOfBoard [
 
 { #category : #'test return' }
 GameTest >> testReturnRanking [
-	| game playerNamedLeo playerNamedAlbert playerNamedGlenn die anotherDie oneMoreDie board |
+	| game playerNamedLeo playerNamedAlbert playerNamedGlenn |
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedAlbert := Player named: 'Albert'.
 	playerNamedGlenn := Player named: 'Glenn'.

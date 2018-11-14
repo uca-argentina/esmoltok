@@ -16,15 +16,6 @@ Class {
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLapAmount [
-	^ self new
-		initializePlayedBy: aPlayer
-		throwing: aDice
-		in: aBoard
-		andAmountOfLaps: aLapAmount 
-]
-
-{ #category : #'instance creation' }
 Game class >> playedBy: aPlayerCollection throwing: aDice using: aDeck in: aBoard andAmountOfLaps: aLapAmount [ 
 	^ self new
 		initializePlayedBy: aPlayerCollection
@@ -107,20 +98,6 @@ Game >> hasCard: aCard [
 { #category : #assertion }
 Game >> hasPermanentCards [
 	^(permanentCardsAssociations isNotEmpty)
-]
-
-{ #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
-	board := aBoard.
-	laps := aLapAmount.
-	dice := aCollectionOfDice.
-	playersPosition := Dictionary new.
-	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each ]).
-	state := RunningState new.
-	permanentCardsAssociations := Dictionary new.
-	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
-	lastPlayedCard := BlankCard new
 ]
 
 { #category : #initialization }
