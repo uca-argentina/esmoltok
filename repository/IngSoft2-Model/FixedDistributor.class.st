@@ -15,20 +15,18 @@ FixedDistributor class >> withProbabilityOfSpeedUp: aSpeedUpProbability wormhole
 
 { #category : #interaction }
 FixedDistributor >> boardOfLength: aSize [
-	| collection |
+	| collection element |
 	collection := OrderedCollection new.
-	aSize timesRepeat: [ collection add: self generateARandomEffectFromDistribution ].
+	aSize
+		timesRepeat: [ element := self removeRandomElementFromBoard.
+			collection add: element ].
+	board addAll: collection.
 	^ collection
 ]
 
 { #category : #interaction }
 FixedDistributor >> collectionOf: aSize containingAll: aElement [
 	^ OrderedCollection new: aSize withAll: aElement
-]
-
-{ #category : #interaction }
-FixedDistributor >> generateARandomEffectFromDistribution [
-	^ board shuffled first
 ]
 
 { #category : #initialization }
@@ -54,6 +52,13 @@ FixedDistributor >> moonWalkcollectionOf: aSize andMaximumSteps: steps [
 	collection := OrderedCollection new.
 	aSize timesRepeat: [ collection add: (MoonWalkEffect withSteps: steps atRandom) ].
 	^ collection
+]
+
+{ #category : #interaction }
+FixedDistributor >> removeRandomElementFromBoard [
+	| index |
+	index := board size atRandom.
+	^ board removeAt: index
 ]
 
 { #category : #validation }
