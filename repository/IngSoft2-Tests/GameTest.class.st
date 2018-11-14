@@ -18,32 +18,41 @@ GameTest >> assert: a hasTheSameOrderThan: b [
 
 { #category : #'test utilities' }
 GameTest >> collectionOf16NoEffect [
-	| noEffect result collection distributor |
-	noEffect := NoEffect new.
-	collection := {(noEffect -> 100)}.
-	distributor := BoardCreator new.
-	result := distributor generateFrom: collection withLength: 16.
-	^ result
+	| distributor |
+	distributor := FixedDistributor
+		withProbabilityOfSpeedUp: 0
+		wormhole: 0
+		atomic: 0
+		noEffect: 100
+		moonwalk: 0
+		andMaximumMoonwalkSteps: 5.
+	^ distributor boardOfLength: 16
 ]
 
 { #category : #'test utilities' }
 GameTest >> collectionOf5NoEffect [
-	| noEffect result collection distributor |
-	noEffect := NoEffect new.
-	collection := {(noEffect -> 100)}.
-	distributor := BoardCreator new.
-	result := distributor generateFrom: collection withLength: 5.
-	^ result
+	| distributor |
+	distributor := FixedDistributor
+		withProbabilityOfSpeedUp: 0
+		wormhole: 0
+		atomic: 0
+		noEffect: 100
+		moonwalk: 0
+		andMaximumMoonwalkSteps: 5.
+	^ distributor boardOfLength: 5
 ]
 
 { #category : #'test utilities' }
 GameTest >> collectionOf80NoEffect [
-	| noEffect result collection distributor |
-	noEffect := NoEffect new.
-	collection := {(noEffect -> 100)}.
-	distributor := BoardCreator new.
-	result := distributor generateFrom: collection withLength: 80.
-	^ result
+	| distributor |
+	distributor := FixedDistributor
+		withProbabilityOfSpeedUp: 0
+		wormhole: 0
+		atomic: 0
+		noEffect: 100
+		moonwalk: 0
+		andMaximumMoonwalkSteps: 5.
+	^ distributor boardOfLength: 80
 ]
 
 { #category : #'create tests' }
@@ -440,141 +449,6 @@ GameTest >> testCreateGameWithDistributedBoardGiveRanking [
 		hasTheSameOrderThan:
 			{playerNamedLeo.
 			playerNamedGlenn}
-]
-
-{ #category : #'create tests' }
-GameTest >> testCreateGameWithDistribution [
-	| noEffect wormHoleEffect speedUpEffect moonWalkEffect atomicEffect boardCreator game playerNamedLeo playerNamedGlenn die board collection lapsAmount deck |
-	playerNamedLeo := Player named: 'Leo'.
-	playerNamedGlenn := Player named: 'Glenn'.
-	deck := CircularIterator over: {OverloadCard new}.
-	boardCreator := BoardCreator new.
-	noEffect := NoEffect new.
-	speedUpEffect := SpeedUpEffect new.
-	wormHoleEffect := WormholeEffect new.
-	moonWalkEffect := MoonWalkEffect withSteps: 2.
-	atomicEffect := AtomicEffect new.
-	collection := {(speedUpEffect -> 20).
-	(noEffect -> 48).
-	(wormHoleEffect -> 20).
-	(moonWalkEffect -> 10).
-	(atomicEffect -> 2)}.
-	die := Die withSides: 4 andGenerator: (CircularIterator over: collection).
-	board := boardCreator generateFrom: collection withLength: 100.
-	lapsAmount := 3.
-	game := Game
-		playedBy:
-			{playerNamedLeo.
-			playerNamedGlenn}
-		throwing:
-			{die.
-			die}
-		using: deck
-		in: board
-		andAmountOfLaps: lapsAmount.
-	self
-		assert: game board
-		equals:
-			{speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			speedUpEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			noEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			wormHoleEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			moonWalkEffect.
-			atomicEffect.
-			atomicEffect} asOrderedCollection
 ]
 
 { #category : #'create tests' }
