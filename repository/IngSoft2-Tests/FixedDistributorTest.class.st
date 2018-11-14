@@ -10,24 +10,6 @@ FixedDistributorTest >> occurrencesOf: aClass in: aCollection [
 ]
 
 { #category : #tests }
-FixedDistributorTest >> testCheckRangeOfDistributionForEffects [
-	| board distributor |
-	distributor := FixedDistributor
-		withProbabilityOfSpeedUp: 20
-		wormhole: 20
-		atomic: 2
-		noEffect: 48
-		moonwalk: 10
-		andMaximumMoonwalkSteps: 5.
-	board := distributor boardOfLength: 100.
-	self assert: (self occurrencesOf: NoEffect in: board) equals: 48.
-	self assert: (self occurrencesOf: SpeedUpEffect in: board) equals: 20.
-	self assert: (self occurrencesOf: MoonWalkEffect in: board) equals: 10.
-	self assert: (self occurrencesOf: AtomicEffect in: board) equals: 2.
-	self assert: (self occurrencesOf: WormholeEffect in: board) equals: 20
-]
-
-{ #category : #tests }
 FixedDistributorTest >> testGenerateBoardOfExpectedLength [
 	| board distributor |
 	distributor := FixedDistributor

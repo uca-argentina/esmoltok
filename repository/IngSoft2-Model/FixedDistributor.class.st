@@ -55,7 +55,7 @@ FixedDistributor >> moonWalkcollectionOf: aSize andMaximumSteps: steps [
 FixedDistributor >> randomElementFromBoard [
 	| index |
 	index := board size atRandom.
-	^ board removeAt: index
+	^ board at: index
 ]
 
 { #category : #validation }
