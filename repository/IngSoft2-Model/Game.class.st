@@ -61,12 +61,8 @@ Game >> currentPlayerTurn [
 ]
 
 { #category : #interaction }
-Game >> dealCardsToPlayersUsing: aDeck [
-	self playersPlaying
-		do: [ :each | 
-			each
-				drawCardFrom: aDeck;
-				drawCardFrom: aDeck ]
+Game >> deal: aNumberOf CardsToPlayersUsing: aDeck [
+	self playersPlaying do: [ :each | aNumberOf timesRepeat: [ each drawCardFrom: aDeck ] ]
 ]
 
 { #category : #accessing }
@@ -90,6 +86,12 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
+{ #category : #initialization }
+Game >> fillPlayersPositionUsing: aPlayerCollection [
+	playersPosition := Dictionary new.
+	aPlayerCollection do: [ :each | playersPosition at: each put: 1 ]
+]
+
 { #category : #testing }
 Game >> hasCard: aCard [
 	^ permanentCardsAssociations includesKey: aCard
@@ -105,14 +107,13 @@ Game >> initializePlayedBy: aPlayerCollection throwing: aDice using: aDeck in: a
 	board := aBoard.
 	laps := aLapAmount.
 	dice := aDice.
-	playersPosition := Dictionary new.
-	aPlayerCollection do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aPlayerCollection collect: [ :each | each ]).
-	state := RunningState new.
+	self fillPlayersPositionUsing: aPlayerCollection.
+	playersOrder := CircularIterator over: aPlayerCollection.
 	permanentCardsAssociations := Dictionary new.
 	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
 	lastPlayedCard := BlankCard new.
-	self dealCardsToPlayersUsing: aDeck
+	self deal: 2 CardsToPlayersUsing: aDeck.
+	state := RunningState new
 ]
 
 { #category : #testing }
