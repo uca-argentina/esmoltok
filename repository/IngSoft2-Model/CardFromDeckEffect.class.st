@@ -18,6 +18,6 @@ CardFromDeckEffect >> initializeWithDeck: aDeck [
 ]
 
 { #category : #accessing }
-CardFromDeckEffect >> triggerOn: aGame and: aPlayer [
+CardFromDeckEffect >> triggerOn: aGame afterMovementOf: aPlayer [
 	aPlayer drawCardFrom: deck
 ]

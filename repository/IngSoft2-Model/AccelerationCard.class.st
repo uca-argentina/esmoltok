@@ -6,7 +6,7 @@ Class {
 
 { #category : #interaction }
 AccelerationCard >> activateOn: aGame to: aPlayerCollection [
-	aGame updatePositionBy: 1 OfThePlayer: aGame currentPlayerTurn
+	aGame updatePositionBy: 1 ofThePlayer: aGame currentPlayerTurn
 ]
 
 { #category : #interaction }

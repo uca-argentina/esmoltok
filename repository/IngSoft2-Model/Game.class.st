@@ -37,7 +37,7 @@ Game >> addCard: aCard asociatedWith: aPlayerOrCollection [
 
 { #category : #updating }
 Game >> applyPositionEffectTo: aPlayer [ 
-	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
+	(self effectInPositionOf: aPlayer) triggerOn: self afterMovementOf: aPlayer
 ]
 
 { #category : #accessing }
@@ -116,18 +116,6 @@ Game >> initializePlayedBy: aPlayerCollection throwing: aDice using: aDeck in: a
 	state := RunningState new
 ]
 
-{ #category : #testing }
-Game >> isPlayedBy: aPlayer [
-	| aNumberOfCells |
-	self turnOf: aPlayer.
-	aNumberOfCells := aPlayer throwDice: self dice.
-	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
-	self updateLastEffectPlayer: aPlayer.
-	self activatePermanentCards.
-	self applyPositionEffectTo: aPlayer.
-	self nextPlayerTurn
-]
-
 { #category : #accessing }
 Game >> lapFor: aPlayer [
 	^ (playersPosition at: aPlayer) // self boardLength
@@ -165,7 +153,19 @@ Game >> nextPlayerTurn [
 
 { #category : #updating }
 Game >> playTurn: aPlayer [ 
-	state nextTurnAt: self playedBy: aPlayer .
+	state playNextTurnIn: self playedBy: aPlayer .
+]
+
+{ #category : #testing }
+Game >> playedBy: aPlayer [
+	| aNumberOfCells |
+	self turnOf: aPlayer.
+	aNumberOfCells := aPlayer throwDice: self dice.
+	self updatePositionBy: aNumberOfCells ofThePlayer: aPlayer.
+	self updateLastEffectPlayer: aPlayer.
+	self activatePermanentCards.
+	self applyPositionEffectTo: aPlayer.
+	self nextPlayerTurn
 ]
 
 { #category : #interaction }
@@ -220,7 +220,7 @@ Game >> updateLastPlayedCard: aCard [
 ]
 
 { #category : #updating }
-Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
+Game >> updatePositionBy: aNumberOfCells ofThePlayer: aPlayer [
 	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
 	self endsIfBoardLengthHasBeenReachedBy: aPlayer
 ]

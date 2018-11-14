@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interaction }
-Effect >> triggerOn: aGame and: aPlayer [
+Effect >> triggerOn: aGame afterMovementOf: aPlayer [
 	self subclassResponsibility
 ]

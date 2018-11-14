@@ -44,7 +44,7 @@ EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 	self assert: (game positionFor: playerNamedAlbert) equals: 7.
 	playerNamedGlenn takesATurnIn: game.
 	self assert: (game positionFor: playerNamedGlenn) equals: 10.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1
@@ -61,7 +61,7 @@ EffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1
@@ -83,7 +83,7 @@ EffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer [
 	self assert: (game lapFor: playerNamedAlbert) equals: 0.
 	self assert: (game lapFor: playerNamedLeo) equals: 0.
 	self assert: (game lapFor: playerNamedGlenn) equals: 0.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: positionAlbert.
 	self assert: (game positionFor: playerNamedLeo) equals: 16.
 	self assert: (game positionFor: playerNamedGlenn) equals: 16.
@@ -109,7 +109,7 @@ EffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := NoEffect new.
 	position := game positionFor: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: position
 ]
 
@@ -130,8 +130,8 @@ EffectTest >> testRandomEffectAppliedPlayerGetsCardFromCollection [
 					speed}).
 	self assert: (playerNamedAlbert hasCard: overload) equals: false.
 	self assert: (playerNamedLeo hasCard: speed) equals: false.
-	effect triggerOn: game and: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedLeo.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedLeo.
 	self assert: (playerNamedAlbert hasCard: overload) equals: true.
 	self assert: (playerNamedLeo hasCard: speed) equals: true
 ]
@@ -150,8 +150,8 @@ EffectTest >> testRandomEffectAppliedPlayerGetsRandomCardFromCollection [
 	speed.
 	accelerate}.
 	effect := CardFromDeckEffect withDeck: (RandomElementSelector over: collection).
-	effect triggerOn: game and: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedLeo.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedLeo.
 	self assert: (collection includes: playerNamedAlbert cardsInHand last) equals: true.
 	self assert: (collection includes: playerNamedLeo cardsInHand last) equals: true
 ]
@@ -165,7 +165,7 @@ EffectTest >> testSpeedUpAppliedGoForward4Positions [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := SpeedUpEffect new.
 	position := game positionFor: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: position + 4
 ]
 
@@ -178,7 +178,7 @@ EffectTest >> testWormHoleAppliedGoBack4Positions [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := WormholeEffect new.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: 17.
 	self assert: (game lapFor: playerNamedAlbert) equals: -1
 ]

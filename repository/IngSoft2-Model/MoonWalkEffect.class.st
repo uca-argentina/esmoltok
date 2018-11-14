@@ -23,8 +23,8 @@ MoonWalkEffect >> steps [
 ]
 
 { #category : #interaction }
-MoonWalkEffect >> triggerOn: aGame and: aPlayer [
+MoonWalkEffect >> triggerOn: aGame afterMovementOf: aPlayer [
 	| otherPlayers |
 	otherPlayers := aGame playersPlaying reject: [ :each | each = aPlayer ].
-	otherPlayers do: [ :each | aGame updatePositionBy: steps negated OfThePlayer: each ]
+	otherPlayers do: [ :each | aGame updatePositionBy: steps negated ofThePlayer: each ]
 ]

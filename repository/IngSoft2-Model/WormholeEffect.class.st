@@ -5,8 +5,8 @@ Class {
 }
 
 { #category : #interaction }
-WormholeEffect >> triggerOn: aGame and: aPlayer [
+WormholeEffect >> triggerOn: aGame afterMovementOf: aPlayer [
 	| steps |
 	steps := 4 negated.
-	aGame updatePositionBy: steps OfThePlayer: aPlayer
+	aGame updatePositionBy: steps ofThePlayer: aPlayer
 ]

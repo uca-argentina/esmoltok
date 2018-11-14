@@ -32,7 +32,7 @@ GameStateTest >> testPlayersPositionWhenFinished [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	self
-		should: [ finishedState nextTurnAt: game playedBy: playerNamedLeo ]
+		should: [ finishedState playNextTurnIn: game playedBy: playerNamedLeo ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ]
 ]
@@ -44,8 +44,8 @@ GameStateTest >> testPlayersPositionWhenRunning [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
-	runningState nextTurnAt: game playedBy: playerNamedLeo.
-	runningState nextTurnAt: game playedBy: playerNamedGlenn.
+	runningState playNextTurnIn: game playedBy: playerNamedLeo.
+	runningState playNextTurnIn: game playedBy: playerNamedGlenn.
 	self assert: (game positionFor: playerNamedLeo) equals: 3.
 	self assert: (game positionFor: playerNamedGlenn) equals: 5
 ]

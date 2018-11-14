@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interaction }
-RunningState >> nextTurnAt: aGame playedBy: aPlayer [ 
-	aGame isPlayedBy: aPlayer.
+RunningState >> playNextTurnIn: aGame playedBy: aPlayer [ 
+	aGame playedBy: aPlayer.
 ]
