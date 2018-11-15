@@ -62,7 +62,7 @@ Game >> currentPlayerTurn [
 
 { #category : #interaction }
 Game >> deal: aNumberOf CardsToPlayersUsing: aDeck [
-	self playersPlaying do: [ :each | aNumberOf timesRepeat:  [each drawCardFrom: aDeck ]]
+	self turnOrder do: [ :each | aNumberOf timesRepeat: [ each drawCardFrom: aDeck ] ]
 ]
 
 { #category : #accessing }
