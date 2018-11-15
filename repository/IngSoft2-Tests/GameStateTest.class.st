@@ -6,13 +6,10 @@ Class {
 
 { #category : #'utilities for tests' }
 GameStateTest >> gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn [
-	| die anotherDie game board |
-	die := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
-	anotherDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	| die anotherDie game board deck |
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	anotherDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	board := UtilitiesForTests collectionOf20NoEffect.
 	game := Game
 		playedBy:
@@ -21,6 +18,7 @@ GameStateTest >> gameForGameStateTestsWithPlayer: playerNamedLeo and: playerName
 		throwing:
 			{die.
 			anotherDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -34,7 +32,7 @@ GameStateTest >> testPlayersPositionWhenFinished [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
 	self
-		should: [ finishedState nextTurnAt: game playedBy: playerNamedLeo ]
+		should: [ finishedState playNextTurnIn: game playedBy: playerNamedLeo ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The game is over...' ]
 ]
@@ -46,8 +44,8 @@ GameStateTest >> testPlayersPositionWhenRunning [
 	playerNamedLeo := Player named: 'Leo'.
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForGameStateTestsWithPlayer: playerNamedLeo and: playerNamedGlenn.
-	runningState nextTurnAt: game playedBy: playerNamedLeo.
-	runningState nextTurnAt: game playedBy: playerNamedGlenn.
+	runningState playNextTurnIn: game playedBy: playerNamedLeo.
+	runningState playNextTurnIn: game playedBy: playerNamedGlenn.
 	self assert: (game positionFor: playerNamedLeo) equals: 3.
 	self assert: (game positionFor: playerNamedGlenn) equals: 5
 ]

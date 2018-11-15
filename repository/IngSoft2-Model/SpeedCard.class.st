@@ -7,7 +7,7 @@ Class {
 { #category : #interaction }
 SpeedCard >> activateOn: aGame to: aPlayer [
 	aPlayer = aGame currentPlayerTurn
-		ifTrue: [ aGame updatePositionBy: 1 OfThePlayer: aPlayer ]
+		ifTrue: [ aGame updatePositionBy: 1 ofThePlayer: aPlayer ]
 ]
 
 { #category : #interaction }

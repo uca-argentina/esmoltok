@@ -6,17 +6,12 @@ Class {
 
 { #category : #'utilities for tests' }
 EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn [
-	| oneMoreDie anotherDie board die game |
+	| oneMoreDie anotherDie board die game deck |
 	board := UtilitiesForTests collectionOf20NoEffect.
-	die := Die
-		withSides: 4
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
-	anotherDie := Die
-		withSides: 6
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
-	oneMoreDie := Die
-		withSides: 5
-		andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
+	deck := CircularIterator over: {OverloadCard new}.
+	die := Die withSides: 4 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4}).
+	anotherDie := Die withSides: 6 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5 . 6}).
+	oneMoreDie := Die withSides: 5 andGenerator: (CircularIterator over: {1 . 2 . 3 . 4 . 5}).
 	game := Game
 		playedBy:
 			{playerNamedLeo.
@@ -26,6 +21,7 @@ EffectTest >> gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbe
 			{die.
 			anotherDie.
 			oneMoreDie}
+		using: deck
 		in: board
 		andAmountOfLaps: 1.
 	^ game
@@ -39,12 +35,18 @@ EffectTest >> testAtomicEffectAppliedAfterATurnEveryoneGoesBackToStart [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := AtomicEffect new.
-	playerNamedLeo takesATurnIn: game.
-	playerNamedAlbert takesATurnIn: game.
-	playerNamedGlenn takesATurnIn: game.
-	effect triggerOn: game and: playerNamedAlbert.
-	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	playerNamedLeo takesATurnIn: game.
+	self assert: (game positionFor: playerNamedLeo) equals: 4.
+	playerNamedAlbert takesATurnIn: game.
+	self assert: (game positionFor: playerNamedAlbert) equals: 7.
+	playerNamedGlenn takesATurnIn: game.
+	self assert: (game positionFor: playerNamedGlenn) equals: 10.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1
 ]
 
@@ -56,7 +58,10 @@ EffectTest >> testAtomicEffectAppliedEveryoneGoesBackToStart [
 	playerNamedGlenn := Player named: 'Glenn'.
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := AtomicEffect new.
-	effect triggerOn: game and: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedAlbert) equals: 1.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
 	self assert: (game positionFor: playerNamedLeo) equals: 1.
 	self assert: (game positionFor: playerNamedGlenn) equals: 1
@@ -72,10 +77,19 @@ EffectTest >> testMoonWalkAppliedMovesEveryoneBack5SpacesExceptThePlayer [
 	number := 5.
 	effect := MoonWalkEffect withSteps: number.
 	positionAlbert := game positionFor: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedAlbert.
+	self assert: (game positionFor: playerNamedAlbert) equals: positionAlbert.
+	self assert: (game positionFor: playerNamedLeo) equals: 1.
+	self assert: (game positionFor: playerNamedGlenn) equals: 1.
+	self assert: (game lapFor: playerNamedAlbert) equals: 0.
+	self assert: (game lapFor: playerNamedLeo) equals: 0.
+	self assert: (game lapFor: playerNamedGlenn) equals: 0.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: positionAlbert.
 	self assert: (game positionFor: playerNamedLeo) equals: 16.
-	self assert: (game positionFor: playerNamedGlenn) equals: 16
+	self assert: (game positionFor: playerNamedGlenn) equals: 16.
+	self assert: (game lapFor: playerNamedAlbert) equals: 0.
+	self assert: (game lapFor: playerNamedLeo) equals: -1.
+	self assert: (game lapFor: playerNamedGlenn) equals: -1
 ]
 
 { #category : #'moonwalk effect tests' }
@@ -95,8 +109,51 @@ EffectTest >> testNoEffectAppliedNoChangeToPlayerPosition [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := NoEffect new.
 	position := game positionFor: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: position
+]
+
+{ #category : #'random card tests' }
+EffectTest >> testRandomEffectAppliedPlayerGetsCardFromCollection [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn overload speed |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
+	overload := OverloadCard new.
+	speed := SpeedCard new.
+	effect := CardFromDeckEffect
+		withDeck:
+			(CircularIterator
+				over:
+					{overload.
+					speed}).
+	self assert: (playerNamedAlbert hasCard: overload) equals: false.
+	self assert: (playerNamedLeo hasCard: speed) equals: false.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedLeo.
+	self assert: (playerNamedAlbert hasCard: overload) equals: true.
+	self assert: (playerNamedLeo hasCard: speed) equals: true
+]
+
+{ #category : #tests }
+EffectTest >> testRandomEffectAppliedPlayerGetsRandomCardFromCollection [
+	| effect game playerNamedLeo playerNamedAlbert playerNamedGlenn overload speed accelerate collection |
+	playerNamedLeo := Player named: 'Leo'.
+	playerNamedAlbert := Player named: 'Albert'.
+	playerNamedGlenn := Player named: 'Glenn'.
+	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
+	overload := OverloadCard new.
+	speed := SpeedCard new.
+	accelerate := AccelerationCard new.
+	collection := {overload.
+	speed.
+	accelerate}.
+	effect := CardFromDeckEffect withDeck: (RandomElementSelector over: collection).
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedLeo.
+	self assert: (collection includes: playerNamedAlbert cardsInHand last) equals: true.
+	self assert: (collection includes: playerNamedLeo cardsInHand last) equals: true
 ]
 
 { #category : #'speed up tests' }
@@ -108,7 +165,7 @@ EffectTest >> testSpeedUpAppliedGoForward4Positions [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := SpeedUpEffect new.
 	position := game positionFor: playerNamedAlbert.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: position + 4
 ]
 
@@ -121,7 +178,7 @@ EffectTest >> testWormHoleAppliedGoBack4Positions [
 	game := self gameForEffectsTestsWithPlayer: playerNamedLeo and: playerNamedAlbert and: playerNamedGlenn.
 	effect := WormholeEffect new.
 	self assert: (game positionFor: playerNamedAlbert) equals: 1.
-	effect triggerOn: game and: playerNamedAlbert.
+	effect triggerOn: game afterMovementOf: playerNamedAlbert.
 	self assert: (game positionFor: playerNamedAlbert) equals: 17.
 	self assert: (game lapFor: playerNamedAlbert) equals: -1
 ]

@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interaction }
-GameState >> nextTurnAt: aGame playedBy: aPlayer [
+GameState >> playNextTurnIn: aGame playedBy: aPlayer [
 	self subclassResponsibility
 ]

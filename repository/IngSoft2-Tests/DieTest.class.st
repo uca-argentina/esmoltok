@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #tests }
-DieTest >> testInitializeWithGivenGenerator [
+DieTest >> testInitializeWithCollectionIteratesThroughIt [
 	| die generator collection numberOfSides |
 	collection := {4 . 6 . 2 . 9 . 14}.
 	numberOfSides := 5.
@@ -29,17 +29,7 @@ DieTest >> testRollRandomDie [
 ]
 
 { #category : #tests }
-DieTest >> testVerifyNumberOfDieSides [
-	| die generator collection numberOfSides |
-	collection := {4}.
-	numberOfSides := 5.
-	generator := CircularIterator over: collection.
-	die := Die withSides: numberOfSides andGenerator: generator.
-	self assert: die sides equals: 5
-]
-
-{ #category : #tests }
-DieTest >> testVerifyNumberOfDieSidesFourOrMore [
+DieTest >> testVerifyIfDieHasFourSidesOrMore [
 	| die generator collection numberOfSides |
 	collection := {4}.
 	numberOfSides := 3.
@@ -48,4 +38,14 @@ DieTest >> testVerifyNumberOfDieSidesFourOrMore [
 		should: [ die := Die withSides: numberOfSides andGenerator: generator ]
 		raise: AssertionFailure
 		withExceptionDo: [ :signal | self assert: signal messageText equals: 'The number sides must be larger than or equal to 4' ]
+]
+
+{ #category : #tests }
+DieTest >> testVerifyNumberOfDieSides [
+	| die generator collection numberOfSides |
+	collection := {4}.
+	numberOfSides := 5.
+	generator := CircularIterator over: collection.
+	die := Die withSides: numberOfSides andGenerator: generator.
+	self assert: die sides equals: 5
 ]

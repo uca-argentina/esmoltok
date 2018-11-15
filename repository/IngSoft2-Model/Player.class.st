@@ -18,6 +18,11 @@ Player >> addCard: aCard [
 	cards add: aCard 
 ]
 
+{ #category : #accessing }
+Player >> cardsInHand [
+	^ cards
+]
+
 { #category : #interaction }
 Player >> drawCardFrom: aDeck [
 	self addCard: (aDeck next: aDeck)
@@ -37,6 +42,11 @@ Player >> initializeNamed: theirOwnName [
 { #category : #accessing }
 Player >> name [
 	^name 
+]
+
+{ #category : #interaction }
+Player >> quantityOfCardsInHand [
+	^ cards size
 ]
 
 { #category : #updating }

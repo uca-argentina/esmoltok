@@ -7,7 +7,7 @@ Class {
 { #category : #interaction }
 OverloadCard >> activateOn: aGame to: aPlayer [
 	aPlayer = aGame currentPlayerTurn
-		ifTrue: [ aGame updatePositionBy: 2 negated OfThePlayer: aPlayer ]
+		ifTrue: [ aGame updatePositionBy: 2 negated ofThePlayer: aPlayer ]
 ]
 
 { #category : #interaction }

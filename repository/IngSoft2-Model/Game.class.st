@@ -16,10 +16,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-Game class >> playedBy: aPlayer throwing: aDice in: aBoard andAmountOfLaps: aLapAmount [
+Game class >> playedBy: aPlayerCollection throwing: aDice using: aDeck in: aBoard andAmountOfLaps: aLapAmount [ 
 	^ self new
-		initializePlayedBy: aPlayer
+		initializePlayedBy: aPlayerCollection
 		throwing: aDice
+		using: aDeck
 		in: aBoard
 		andAmountOfLaps: aLapAmount 
 ]
@@ -36,7 +37,7 @@ Game >> addCard: aCard asociatedWith: aPlayerOrCollection [
 
 { #category : #updating }
 Game >> applyPositionEffectTo: aPlayer [ 
-	(self effectInPositionOf: aPlayer) triggerOn: self and: aPlayer
+	(self effectInPositionOf: aPlayer) triggerOn: self afterMovementOf: aPlayer
 ]
 
 { #category : #accessing }
@@ -57,6 +58,11 @@ Game >> cards [
 { #category : #accessing }
 Game >> currentPlayerTurn [
 	^ playersOrder currentElement
+]
+
+{ #category : #interaction }
+Game >> deal: aNumberOf CardsToPlayersUsing: aDeck [
+	self turnOrder do: [ :each | aNumberOf timesRepeat: [ each drawCardFrom: aDeck ] ]
 ]
 
 { #category : #accessing }
@@ -80,6 +86,12 @@ Game >> endsIfBoardLengthHasBeenReachedBy: aPlayer [
 		ifTrue: [ self ends ]
 ]
 
+{ #category : #initialization }
+Game >> fillPlayersPositionUsing: aPlayerCollection [
+	playersPosition := Dictionary new.
+	aPlayerCollection do: [ :each | playersPosition at: each put: 1 ]
+]
+
 { #category : #testing }
 Game >> hasCard: aCard [
 	^ permanentCardsAssociations includesKey: aCard
@@ -91,29 +103,17 @@ Game >> hasPermanentCards [
 ]
 
 { #category : #initialization }
-Game >> initializePlayedBy: aCollectionOfPlayers throwing: aCollectionOfDice in: aBoard andAmountOfLaps: aLapAmount [
+Game >> initializePlayedBy: aPlayerCollection throwing: aDice using: aDeck in: aBoard andAmountOfLaps: aLapAmount [
 	board := aBoard.
 	laps := aLapAmount.
-	dice := aCollectionOfDice.
-	playersPosition := Dictionary new.
-	aCollectionOfPlayers do: [ :each | playersPosition at: each put: 1 ].
-	playersOrder := CircularIterator over: (aCollectionOfPlayers collect: [ :each | each ]).
-	state := RunningState new.
+	dice := aDice.
+	self fillPlayersPositionUsing: aPlayerCollection.
+	playersOrder := CircularIterator over: aPlayerCollection.
 	permanentCardsAssociations := Dictionary new.
 	lastEffectPlayer := NoEffect new -> self currentPlayerTurn.
-	lastPlayedCard := BlankCard new
-]
-
-{ #category : #testing }
-Game >> isPlayedBy: aPlayer [
-	| aNumberOfCells |
-	self turnOf: aPlayer.
-	aNumberOfCells := aPlayer throwDice: self dice.
-	self updatePositionBy: aNumberOfCells OfThePlayer: aPlayer.
-	self updateLastEffectPlayer: aPlayer.
-	self activatePermanentCards.
-	self applyPositionEffectTo: aPlayer.
-	self nextPlayerTurn
+	lastPlayedCard := BlankCard new.
+	self deal: 2 CardsToPlayersUsing: aDeck.
+	state := RunningState new
 ]
 
 { #category : #accessing }
@@ -153,7 +153,19 @@ Game >> nextPlayerTurn [
 
 { #category : #updating }
 Game >> playTurn: aPlayer [ 
-	state nextTurnAt: self playedBy: aPlayer .
+	state playNextTurnIn: self playedBy: aPlayer .
+]
+
+{ #category : #testing }
+Game >> playedBy: aPlayer [
+	| aNumberOfCells |
+	self turnOf: aPlayer.
+	aNumberOfCells := aPlayer throwDice: self dice.
+	self updatePositionBy: aNumberOfCells ofThePlayer: aPlayer.
+	self updateLastEffectPlayer: aPlayer.
+	self activatePermanentCards.
+	self applyPositionEffectTo: aPlayer.
+	self nextPlayerTurn
 ]
 
 { #category : #interaction }
@@ -208,7 +220,7 @@ Game >> updateLastPlayedCard: aCard [
 ]
 
 { #category : #updating }
-Game >> updatePositionBy: aNumberOfCells OfThePlayer: aPlayer [
+Game >> updatePositionBy: aNumberOfCells ofThePlayer: aPlayer [
 	playersPosition at: aPlayer put: (playersPosition at: aPlayer) + aNumberOfCells.
 	self endsIfBoardLengthHasBeenReachedBy: aPlayer
 ]

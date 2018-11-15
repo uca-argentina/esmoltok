@@ -9,7 +9,7 @@ RepeatCard >> activateOn: aGame to: aPlayerOrCard [
 	| player effect |
 	effect := aGame lastEffectAppliedToAPlayer.
 	player := aGame lastPlayerAffectedByAnEffect.
-	effect triggerOn: aGame and: player
+	effect triggerOn: aGame afterMovementOf: player
 ]
 
 { #category : #interaction }

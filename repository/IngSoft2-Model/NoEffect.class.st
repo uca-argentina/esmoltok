@@ -5,6 +5,6 @@ Class {
 }
 
 { #category : #interaction }
-NoEffect >> triggerOn: aGame and: aPlayer [
+NoEffect >> triggerOn: aGame afterMovementOf: aPlayer [
 	
 ]
